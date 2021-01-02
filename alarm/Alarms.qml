@@ -1,5 +1,8 @@
 import QtQuick 2.0
+import QtMultimedia 5.12
 
-Item {
-
+Audio {
+    id: audio
+    source: "qrc:/songs/28. Lacrimosa.mp3"
+    audioRole: Audio.AlarmRole
 }
