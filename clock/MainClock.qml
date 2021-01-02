@@ -19,13 +19,12 @@ Item {
 
     Rectangle {
         id: plate
-
         anchors.centerIn: parent
         height: Math.min(parent.width, parent.height)
         width: height
         radius: width / 2
-        color: "black"
-        border.color: "black"
+        color: hour > 16 ? "black" : "white"
+        border.color: hour > 16 ? "black" : "white"
         border.width: 5
 
         Repeater {
@@ -33,7 +32,7 @@ Item {
 
             delegate: Item {
                 id: hourContainer
-                property int hour: index
+                property int hourIndex: index
                 height: plate.height / 2
                 transformOrigin: Item.Bottom
                 rotation: index * 30
@@ -42,7 +41,7 @@ Item {
                 Rectangle {
                     height: plate.height * 0.04
                     width: 2
-                    color: "white"
+                    color: hour > 16 ? "white" : "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
                     anchors.topMargin: 1
@@ -55,9 +54,9 @@ Item {
                     }
                     y: plate.height * 0.06
                     rotation: 360 - index * 30
-                    text: hourContainer.hour == 0 ? 12 : hourContainer.hour
+                    text: hourContainer.hourIndex == 0 ? 12 : hourContainer.hourIndex
                     font.pixelSize: plate.height * 0.1
-                    color: "white"
+                    color: hour > 16 ? "white" : "black"
                 }
             }
         }
@@ -66,10 +65,10 @@ Item {
     Rectangle {
         id: center
         anchors.centerIn: parent
-        height: plate.height * 0.05
+        height: plate.height * 0.03
         width: height
         radius: width * 0.5
-        color: "black"
+        color: hour > 16 ? "white" : "black"
     }
 
     SecondsHeedle {
@@ -84,6 +83,7 @@ Item {
         anchors.bottom: plate.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         value: root.minutes
+        needleColor: hour > 16 ? "white" : "black"
     }
 
     HourNeedle {
@@ -91,5 +91,6 @@ Item {
         anchors.bottom: plate.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         value: root.hour
+        needleColor: hour > 16 ? "white" : "black"
     }
 }

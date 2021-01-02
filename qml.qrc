@@ -1,5 +1,26 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>clock/HourNeedle.qml</file>
+        <file>clock/MainClock.qml</file>
+        <file>clock/MinuteNeedle.qml</file>
+        <file>clock/SecondsHeedle.qml</file>
+        <file>alarm/TimesForAlarm.qml</file>
+        <file>alarm/TimesDelegate.qml</file>
+        <file>alarm/Alarms.qml</file>
+        <file>songs/28. Lacrimosa.mp3</file>
+        <file>PagesDelegate.qml</file>
+        <file>pages/AlarmPage.qml</file>
+        <file>images/alarm-clock.svg</file>
+        <file>images/globe.svg</file>
+        <file>images/stopwatch.svg</file>
+        <file>images/timer.svg</file>
+        <file>ButtonAdd.qml</file>
+        <file>images/plus (1).svg</file>
+        <file>images/delete.svg</file>
+        <file>pages/NewAlarmTimePage.qml</file>
+        <file>alarm/DayOFWeeks.qml</file>
+        <file>controls/AlarmSettingButton.qml</file>
+        <file>controls/AlarmSettingSwitchButton.qml</file>
     </qresource>
 </RCC>

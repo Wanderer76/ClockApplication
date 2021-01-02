@@ -6,10 +6,11 @@ Item {
     property int value: 0
     property int granularity: 12
     property int valueMinute: 0
+    property string needleColor: ""
     Rectangle {
         width: 2
         height: parent.height * 0.25
-        color: "white"
+        color: needleColor
         anchors.bottom: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         antialiasing: true
