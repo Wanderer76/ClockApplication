@@ -130,17 +130,5 @@ SwipeDelegate {
             anchors.bottomMargin: 0
             orientation: Qt.Horizontal
         }
-        MouseArea {
-            id: mouse
-            width: parent.width - control.width
-            height: parent.height
-            onClicked: {
-
-
-                /* stackView.push("qrc:/pages/NewAlarmTimePage.qml", {
-                                   "isNew": false
-                               })*/
-            }
-        }
     }
 }

@@ -56,7 +56,7 @@ Page {
                 onClicked: {
 
                     stackView.pop(alamPage.alarms.viewList.model.append({
-                                                                            "time": qsTr(hourView.currentIndex + ":" + minuteView.currentIndex),
+                                                                            "time": qsTr((hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex)),
                                                                             "days": days.additionalText,
                                                                             "vibro": vibro.switchElement.checked,
                                                                             "description": description.additionalText,
@@ -161,7 +161,6 @@ Page {
                 checked.push(daysOFWeeks.repeaterElem.itemAt(i).text)
             }
         }
-
         for (var i = 0; i < checked.length; i++) {
             switch (checked[i]) {
             case daysOFWeeks.days[0]:
@@ -206,9 +205,11 @@ Page {
         acceptButton.onClicked: {
 
             var checked = parseDays()
-            if (checked.length > 1) {
+            if (checked.length === 7) {
+                days.additionalText = qsTr("Каждый день")
+            } else if (checked.length > 1) {
                 days.additionalText = checked[0] + "-" + checked[checked.length - 1]
-            } else {
+            } else if (checked.length === 1) {
                 days.additionalText = checked[0]
             }
 
