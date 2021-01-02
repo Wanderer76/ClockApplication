@@ -22,5 +22,7 @@
         <file>alarm/DayOFWeeks.qml</file>
         <file>controls/AlarmSettingButton.qml</file>
         <file>controls/AlarmSettingSwitchButton.qml</file>
+        <file>alarm/AlarmDescription.qml</file>
+        <file>controls/DialogArea.qml</file>
     </qresource>
 </RCC>

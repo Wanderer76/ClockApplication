@@ -12,10 +12,6 @@ ApplicationWindow {
     title: qsTr("Часы")
     property bool isMainPage: stackView.depth === 1
 
-    NewAlarmTimePage {
-        id: newTime
-    }
-
     SwipeView {
         id: view
         anchors.fill: parent

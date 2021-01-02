@@ -74,7 +74,7 @@ SwipeDelegate {
             anchors.topMargin: 7
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 15
+            font.pointSize: 15
         }
 
         Text {
@@ -87,7 +87,7 @@ SwipeDelegate {
             anchors.topMargin: -7
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 11
+            font.pointSize: 10
             color: "#666666"
         }
 

@@ -11,7 +11,7 @@ Item {
             id: model
             ListElement {
                 time: "24:00"
-                days: "Mon"
+                days: "Пн"
                 vibro: false
                 description: "Будильник"
                 longest: "5"
@@ -19,7 +19,7 @@ Item {
             }
             ListElement {
                 time: "23:30"
-                days: "Sun"
+                days: "Вс"
                 vibro: false
                 description: "Будильник"
                 longest: "5"

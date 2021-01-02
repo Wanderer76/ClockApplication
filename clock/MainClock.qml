@@ -18,6 +18,7 @@ Item {
     }
 
     Rectangle {
+        antialiasing: true
         id: plate
         anchors.centerIn: parent
         height: Math.min(parent.width, parent.height)
@@ -29,7 +30,7 @@ Item {
 
         Repeater {
             model: 12
-
+            antialiasing: true
             delegate: Item {
                 id: hourContainer
                 property int hourIndex: index
@@ -49,6 +50,7 @@ Item {
                 }
 
                 Text {
+                    antialiasing: true
                     anchors {
                         horizontalCenter: parent.horizontalCenter
                     }
@@ -69,6 +71,7 @@ Item {
         width: height
         radius: width * 0.5
         color: hour > 16 ? "white" : "black"
+        antialiasing: true
     }
 
     SecondsHeedle {
@@ -76,6 +79,7 @@ Item {
         anchors.bottom: plate.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         value: root.seconds
+        antialiasing: true
     }
 
     MinuteNeedle {
@@ -92,5 +96,6 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         value: root.hour
         needleColor: hour > 16 ? "white" : "black"
+        antialiasing: true
     }
 }

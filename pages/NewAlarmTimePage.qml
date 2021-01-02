@@ -7,9 +7,13 @@ import "../controls"
 Page {
     id: page
     clip: true
-    property bool isEnable: daysOFWeeks.visible
+    property bool isEnable: true
+    height: 640
+    focusPolicy: Qt.ClickFocus
+
+    width: 480
     header: ToolBar {
-        enabled: !isEnable
+        enabled: isEnable
         position: ToolBar.Header
         background: Rectangle {
             anchors.fill: parent
@@ -67,93 +71,6 @@ Page {
             }
         }
     }
-    Item {
-        id: element
-        width: 150
-        height: 182
-        anchors.top: parent.top
-        anchors.topMargin: 50
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        ListView {
-            id: hourView
-            width: 40
-            flickableDirection: Flickable.VerticalFlick
-            layoutDirection: Qt.RightToLeft
-            contentHeight: 1024
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            snapMode: ListView.SnapOneItem
-            highlightRangeMode: ListView.StrictlyEnforceRange
-            spacing: 20
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignLeft
-            model: 25
-            antialiasing: true
-            clip: true
-            delegate: Label {
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.pointSize: 12
-                color: ListView.isCurrentItem ? "#007dfe" : "black"
-                text: index < 10 ? "0" + index : index
-                textFormat: Text.PlainText
-            }
-        }
-        ListView {
-            id: minuteView
-            width: 40
-            highlightRangeMode: ListView.StrictlyEnforceRange
-            contentHeight: 1024
-            keyNavigationWraps: false
-            layoutDirection: Qt.LeftToRight
-            snapMode: ListView.SnapOneItem
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            spacing: 20
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            Layout.leftMargin: -10
-            Layout.alignment: Qt.AlignRight | Qt.AlignHCenter
-            model: 61
-            antialiasing: true
-            clip: true
-            delegate: Label {
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                color: ListView.isCurrentItem ? "#007dfe" : "black"
-
-                font.pointSize: 12
-                text: index < 10 ? "0" + index : index
-                textFormat: Text.PlainText
-            }
-        }
-    }
-    Rectangle {
-        id: rectangle
-        x: -10
-        width: parent.width + 20
-        height: 35
-        color: "#00ffffff"
-        anchors.top: element.top
-        anchors.topMargin: -6
-        anchors.horizontalCenterOffset: 0
-        border.color: "#9f9f9f"
-    }
-
-    Rectangle {
-        id: shadowOverlay
-        color: "#b90e0e0e"
-        z: 1
-        visible: daysOFWeeks.visible
-        anchors.fill: parent
-    }
-
     function parseDays() {
         var checked = []
         for (var i = 0; i < daysOFWeeks.repeaterElem.count; i++) {
@@ -182,7 +99,7 @@ Page {
                 checked[i] = qsTr("Сб")
                 break
             case daysOFWeeks.days[6]:
-                checked[i] = qsTr("Вт")
+                checked[i] = qsTr("Вс")
                 break
             }
         }
@@ -203,16 +120,16 @@ Page {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
         acceptButton.onClicked: {
-
             var checked = parseDays()
             if (checked.length === 7) {
                 days.additionalText = qsTr("Каждый день")
-            } else if (checked.length > 1) {
-                days.additionalText = checked[0] + "-" + checked[checked.length - 1]
+            } else if (checked.length === 2) {
+                days.additionalText = checked[0] + "," + checked[checked.length - 1]
             } else if (checked.length === 1) {
                 days.additionalText = checked[0]
+            } else {
+                days.additionalText = checked[0] + "-" + checked[checked.length - 1]
             }
-
             daysOFWeeks.visible = false
         }
         cancelButton.onClicked: {
@@ -220,97 +137,230 @@ Page {
         }
     }
 
-    Column {
-        id: column
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 50
+    AlarmDescription {
+        id: alarmDescription
+        height: 195
         anchors.left: parent.left
-        anchors.leftMargin: 10
+        anchors.leftMargin: 15
         anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.top: element.bottom
-        anchors.topMargin: 20
-        spacing: 9
+        anchors.rightMargin: 15
+        z: 1
+        anchors.verticalCenterOffset: 30
+        anchors.verticalCenter: parent.verticalCenter
+        visible: false
+        acceptButton.onClicked: {
+            description.additionalText = alarmDescription.text
+            alarmDescription.visible = false
+        }
+        cancelButton.onClicked: {
+            alarmDescription.visible = false
+        }
+    }
 
-        AlarmSettingButton {
-            id: days
-            width: parent.width
-            height: 40
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            mainText: "Дни недели"
-            additionalText: "Без повтора"
-            mouseArea.onClicked: {
-                daysOFWeeks.visible = true
-            }
-        }
-        AlarmSettingButton {
-            id: song
-            width: parent.width
-            height: 40
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            mainText: "Звук"
-            additionalText: "По умолчанию"
-            mouseArea.onClicked: {
-                daysOFWeeks.visible = true
-            }
-        }
-        AlarmSettingSwitchButton {
-            id: vibro
-            width: parent.width
-            height: 40
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            mainText: "Вибросигнал"
+    Rectangle {
+        anchors.fill: parent
+        color: "white"
+        enabled: {
+            if (alarmDescription.visible === true
+                    || daysOFWeeks.visible === true)
+                return false
+            else
+                return true
         }
 
-        AlarmSettingButton {
-            id: description
-            width: parent.width
-            height: 40
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            mainText: "Описание"
-            additionalText: "Будильник"
-            mouseArea.onClicked: {
-                daysOFWeeks.visible = true
+        Item {
+            id: element
+            width: 150
+            height: 182
+            anchors.top: parent.top
+            anchors.topMargin: 50
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            ListView {
+                id: hourView
+                width: 40
+                flickableDirection: Flickable.VerticalFlick
+                layoutDirection: Qt.RightToLeft
+                contentHeight: 1024
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 0
+                anchors.top: parent.top
+                anchors.topMargin: 0
+                snapMode: ListView.SnapOneItem
+                highlightRangeMode: ListView.StrictlyEnforceRange
+                spacing: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignLeft
+                model: 25
+                antialiasing: true
+                clip: true
+                delegate: Label {
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 12
+                    color: ListView.isCurrentItem ? "#007dfe" : "black"
+                    text: index < 10 ? "0" + index : index
+                    textFormat: Text.PlainText
+                }
+            }
+            ListView {
+                id: minuteView
+                width: 40
+                highlightRangeMode: ListView.StrictlyEnforceRange
+                contentHeight: 1024
+                keyNavigationWraps: false
+                layoutDirection: Qt.LeftToRight
+                snapMode: ListView.SnapOneItem
+                anchors.top: parent.top
+                anchors.topMargin: 0
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 0
+                spacing: 20
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                Layout.leftMargin: -10
+                Layout.alignment: Qt.AlignRight | Qt.AlignHCenter
+                model: 61
+                antialiasing: true
+                clip: true
+                delegate: Label {
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    color: ListView.isCurrentItem ? "#007dfe" : "black"
+
+                    font.pointSize: 12
+                    text: index < 10 ? "0" + index : index
+                    textFormat: Text.PlainText
+                }
             }
         }
-        AlarmSettingButton {
-            id: longest
-            width: parent.width
-            height: 40
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            mainText: "Длительность сигнала"
-            additionalText: "5 мин"
-            mouseArea.onClicked: {
-                daysOFWeeks.visible = true
-            }
+        Rectangle {
+            id: rectangle
+            x: -10
+            width: parent.width + 20
+            height: 35
+            color: "#00ffffff"
+            anchors.top: element.top
+            anchors.topMargin: -6
+            anchors.horizontalCenterOffset: 0
+            border.color: "#9f9f9f"
         }
-        AlarmSettingButton {
-            id: pauseLong
-            width: parent.width
-            height: 40
-            anchors.right: parent.right
-            anchors.rightMargin: 5
+
+        Rectangle {
+            id: shadowOverlay
+            color: "#df0e0e0e"
+            scale: 1
+            smooth: false
+            z: 1
+            visible: {
+                if (daysOFWeeks.visible === true
+                        || alarmDescription.visible === true)
+                    return true
+                else
+                    return false
+            }
+
+            opacity: 1
+            clip: false
+            enabled: false
+            anchors.fill: parent
+        }
+
+        Column {
+            id: column
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 50
             anchors.left: parent.left
-            anchors.leftMargin: 5
-            mainText: "Длительность сигнала"
-            additionalText: "10 мин, 3х"
-            mouseArea.onClicked: {
-                daysOFWeeks.visible = true
+            anchors.leftMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.top: element.bottom
+            anchors.topMargin: 20
+            spacing: 9
+
+            AlarmSettingButton {
+                id: days
+                width: parent.width
+                height: 40
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                mainText: "Дни недели"
+                additionalText: "Без повтора"
+                mouseArea.onClicked: {
+                    daysOFWeeks.visible = true
+                }
+            }
+
+            AlarmSettingButton {
+                id: song
+                width: parent.width
+                height: 40
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                mainText: "Звук"
+                additionalText: "По умолчанию"
+                mouseArea.onClicked: {
+
+                }
+            }
+            AlarmSettingSwitchButton {
+                id: vibro
+                width: parent.width
+                height: 40
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                mainText: "Вибросигнал"
+            }
+
+            AlarmSettingButton {
+                id: description
+                width: parent.width
+                height: 40
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                mainText: "Описание"
+                additionalText: "Будильник"
+                mouseArea.onClicked: {
+                    alarmDescription.visible = true
+                }
+            }
+
+            AlarmSettingButton {
+                id: longest
+                width: parent.width
+                height: 40
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                mainText: "Длительность сигнала"
+                additionalText: "5 мин"
+                mouseArea.onClicked: {
+
+                }
+            }
+            AlarmSettingButton {
+                id: pauseLong
+                width: parent.width
+                height: 40
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                mainText: "Длительность сигнала"
+                additionalText: "10 мин, 3х"
+                mouseArea.onClicked: {
+
+                }
             }
         }
     }
