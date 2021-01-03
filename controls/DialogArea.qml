@@ -15,7 +15,6 @@ Rectangle {
 
     Label {
         id: label
-
         width: 134
         height: 30
         text: qsTr(labelText)
@@ -23,7 +22,7 @@ Rectangle {
         anchors.leftMargin: 30
         anchors.top: parent.top
         anchors.topMargin: 10
-        font.pointSize: 15
+        font.pointSize: 20
         verticalAlignment: Text.AlignVCenter
     }
 
@@ -53,7 +52,7 @@ Rectangle {
                 text: qsTr(leftButtonText)
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 12
+                font.pointSize: 18
                 color: "#007dfe"
             }
         }
@@ -82,7 +81,7 @@ Rectangle {
                 text: qsTr(rightButtonText)
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 12
+                font.pointSize: 18
                 color: "#007dfe"
             }
         }

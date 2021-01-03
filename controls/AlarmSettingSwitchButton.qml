@@ -6,6 +6,7 @@ Rectangle {
     property string mainText: ""
     property alias switchElement: control
     color: "white"
+    height: 40
     RowLayout {
         id: layout
         anchors.fill: parent
@@ -22,20 +23,21 @@ Rectangle {
             Layout.alignment: Qt.AlignRight
             indicator: Rectangle {
                 antialiasing: true
-                implicitWidth: 50
-                implicitHeight: 22
+                anchors.horizontalCenter: parent.horizontalCenter
+                implicitWidth: 60
+                implicitHeight: 26
                 x: control.width - width - control.rightPadding
                 y: parent.height / 2 - height / 2
-                radius: 13
+                radius: width / 2
                 color: control.checked ? "#007dfe" : "#e6e6e6"
 
                 Rectangle {
                     antialiasing: true
                     anchors.verticalCenter: parent.verticalCenter
                     x: control.checked ? parent.width - width - 3 : 1
-                    width: 20
+                    width: parent.height - 2
                     height: width
-                    radius: 13
+                    radius: width / 2
                     border.color: "#dcdcdc"
                 }
             }

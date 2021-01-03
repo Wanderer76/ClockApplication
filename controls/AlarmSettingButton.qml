@@ -6,12 +6,11 @@ Rectangle {
     property string mainText: ""
     property string additionalText: ""
     property alias mouseArea: mouse
-
+    height: 40
     color: mouse.pressed ? Qt.darker("white", 1.1) : "white"
     RowLayout {
         id: layout
         anchors.fill: parent
-
         Label {
             color: "#000000"
             text: qsTr(mainText)
@@ -22,7 +21,7 @@ Rectangle {
         Label {
             color: "#797d82"
             text: qsTr(additionalText)
-            font.pointSize: 11
+            font.pointSize: 13
             Layout.rightMargin: 15
             Layout.alignment: Qt.AlignRight
         }

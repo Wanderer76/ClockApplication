@@ -22,12 +22,11 @@ Page {
 
     MainClock {
         id: mainClock
-        x: 115
-        width: 230
         height: 230
+        width: height
         anchors.top: parent.top
-        anchors.topMargin: 45
         anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 45
     }
     Label {
         id: currentTime
@@ -37,7 +36,7 @@ Page {
         text: mainClock.hour + ":" + mainClock.minutes + ":" + mainClock.seconds
         anchors.top: mainClock.bottom
         anchors.topMargin: 17
-        font.pointSize: 17
+        font.pointSize: 20
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
     }

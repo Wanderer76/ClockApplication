@@ -30,7 +30,7 @@ DialogArea {
                 anchors.leftMargin: 10
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                font.pointSize: 12
+                font.pointSize: 15
             }
         }
     }

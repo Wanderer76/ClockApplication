@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
+import QtQml.Models 2.12
 
 Item {
     property alias viewList: view
@@ -30,14 +31,26 @@ Item {
         Alarms {
             id: audio
         }
+
         delegate: TimesDelegate {
             width: parent.width
+            Timer {
+                id: vibroTimer
+                interval: 3000
+                repeat: true
+                onTriggered: {
+                    Vibration.vibrate(800)
+                }
+            }
 
             onIsTimeChanged: {
-                if (isTime === true)
+                if (isTime === true) {
                     audio.play()
-                else
+                    vibroTimer.start()
+                } else {
+                    vibroTimer.stop()
                     audio.stop()
+                }
             }
         }
     }

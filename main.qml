@@ -18,6 +18,7 @@ ApplicationWindow {
         currentIndex: tabBar.currentIndex
         interactive: false
         AlarmPage {
+
             id: alamPage
         }
         Page {

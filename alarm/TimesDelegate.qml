@@ -7,7 +7,7 @@ SwipeDelegate {
     id: swipeDelegate
     property alias alarm: control
     property bool isTime: control.checked
-    height: 70
+    height: 80
     width: parent.width
     swipe.right: Rectangle {
         id: deleteLabel
@@ -74,7 +74,7 @@ SwipeDelegate {
             anchors.topMargin: 7
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 15
+            font.pointSize: 20
         }
 
         Text {
@@ -87,7 +87,7 @@ SwipeDelegate {
             anchors.topMargin: -7
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 10
+            font.pointSize: 17
             color: "#666666"
         }
 

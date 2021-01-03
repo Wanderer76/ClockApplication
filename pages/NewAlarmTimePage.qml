@@ -8,23 +8,27 @@ Page {
     id: page
     clip: true
     property bool isEnable: true
-    height: 640
     focusPolicy: Qt.ClickFocus
 
-    width: 480
     header: ToolBar {
+        height: 60
         enabled: isEnable
         position: ToolBar.Header
+        width: parent.width
+
         background: Rectangle {
             anchors.fill: parent
             color: "white"
         }
         RowLayout {
-            anchors.fill: parent
+            width: parent.width
+            height: parent.height
             ToolButton {
+                width: height
+                height: parent.height
                 text: qsTr("X")
-                leftPadding: 14
-                font.pointSize: 17
+                leftPadding: 30
+                font.pointSize: 22
                 highlighted: false
                 Layout.alignment: Qt.AlignLeft
                 flat: true
@@ -40,15 +44,17 @@ Page {
 
             Label {
                 text: qsTr("Добавить")
-                horizontalAlignment: Text.AlignLeft
+                horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                font.pointSize: 12
+                font.pointSize: 22
             }
 
             ToolButton {
+                height: parent.height
+                width: height
                 text: qsTr("✓")
-                rightPadding: 13
-                font.pointSize: 17
+                rightPadding: 30
+                font.pointSize: 22
                 flat: true
                 Layout.alignment: Qt.AlignRight
 
@@ -158,8 +164,10 @@ Page {
     }
 
     Rectangle {
+        id: rectangle1
         anchors.fill: parent
         color: "white"
+        visible: true
         enabled: {
             if (alarmDescription.visible === true
                     || daysOFWeeks.visible === true)
@@ -170,11 +178,11 @@ Page {
 
         Item {
             id: element
-            width: 150
-            height: 182
+            width: parent.width / 2 // 188
+            height: 200
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: 50
-            anchors.horizontalCenter: parent.horizontalCenter
 
             ListView {
                 id: hourView
@@ -198,7 +206,7 @@ Page {
                 delegate: Label {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 12
+                    font.pointSize: 22
                     color: ListView.isCurrentItem ? "#007dfe" : "black"
                     text: index < 10 ? "0" + index : index
                     textFormat: Text.PlainText
@@ -229,7 +237,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     color: ListView.isCurrentItem ? "#007dfe" : "black"
 
-                    font.pointSize: 12
+                    font.pointSize: 22
                     text: index < 10 ? "0" + index : index
                     textFormat: Text.PlainText
                 }
@@ -239,10 +247,10 @@ Page {
             id: rectangle
             x: -10
             width: parent.width + 20
-            height: 35
+            height: 40
             color: "#00ffffff"
             anchors.top: element.top
-            anchors.topMargin: -6
+            anchors.topMargin: 0
             anchors.horizontalCenterOffset: 0
             border.color: "#9f9f9f"
         }
@@ -250,19 +258,16 @@ Page {
         Rectangle {
             id: shadowOverlay
             color: "#df0e0e0e"
-            scale: 1
-            smooth: false
-            z: 1
             visible: {
-                if (daysOFWeeks.visible === true
-                        || alarmDescription.visible === true)
+                if (alarmDescription.visible === true
+                        || daysOFWeeks.visible === true)
                     return true
                 else
                     return false
             }
 
-            opacity: 1
-            clip: false
+            z: 1
+
             enabled: false
             anchors.fill: parent
         }
@@ -276,13 +281,12 @@ Page {
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.top: element.bottom
-            anchors.topMargin: 20
-            spacing: 9
+            anchors.topMargin: 30
+            spacing: 10
 
             AlarmSettingButton {
                 id: days
                 width: parent.width
-                height: 40
                 anchors.right: parent.right
                 anchors.rightMargin: 5
                 anchors.left: parent.left
@@ -297,7 +301,6 @@ Page {
             AlarmSettingButton {
                 id: song
                 width: parent.width
-                height: 40
                 anchors.right: parent.right
                 anchors.rightMargin: 5
                 anchors.left: parent.left
@@ -311,7 +314,6 @@ Page {
             AlarmSettingSwitchButton {
                 id: vibro
                 width: parent.width
-                height: 40
                 anchors.right: parent.right
                 anchors.rightMargin: 5
                 anchors.left: parent.left
@@ -322,7 +324,6 @@ Page {
             AlarmSettingButton {
                 id: description
                 width: parent.width
-                height: 40
                 anchors.right: parent.right
                 anchors.rightMargin: 5
                 anchors.left: parent.left
@@ -337,7 +338,6 @@ Page {
             AlarmSettingButton {
                 id: longest
                 width: parent.width
-                height: 40
                 anchors.right: parent.right
                 anchors.rightMargin: 5
                 anchors.left: parent.left
@@ -351,7 +351,6 @@ Page {
             AlarmSettingButton {
                 id: pauseLong
                 width: parent.width
-                height: 40
                 anchors.right: parent.right
                 anchors.rightMargin: 5
                 anchors.left: parent.left

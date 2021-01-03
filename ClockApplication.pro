@@ -1,4 +1,4 @@
-QT += quick svg qml
+QT += quick svg qml androidextras
 
 CONFIG += c++17 qtquickcompiler
 
@@ -14,7 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        vibration.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,8 +24,23 @@ QML_IMPORT_PATH =
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/Vibration.java \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/res/values/libs.xml \
+    android/src/org/artcompany/clock/Vibration.java
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+HEADERS += \
+    vibration.h
