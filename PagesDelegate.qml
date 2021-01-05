@@ -1,14 +1,13 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.12
+import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 TabButton {
     property string textValue: ""
     property string imageValue: ""
-
     font.pointSize: 11
     antialiasing: true
     background: Rectangle {
+        anchors.fill: parent
         color: "#fafafa"
     }
     display: AbstractButton.IconOnly

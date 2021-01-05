@@ -11,6 +11,27 @@ ApplicationWindow {
     width: 480
     title: qsTr("Часы")
     property bool isMainPage: stackView.depth === 1
+    property bool isAlarmSignal: false
+
+    Alarms {
+        id: audio
+    }
+    onIsAlarmSignalChanged: {
+        var element = alamPage.alarms.viewList.model.get(
+                    alamPage.alarms.indexOfAlarm)
+        if (isAlarmSignal === true) {
+            audio.startAlarm(element.vibro)
+            stackView.push("qrc:/pages/AlarmSignalPage.qml", {
+                               "time": element.time,
+                               "desc": element.description,
+                               "pauseLong": element.longestOfPause,
+                               "longestCount": element.longest,
+                               "currentIndex": element.index
+                           })
+        } else {
+            audio.stopAlarm()
+        }
+    }
 
     SwipeView {
         id: view
@@ -18,14 +39,10 @@ ApplicationWindow {
         currentIndex: tabBar.currentIndex
         interactive: false
         AlarmPage {
-
             id: alamPage
         }
-        Page {
-            Rectangle {
-                anchors.fill: parent
-                color: "red"
-            }
+        WorldTimePage {
+            id: worldTimePage
         }
         Page {
             Rectangle {
@@ -65,6 +82,8 @@ ApplicationWindow {
     footer: TabBar {
         id: tabBar
         width: parent.width
+        height: 60
+        contentHeight: height
         position: TabBar.Footer
         visible: isMainPage
         currentIndex: 0

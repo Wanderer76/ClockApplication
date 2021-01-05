@@ -1,10 +1,6 @@
 #pragma once
-#include<QtAndroid>
-#include<QtAndroidExtras>
-#include<QAndroidJniObject>
 #include<QObject>
 
-#include <QObject>
 
 class Vibration : public QObject
 {

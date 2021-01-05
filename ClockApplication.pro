@@ -1,4 +1,6 @@
-QT += quick svg qml androidextras
+QT += quick svg qml quickcontrols2
+
+android:QT+=androidextras
 
 CONFIG += c++17 qtquickcompiler
 

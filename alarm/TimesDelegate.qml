@@ -3,21 +3,21 @@ import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 
 SwipeDelegate {
-
     id: swipeDelegate
     property alias alarm: control
-    property bool isTime: control.checked
+    property bool isTime: false
     height: 80
     width: parent.width
     swipe.right: Rectangle {
         id: deleteLabel
-        height: parent.height - 10
+        height: parent.height
         width: height
         radius: 1
         anchors.right: parent.right
         color: "#e6e6e6"
         Rectangle {
-            height: parent.height * 0.75
+            id: round
+            height: parent.height * 0.6
             width: height
             radius: width / 2
             anchors.centerIn: parent
@@ -33,7 +33,7 @@ SwipeDelegate {
                 cache: true
                 asynchronous: true
                 ColorOverlay {
-                    anchors.fill: parent
+                    anchors.fill: trashImage
                     source: trashImage
                     color: "white"
                 }
@@ -74,20 +74,22 @@ SwipeDelegate {
             anchors.topMargin: 7
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 20
+            font.pointSize: 18
         }
 
         Text {
             id: daysText
-            width: 40
+            width: 100
             height: 25
-            text: qsTr(description + "," + days)
+            text: qsTr(description + "," + (days === "" ? "Без повтора" : days))
             anchors.horizontalCenter: timeText.horizontalCenter
             anchors.top: timeText.bottom
+            anchors.left: parent.left
+            anchors.leftMargin: 2
             anchors.topMargin: -7
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 17
+            font.pointSize: 13
             color: "#666666"
         }
 
@@ -98,6 +100,8 @@ SwipeDelegate {
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             antialiasing: true
+            checked: isTime
+
             indicator: Rectangle {
                 antialiasing: true
                 implicitWidth: 50
@@ -105,17 +109,20 @@ SwipeDelegate {
                 x: control.width - width - control.rightPadding
                 y: parent.height / 2 - height / 2
                 radius: 13
-                color: control.checked ? "#007dfe" : "#e6e6e6"
+                color: isTime ? "#007dfe" : "#e6e6e6"
 
                 Rectangle {
                     antialiasing: true
                     anchors.verticalCenter: parent.verticalCenter
-                    x: control.checked ? parent.width - width - 3 : 1
+                    x: isTime ? parent.width - width - 3 : 1
                     width: 20
                     height: width
                     radius: 13
                     border.color: "#dcdcdc"
                 }
+            }
+            onPressed: {
+                isTime = !isTime
             }
         }
 
@@ -132,3 +139,10 @@ SwipeDelegate {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:8}
+}
+##^##*/
+

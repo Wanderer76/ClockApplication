@@ -1,9 +1,11 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQml.Models 2.12
+import "../pages"
 
 Item {
     property alias viewList: view
+    property int indexOfAlarm: 0
     ListView {
         id: view
         spacing: 2
@@ -20,36 +22,23 @@ Item {
             }
             ListElement {
                 time: "23:30"
-                days: "Вс"
-                vibro: false
+                days: ""
+                vibro: true
                 description: "Будильник"
-                longest: "5"
+                longest: "1"
                 longestOfPause: "10"
             }
         }
 
-        Alarms {
-            id: audio
-        }
-
         delegate: TimesDelegate {
+            id: deleg
             width: parent.width
-            Timer {
-                id: vibroTimer
-                interval: 3000
-                repeat: true
-                onTriggered: {
-                    Vibration.vibrate(800)
-                }
-            }
-
             onIsTimeChanged: {
                 if (isTime === true) {
-                    audio.play()
-                    vibroTimer.start()
-                } else {
-                    vibroTimer.stop()
-                    audio.stop()
+                    indexOfAlarm = index
+                    isAlarmSignal = true
+                    if (days === "")
+                        isTime = false
                 }
             }
         }

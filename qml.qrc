@@ -24,5 +24,11 @@
         <file>controls/AlarmSettingSwitchButton.qml</file>
         <file>alarm/AlarmDescription.qml</file>
         <file>controls/DialogArea.qml</file>
+        <file>pages/AlarmSignalPage.qml</file>
+        <file>alarm/AlarmLongest.qml</file>
+        <file>images/letter-x.svg</file>
+        <file>images/tick (1).svg</file>
+        <file>alarm/AlarmPauseLongest.qml</file>
+        <file>pages/WorldTimePage.qml</file>
     </qresource>
 </RCC>

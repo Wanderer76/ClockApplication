@@ -28,7 +28,7 @@ Rectangle {
 
     Row {
         id: row
-        height: 34
+        height: 35
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
         anchors.left: parent.left
@@ -38,17 +38,11 @@ Rectangle {
 
         RoundButton {
             id: cancelButton
-            anchors.right: toolSeparator.left
-            anchors.rightMargin: 3
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
             flat: true
-
+            height: parent.height
+            width: rightButtonText != "" ? (parent.width / 2 - 1) : (parent.width)
             contentItem: Label {
+                width: 31
                 text: qsTr(leftButtonText)
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
@@ -59,23 +53,14 @@ Rectangle {
 
         ToolSeparator {
             id: toolSeparator
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
+            width: rightButtonText != "" ? 13 : 0
+            height: parent.height
         }
 
         RoundButton {
             id: acceptButton
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            anchors.left: toolSeparator.right
-            anchors.leftMargin: 1
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
+            height: parent.height
+            width: parent.width / 2 - 1
             flat: true
             contentItem: Label {
                 text: qsTr(rightButtonText)

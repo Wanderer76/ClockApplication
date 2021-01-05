@@ -11,9 +11,14 @@ Page {
     focusPolicy: Qt.ClickFocus
 
     header: ToolBar {
-        height: 60
-        enabled: isEnable
-        position: ToolBar.Header
+        height: 50
+        activeFocusOnTab: false
+        antialiasing: true
+        wheelEnabled: false
+        contentHeight: 35
+        contentWidth: 190
+        enabled: true
+        focusPolicy: Qt.TabFocus
         width: parent.width
 
         background: Rectangle {
@@ -24,19 +29,18 @@ Page {
             width: parent.width
             height: parent.height
             ToolButton {
-                width: height
-                height: parent.height
-                text: qsTr("X")
-                leftPadding: 30
-                font.pointSize: 22
+                width: 35
+                height: 35
+                Layout.alignment: Qt.AlignLeft | Qt.AlignBaseline
+                display: AbstractButton.IconOnly
+                icon.source: "qrc:/images/letter-x.svg"
+                leftPadding: 10
                 highlighted: false
-                Layout.alignment: Qt.AlignLeft
                 flat: true
                 background: Rectangle {
                     anchors.fill: parent
                     color: "white"
                 }
-
                 onClicked: {
                     stackView.pop()
                 }
@@ -46,17 +50,18 @@ Page {
                 text: qsTr("Добавить")
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                font.pointSize: 22
+                font.pointSize: 17
             }
 
             ToolButton {
-                height: parent.height
-                width: height
-                text: qsTr("✓")
-                rightPadding: 30
-                font.pointSize: 22
+                width: 40
+                height: 40
+                Layout.rightMargin: 0
+                display: AbstractButton.IconOnly
+                Layout.alignment: Qt.AlignRight | Qt.AlignBaseline
+                icon.source: "qrc:/images/tick (1).svg"
+                rightPadding: 10
                 flat: true
-                Layout.alignment: Qt.AlignRight
 
                 background: Rectangle {
                     anchors.fill: parent
@@ -66,9 +71,9 @@ Page {
                 onClicked: {
 
                     stackView.pop(alamPage.alarms.viewList.model.append({
-                                                                            "time": qsTr((hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex)),
+                                                                            "time": (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex),
                                                                             "days": days.additionalText,
-                                                                            "vibro": vibro.switchElement.checked,
+                                                                            "vibro": vibro.switchElement.checked == true,
                                                                             "description": description.additionalText,
                                                                             "longest": longest.additionalText,
                                                                             "longestOfPause": pauseLong.additionalText
@@ -163,6 +168,27 @@ Page {
         }
     }
 
+    AlarmLongest {
+        id: alarmLongest
+        visible: false
+        height: page.height * 0.7
+        width: page.width
+        z: 1
+        anchors.right: parent.right
+        anchors.rightMargin: 15
+        anchors.left: parent.left
+        anchors.leftMargin: 15
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 15
+        onTimeChanged: {
+            alarmLongest.visible = false
+        }
+
+        cancelButton.onClicked: {
+            alarmLongest.visible = false
+        }
+    }
+
     Rectangle {
         id: rectangle1
         anchors.fill: parent
@@ -170,7 +196,8 @@ Page {
         visible: true
         enabled: {
             if (alarmDescription.visible === true
-                    || daysOFWeeks.visible === true)
+                    || daysOFWeeks.visible === true
+                    || alarmLongest.visible === true)
                 return false
             else
                 return true
@@ -260,7 +287,8 @@ Page {
             color: "#df0e0e0e"
             visible: {
                 if (alarmDescription.visible === true
-                        || daysOFWeeks.visible === true)
+                        || daysOFWeeks.visible === true
+                        || alarmLongest.visible === true)
                     return true
                 else
                     return false
@@ -269,7 +297,8 @@ Page {
             z: 1
 
             enabled: false
-            anchors.fill: parent
+            width: parent.width
+            height: parent.height + 60
         }
 
         Column {
@@ -343,9 +372,9 @@ Page {
                 anchors.left: parent.left
                 anchors.leftMargin: 5
                 mainText: "Длительность сигнала"
-                additionalText: "5 мин"
+                additionalText: alarmLongest.time + " мин"
                 mouseArea.onClicked: {
-
+                    alarmLongest.visible = true
                 }
             }
             AlarmSettingButton {
@@ -355,7 +384,7 @@ Page {
                 anchors.rightMargin: 5
                 anchors.left: parent.left
                 anchors.leftMargin: 5
-                mainText: "Длительность сигнала"
+                mainText: "Длительность паузы"
                 additionalText: "10 мин, 3х"
                 mouseArea.onClicked: {
 

@@ -6,7 +6,11 @@ Item {
     property int hour: currentDate.getHours()
     property int minutes: currentDate.getMinutes()
     property int seconds: currentDate.getSeconds()
-
+    property int day: currentDate.getDate()
+    property int dayOfWeek: currentDate.getDay()
+    property int mounth: currentDate.getMonth()
+    property int year: currentDate.getFullYear()
+    property int degree: 6
     Timer {
         id: timer
         repeat: true
@@ -95,6 +99,7 @@ Item {
         anchors.bottom: plate.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         value: root.hour
+        valueMinute: root.minutes
         needleColor: hour > 16 ? "white" : "black"
         antialiasing: true
     }
