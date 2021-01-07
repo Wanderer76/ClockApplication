@@ -8,7 +8,6 @@ Page {
     property string pauseLong: ""
     property string longestCount: ""
     property int currentIndex: 0
-
     Timer {
         interval: longestCount * 60000
         running: true

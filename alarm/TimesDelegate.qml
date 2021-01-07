@@ -30,6 +30,7 @@ SwipeDelegate {
                 source: "qrc:/images/delete.svg"
                 antialiasing: true
                 fillMode: Image.PreserveAspectFit
+                enabled: false
                 cache: true
                 asynchronous: true
                 ColorOverlay {
@@ -39,7 +40,6 @@ SwipeDelegate {
                 }
             }
         }
-
         SwipeDelegate.onClicked: view.model.remove(index)
     }
     ListView.onRemove: SequentialAnimation {

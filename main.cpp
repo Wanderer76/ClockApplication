@@ -1,7 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include"vibration.h"
 #include<QQmlContext>
+#include"vibration.h"
+#include"timezonehandler.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,6 +11,9 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
     Vibration vib;
+    TimeZoneHandler handler;
+
+    qmlRegisterType<TimeZoneHandler>("TimeZones",1,0,"TimeZones");
     engine.rootContext()->setContextProperty("Vibration",&vib);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

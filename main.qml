@@ -16,10 +16,12 @@ ApplicationWindow {
     Alarms {
         id: audio
     }
+
     onIsAlarmSignalChanged: {
         var element = alamPage.alarms.viewList.model.get(
                     alamPage.alarms.indexOfAlarm)
         if (isAlarmSignal === true) {
+            swipeView.enabled = false
             audio.startAlarm(element.vibro)
             stackView.push("qrc:/pages/AlarmSignalPage.qml", {
                                "time": element.time,
@@ -29,13 +31,20 @@ ApplicationWindow {
                                "currentIndex": element.index
                            })
         } else {
+            swipeView.enabled = true
             audio.stopAlarm()
         }
     }
 
-    SwipeView {
-        id: view
+    StackView {
+        id: stackView
         anchors.fill: parent
+        initialItem: swipeView
+    }
+
+    SwipeView {
+        id: swipeView
+
         currentIndex: tabBar.currentIndex
         interactive: false
         AlarmPage {
@@ -57,11 +66,6 @@ ApplicationWindow {
             }
         }
     }
-    StackView {
-        id: stackView
-        anchors.fill: parent
-        initialItem: view
-    }
 
     ButtonAdd {
         height: 45
@@ -73,8 +77,11 @@ ApplicationWindow {
         anchors.horizontalCenter: parent.horizontalCenter
         imageValue: "qrc:/images/plus (1).svg"
         onClicked: {
-            if (tabBar.currentIndex == 0) {
+            if (tabBar.currentIndex === 0) {
                 stackView.push("qrc:/pages/NewAlarmTimePage.qml")
+            }
+            if (tabBar.currentIndex === 1) {
+                stackView.push("qrc:/pages/AddWorldTimePage.qml")
             }
         }
     }
@@ -82,7 +89,7 @@ ApplicationWindow {
     footer: TabBar {
         id: tabBar
         width: parent.width
-        height: 60
+        height: 50
         contentHeight: height
         position: TabBar.Footer
         visible: isMainPage

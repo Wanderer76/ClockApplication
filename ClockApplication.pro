@@ -1,4 +1,4 @@
-QT += quick svg qml quickcontrols2
+QT += quick svg qml quickcontrols2 network
 
 android:QT+=androidextras
 
@@ -17,6 +17,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        timeloader.cpp \
+        timezonehandler.cpp \
         vibration.cpp
 
 RESOURCES += qml.qrc
@@ -45,4 +47,6 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
+    timeloader.h \
+    timezonehandler.h \
     vibration.h

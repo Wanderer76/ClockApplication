@@ -75,7 +75,7 @@ Page {
                                                                             "days": days.additionalText,
                                                                             "vibro": vibro.switchElement.checked == true,
                                                                             "description": description.additionalText,
-                                                                            "longest": longest.additionalText,
+                                                                            "longest": alarmLongest.time,
                                                                             "longestOfPause": pauseLong.additionalText
                                                                         }))
                 }

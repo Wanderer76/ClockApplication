@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQml.Models 2.12
-import "../pages"
 
 Item {
     property alias viewList: view
@@ -17,7 +16,7 @@ Item {
                 days: "Пн"
                 vibro: false
                 description: "Будильник"
-                longest: "5"
+                longest: 5
                 longestOfPause: "10"
             }
             ListElement {
@@ -25,7 +24,7 @@ Item {
                 days: ""
                 vibro: true
                 description: "Будильник"
-                longest: "1"
+                longest: 1
                 longestOfPause: "10"
             }
         }

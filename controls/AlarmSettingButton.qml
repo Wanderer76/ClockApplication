@@ -14,14 +14,14 @@ Rectangle {
         Label {
             color: "#000000"
             text: qsTr(mainText)
-            font.pointSize: 13
+            font.pointSize: 10
             Layout.alignment: Qt.AlignLeft
         }
 
         Label {
             color: "#797d82"
             text: qsTr(additionalText)
-            font.pointSize: 13
+            font.pointSize: 10
             Layout.rightMargin: 15
             Layout.alignment: Qt.AlignRight
         }

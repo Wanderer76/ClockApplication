@@ -5,10 +5,9 @@
 #include<QAndroidJniObject>
 #endif
 
-Vibration::Vibration(QObject *parent) : QObject(parent)
-{
-
-}
+Vibration::Vibration(QObject *parent)
+    : QObject(parent)
+{}
 
 void Vibration::vibrate(int x)
 {
