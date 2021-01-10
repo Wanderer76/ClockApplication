@@ -43,9 +43,21 @@ Page {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.pointSize: 18
-        text: "00:00:00:00"
+        text: "00:00:00"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
+    }
+
+    LapView {
+        id: lapView
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: secondsLabel.bottom
+        anchors.bottom: parent.bottom
+        anchors.topMargin: 15
+        anchors.rightMargin: 15
+        anchors.leftMargin: 15
+        anchors.bottomMargin: 70
     }
 
     Connections {
@@ -53,10 +65,48 @@ Page {
         function onSendTime(time) {
             secondsLabel.text = time
             var times = time.split(':')
-            stopwatch.seconds = times[2]
+            stopwatch.seconds = times[1]
         }
         function onSendState(state) {
             isActive = state
+        }
+    }
+
+    RoundButton {
+        id: resetButton
+        display: AbstractButton.IconOnly
+        icon.source: "qrc:/images/reload.svg"
+        icon.color: pressed ? "#007dfe" : "#646464"
+
+        anchors.left: parent.left
+        anchors.top: lapView.bottom
+        anchors.leftMargin: 108
+        anchors.topMargin: 15
+        onClicked: {
+            Stopwatch.reset()
+        }
+
+        background: Rectangle {
+            color: "#00000000"
+        }
+    }
+
+    RoundButton {
+        id: lapButton
+        x: 332
+        display: AbstractButton.IconOnly
+        icon.source: "qrc:/images/stopwatch.svg"
+        icon.color: pressed ? "#007dfe" : "#646464"
+        anchors.right: parent.right
+        anchors.top: lapView.bottom
+        anchors.rightMargin: 108
+        anchors.topMargin: 15
+        onClicked: {
+
+        }
+
+        background: Rectangle {
+            color: "#00000000"
         }
     }
 }

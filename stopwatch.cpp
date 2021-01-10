@@ -51,7 +51,7 @@ void StopWatch::onTime()
     MillisecondTime = QTime::currentTime().msecsSinceStartOfDay() - StartTime;
     UpdateTime = TimeBuff + MillisecondTime;
     auto time = QTime::fromMSecsSinceStartOfDay(UpdateTime);
-    emit sendTime(time.toString("hh:mm:ss:zzz"));
+    emit sendTime(time.toString("mm:ss:zzz"));
     QCoreApplication::processEvents();
 }
 
@@ -62,7 +62,7 @@ void StopWatch::reset()
     TimeBuff = 0;
     UpdateTime = 0;
     isRunning = false;
-    auto time = "00:00:00:00";
+    auto time = "00:00:00";
     emit sendTime(time);
     emit sendState(isRunning);
 }

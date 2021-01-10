@@ -41,5 +41,6 @@
         <file>images/play (1).svg</file>
         <file>stopwatch/LapView.qml</file>
         <file>stopwatch/LapDelegate.qml</file>
+        <file>images/reload.svg</file>
     </qresource>
 </RCC>

@@ -73,4 +73,5 @@ Item {
         seconds: root.seconds
         antialiasing: true
     }
+
 }
