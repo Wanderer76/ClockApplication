@@ -66,3 +66,9 @@ void StopWatch::reset()
     emit sendTime(time);
     emit sendState(isRunning);
 }
+
+void StopWatch::lap()
+{
+    auto time = QTime::fromMSecsSinceStartOfDay(UpdateTime);
+    emit sendLap(time.toString("mm:ss:zzz"));
+}

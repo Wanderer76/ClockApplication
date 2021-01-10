@@ -70,6 +70,13 @@ Page {
         function onSendState(state) {
             isActive = state
         }
+
+        function onSendLap(time) {
+            lapView.lapView.model.append({
+                                             "segmentNumber": lapView.lastIndex,
+                                             "time": time
+                                         })
+        }
     }
 
     RoundButton {
@@ -77,13 +84,15 @@ Page {
         display: AbstractButton.IconOnly
         icon.source: "qrc:/images/reload.svg"
         icon.color: pressed ? "#007dfe" : "#646464"
-
+        enabled: isActive ? false : true
+        opacity: enabled ? 1 : 0.5
         anchors.left: parent.left
         anchors.top: lapView.bottom
         anchors.leftMargin: 80
         anchors.topMargin: 15
         onClicked: {
             Stopwatch.reset()
+            lapView.lapView.model.clear()
         }
 
         background: Rectangle {
@@ -97,12 +106,14 @@ Page {
         display: AbstractButton.IconOnly
         icon.source: "qrc:/images/stopwatch.svg"
         icon.color: pressed ? "#007dfe" : "#646464"
+        enabled: isActive
+        opacity: enabled ? 1 : 0.5
         anchors.right: parent.right
         anchors.top: lapView.bottom
         anchors.rightMargin: 80
         anchors.topMargin: 15
         onClicked: {
-
+            Stopwatch.lap()
         }
 
         background: Rectangle {

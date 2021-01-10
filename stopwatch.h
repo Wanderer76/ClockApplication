@@ -5,7 +5,6 @@
 class StopWatch : public QObject
 {
     Q_OBJECT
-    //Q_PROPERTY(bool isRunning READ isActive)
 private:
     bool isRunning;
     quint32 MillisecondTime;
@@ -21,9 +20,11 @@ public slots:
     void onTime();
     void startStop();
     void reset();
+    void lap();
     bool isActive() const;
 signals:
     void sendTime(QString time);
     void sendState(bool isActive);
+    void sendLap(QString timeOfLap);
 };
 
