@@ -34,5 +34,12 @@
         <file>pages/AddWorldTimePage.qml</file>
         <file>controls/WorldTimeDelegate.qml</file>
         <file>images/left-arrow.svg</file>
+        <file>stopwatch/SecondsNeedle.qml</file>
+        <file>stopwatch/MainStopWatch.qml</file>
+        <file>pages/StopwatchPage.qml</file>
+        <file>images/pause.svg</file>
+        <file>images/play (1).svg</file>
+        <file>stopwatch/LapView.qml</file>
+        <file>stopwatch/LapDelegate.qml</file>
     </qresource>
 </RCC>

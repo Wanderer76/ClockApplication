@@ -10,6 +10,7 @@ ApplicationWindow {
     height: 640
     width: 480
     title: qsTr("Часы")
+
     property bool isMainPage: stackView.depth === 1
     property bool isAlarmSignal: false
 
@@ -53,11 +54,8 @@ ApplicationWindow {
         WorldTimePage {
             id: worldTimePage
         }
-        Page {
-            Rectangle {
-                anchors.fill: parent
-                color: "green"
-            }
+        StopwatchPage {
+            id: stopwatchPage
         }
         Page {
             Rectangle {
@@ -68,6 +66,8 @@ ApplicationWindow {
     }
 
     ButtonAdd {
+        id: addButton
+        property bool isStopwatchActive: false
         height: 45
         width: height
         z: 2
@@ -75,13 +75,25 @@ ApplicationWindow {
         anchors.bottom: tabBar.top
         anchors.bottomMargin: 15
         anchors.horizontalCenter: parent.horizontalCenter
-        imageValue: "qrc:/images/plus (1).svg"
+        imageValue: {
+            if (tabBar.currentIndex === 0 || tabBar.currentIndex === 1)
+                return "qrc:/images/plus (1).svg"
+            if (tabBar.currentIndex === 2 || tabBar.currentIndex === 3) {
+                if (stopwatchPage.isActive)
+                    return "qrc:/images/pause.svg"
+                else
+                    return "qrc:/images/play (1).svg"
+            }
+        }
         onClicked: {
             if (tabBar.currentIndex === 0) {
                 stackView.push("qrc:/pages/NewAlarmTimePage.qml")
             }
             if (tabBar.currentIndex === 1) {
                 stackView.push("qrc:/pages/AddWorldTimePage.qml")
+            }
+            if (tabBar.currentIndex === 2) {
+                Stopwatch.startTimer()
             }
         }
     }

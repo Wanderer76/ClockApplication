@@ -9,6 +9,8 @@ public:
     explicit Vibration(QObject *parent = nullptr);
 public slots:
     void vibrate(int x);
+signals:
+    void clicl();
 };
 
 

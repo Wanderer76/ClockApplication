@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        stopwatch.cpp \
         timeloader.cpp \
         timezonehandler.cpp \
         vibration.cpp
@@ -47,6 +48,7 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
+    stopwatch.h \
     timeloader.h \
     timezonehandler.h \
     vibration.h

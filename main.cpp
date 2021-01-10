@@ -3,6 +3,7 @@
 #include<QQmlContext>
 #include"vibration.h"
 #include"timezonehandler.h"
+#include"stopwatch.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,9 +13,11 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     Vibration vib;
     TimeZoneHandler handler;
+    StopWatch stopwatch;
 
     qmlRegisterType<TimeZoneHandler>("TimeZones",1,0,"TimeZones");
     engine.rootContext()->setContextProperty("Vibration",&vib);
+    engine.rootContext()->setContextProperty("Stopwatch",&stopwatch);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

@@ -12,16 +12,6 @@ RoundButton {
         color: "#007dfe"
         radius: width / 2
         antialiasing: true
-
-
-        /*    RectangularGlow {
-            anchors.fill: parent
-            spread: 0.0
-            glowRadius: 10
-            cornerRadius: 10
-            color: parent.color /// "#d9ecfd"
-            z: 1
-        }*/
     }
     antialiasing: true
     icon.source: imageValue
