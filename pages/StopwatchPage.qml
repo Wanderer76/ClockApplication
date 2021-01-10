@@ -57,7 +57,7 @@ Page {
         anchors.topMargin: 15
         anchors.rightMargin: 15
         anchors.leftMargin: 15
-        anchors.bottomMargin: 70
+        anchors.bottomMargin: 80
     }
 
     Connections {
@@ -80,7 +80,7 @@ Page {
 
         anchors.left: parent.left
         anchors.top: lapView.bottom
-        anchors.leftMargin: 108
+        anchors.leftMargin: 80
         anchors.topMargin: 15
         onClicked: {
             Stopwatch.reset()
@@ -99,7 +99,7 @@ Page {
         icon.color: pressed ? "#007dfe" : "#646464"
         anchors.right: parent.right
         anchors.top: lapView.bottom
-        anchors.rightMargin: 108
+        anchors.rightMargin: 80
         anchors.topMargin: 15
         onClicked: {
 

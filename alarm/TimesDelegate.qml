@@ -15,14 +15,14 @@ SwipeDelegate {
         radius: 1
         anchors.right: parent.right
         color: "#e6e6e6"
+
         Rectangle {
             id: round
             height: parent.height * 0.6
             width: height
             radius: width / 2
             anchors.centerIn: parent
-            color: deleteLabel.SwipeDelegate.pressed ? Qt.darker("tomato",
-                                                                 1.1) : "tomato"
+            color: mouse.pressed ? Qt.darker("tomato", 1.1) : "tomato"
             Image {
                 id: trashImage
                 anchors.fill: parent
@@ -40,7 +40,14 @@ SwipeDelegate {
                 }
             }
         }
-        SwipeDelegate.onClicked: view.model.remove(index)
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            onClicked: {
+                console.log("removed")
+                view.model.remove(index)
+            }
+        }
     }
     ListView.onRemove: SequentialAnimation {
         PropertyAction {
