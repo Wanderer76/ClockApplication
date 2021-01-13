@@ -1,10 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import "../clock"
+import "../worldtime"
 
 Page {
     id: page
-
+    property alias list: worldPage
+    width: 480
+    height: 640
     function parseMounth(mounth) {
         let result = ""
         switch (mounth) {
@@ -100,11 +103,23 @@ Page {
         text: qsTr(parseDay(
                        clock.dayOfWeek) + ", " + clock.day + " " + parseMounth(
                        clock.mounth) + ", " + clock.year + " год")
+
         anchors.top: clock.bottom
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.pointSize: 15
         anchors.topMargin: 60
         anchors.horizontalCenter: parent.horizontalCenter
+    }
+    WorldTimeView {
+        id: worldPage
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: label1.bottom
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 20
+        anchors.rightMargin: 20
+        anchors.topMargin: 15
+        anchors.bottomMargin: 15
     }
 }

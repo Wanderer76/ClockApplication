@@ -16,7 +16,6 @@ Rectangle {
     }
     Label {
         id: countryLabel
-
         text: qsTr(country)
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: number.right
@@ -32,7 +31,7 @@ Rectangle {
         anchors.left: countryLabel.right
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        anchors.leftMargin: 25
+        anchors.leftMargin: 10
         font.pointSize: 13
     }
 
@@ -44,4 +43,5 @@ Rectangle {
         anchors.topMargin: 0
         orientation: Qt.Horizontal
     }
+
 }

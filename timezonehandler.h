@@ -1,7 +1,8 @@
 #pragma once
 #include <QObject>
 #include<QAbstractListModel>
-#include"timeloader.h"
+
+#include"timeloaderHelper.h"
 enum Roles {
     Country= Qt::UserRole+1,
     Region,

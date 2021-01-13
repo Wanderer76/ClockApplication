@@ -7,6 +7,7 @@
 
 TimeZoneHandler::TimeZoneHandler()
 {
+   //loader= new TimeLoader(this);
     createListOfElements();
 }
 
@@ -40,8 +41,8 @@ QHash<int, QByteArray> TimeZoneHandler::roleNames() const
 
 void TimeZoneHandler::createListOfElements()
 {
-    TimeLoader *loader= new TimeLoader();
-    loader->startRequest(QUrl("http://worldtimeapi.org/api/timezone"));
+    TimeLoader *loader = new TimeLoader(this);
+    loader->startRequest();
     parseJson(loader->getTimeData());
 }
 
@@ -63,4 +64,3 @@ void TimeZoneHandler::parseJson(QByteArray &&array)
         }
     }
 }
-

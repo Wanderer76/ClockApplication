@@ -18,9 +18,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         stopwatch.cpp \
-        timeloader.cpp \
+        timeloaderHelper.cpp \
         timezonehandler.cpp \
-        vibration.cpp
+        vibration.cpp \
+        worldtimelist.cpp
 
 RESOURCES += qml.qrc
 
@@ -49,6 +50,7 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
     stopwatch.h \
-    timeloader.h \
+    timeloaderHelper.h \
     timezonehandler.h \
-    vibration.h
+    vibration.h \
+    worldtimelist.h

@@ -5,6 +5,7 @@
 
 
 #define TIMEZONESFILENAME "timezonedata.txt"
+#define TIMEFILENAME "countries.txt"
 
 struct worldTimeElement
 {
@@ -21,13 +22,15 @@ class TimeLoader : public QObject
 {
     Q_OBJECT
 private:
-    QFile file;
-    QNetworkAccessManager*manager;
+    QFile coutriesAndRegionsFile;
+    QNetworkAccessManager* manager;
     void writeToFile(const QByteArray&arr);
 public:
     TimeLoader(QObject*pwgt = nullptr);
-    void startRequest(const QUrl&request);
+    void startRequest();
     QByteArray getTimeData();
     ~TimeLoader();
+private slots:
+    void finishedRegionDownload(QNetworkReply*rep);
 };
 

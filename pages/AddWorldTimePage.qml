@@ -60,8 +60,26 @@ Page {
         model: TimeZones {
             id: mod
         }
-        delegate: WorldTimeDelegate {
+        delegate: AddWorldTimeDelegate {
             width: parent.width
+            opacity: mouse.pressed ? 0.5 : 1
+            MouseArea {
+                id: mouse
+                anchors.fill: parent
+                onClicked: {
+                    let result = mod.findCountryTime(index)
+                    console.log(result)
+                    let arr = result.split('-')
+                    if (arr[0] !== "") {
+                        console.log(arr)
+                        stackView.pop(
+                                    worldTimePage.list.worldTimeView.model.append({
+                                                                                      "country": arr[1],
+                                                                                      "time": arr[0]
+                                                                                  }))
+                    }
+                }
+            }
         }
     }
 }

@@ -32,7 +32,7 @@
         <file>pages/WorldTimePage.qml</file>
         <file>pages/MainPage.qml</file>
         <file>pages/AddWorldTimePage.qml</file>
-        <file>controls/WorldTimeDelegate.qml</file>
+        <file>controls/AddWorldTimeDelegate.qml</file>
         <file>images/left-arrow.svg</file>
         <file>stopwatch/SecondsNeedle.qml</file>
         <file>stopwatch/MainStopWatch.qml</file>
@@ -42,5 +42,7 @@
         <file>stopwatch/LapView.qml</file>
         <file>stopwatch/LapDelegate.qml</file>
         <file>images/reload.svg</file>
+        <file>worldtime/WorldTimeView.qml</file>
+        <file>worldtime/WorldtimeDelegate.qml</file>
     </qresource>
 </RCC>
