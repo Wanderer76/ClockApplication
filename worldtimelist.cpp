@@ -34,11 +34,9 @@ WorldTimeList::WorldTimeList()
 
         for(auto element : _elements)
         {
-
             QTime time = QTime::fromString(element->time);
             time = time.addSecs(60);
             element->time = time.toString("hh:mm");
-            qDebug()<<element->time;
         }
         emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),QVector<int>{Roles::Time});
     });
@@ -63,7 +61,7 @@ WorldTimeList::WorldTimeList()
 
 #if defined (Q_OS_ANDROID)
     auto path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-    QFile file(path.append(("/" WorldTimes));
+    QFile file(path.append("/" WorldTimes));
         #else
     QFile file(WorldTimes);
 #endif
@@ -108,8 +106,6 @@ void WorldTimeList::append(const QString &region, const QString &city)
     QNetworkRequest request;
     request.setUrl(QUrl("http://worldtimeapi.org/api/timezone/"+region+"/"+city));
     manager->get(request);
-    qDebug()<<region<<city;
-
 }
 
 void WorldTimeList::remove(const int index)
@@ -148,36 +144,4 @@ QHash<int, QByteArray> WorldTimeList::roleNames() const
     result[Roles::Time] = "time";
     result[Roles::Region] = "region";
     return result;
-}
-
-void WorldTimeList::writeDataSlot(QNetworkReply *reply)
-{
-}
-
-
-Loader::Loader(QObject *pwgt)
-    :QObject(pwgt)
-{
-    manager = new QNetworkAccessManager(this);
-    connect(manager,&QNetworkAccessManager::finished,this,&Loader::slotReadyRead);
-
-}
-
-Loader::~Loader(){}
-
-void Loader::makeRequest(const QUrl &url)
-{
-    manager->get(QNetworkRequest(url));
-    manager->blockSignals(true);
-}
-
-void Loader::slotReadyRead(QNetworkReply *reply)
-{
-    if(reply->error()){
-        qDebug()<<reply->errorString();
-        return;
-    }
-    QByteArray data;
-    data = reply->readAll();
-    emit dataReadyRead(data);
 }

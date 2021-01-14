@@ -9,6 +9,7 @@ ApplicationWindow {
     visible: true
     height: 640
     width: 480
+
     title: qsTr("Часы")
 
     property bool isMainPage: stackView.depth === 1
@@ -45,7 +46,7 @@ ApplicationWindow {
 
     SwipeView {
         id: swipeView
-
+        clip: true
         currentIndex: tabBar.currentIndex
         interactive: false
         AlarmPage {
@@ -57,11 +58,8 @@ ApplicationWindow {
         StopwatchPage {
             id: stopwatchPage
         }
-        Page {
-            Rectangle {
-                anchors.fill: parent
-                color: "blue"
-            }
+        TimerPage {
+            id: timerPage
         }
     }
 
@@ -79,7 +77,7 @@ ApplicationWindow {
             if (tabBar.currentIndex === 0 || tabBar.currentIndex === 1)
                 return "qrc:/images/plus (1).svg"
             if (tabBar.currentIndex === 2 || tabBar.currentIndex === 3) {
-                if (stopwatchPage.isActive)
+                if (stopwatchPage.isActive || timerPage.timer.isActive)
                     return "qrc:/images/pause.svg"
                 else
                     return "qrc:/images/play (1).svg"
@@ -94,6 +92,9 @@ ApplicationWindow {
             }
             if (tabBar.currentIndex === 2) {
                 Stopwatch.startTimer()
+            }
+            if (tabBar.currentIndex === 3) {
+                timerPage.timer.timerTime.running = !timerPage.timer.isActive
             }
         }
     }

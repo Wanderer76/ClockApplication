@@ -221,7 +221,7 @@ Page {
                 anchors.bottomMargin: 0
                 anchors.top: parent.top
                 anchors.topMargin: 0
-                snapMode: ListView.SnapOneItem
+                snapMode: ListView.SnapPosition
                 highlightRangeMode: ListView.StrictlyEnforceRange
                 spacing: 20
                 anchors.left: parent.left
@@ -246,7 +246,7 @@ Page {
                 contentHeight: 1024
                 keyNavigationWraps: false
                 layoutDirection: Qt.LeftToRight
-                snapMode: ListView.SnapOneItem
+                snapMode: ListView.SnapPosition
                 anchors.top: parent.top
                 anchors.topMargin: 0
                 anchors.bottom: parent.bottom

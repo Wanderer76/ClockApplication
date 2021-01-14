@@ -44,5 +44,10 @@
         <file>images/reload.svg</file>
         <file>worldtime/WorldTimeView.qml</file>
         <file>worldtime/WorldtimeDelegate.qml</file>
+        <file>pages/TimerPage.qml</file>
+        <file>timer/TimerClock.qml</file>
+        <file>timer/TimerNeedle.qml</file>
+        <file>timer/TimerTime.qml</file>
+        <file>timer/TimerDelegate.qml</file>
     </qresource>
 </RCC>
