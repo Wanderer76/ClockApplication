@@ -67,17 +67,9 @@ Page {
                 id: mouse
                 anchors.fill: parent
                 onClicked: {
-                    let result = mod.findCountryTime(index)
-                    console.log(result)
-                    let arr = result.split('-')
-                    if (arr[0] !== "") {
-                        console.log(arr)
-                        stackView.pop(
-                                    worldTimePage.list.worldTimeView.model.append({
-                                                                                      "country": arr[1],
-                                                                                      "time": arr[0]
-                                                                                  }))
-                    }
+                    worldTimePage.list.worldTimeView.model.append(region,
+                                                                  country)
+                    stackView.pop()
                 }
             }
         }

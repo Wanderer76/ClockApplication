@@ -6,7 +6,10 @@ Item {
     ListView {
         id: view
         anchors.fill: parent
-        model: WorldTimeList {}
+
+        model: WorldTimeList {
+            id: model
+        }
         delegate: WorldtimeDelegate {
             width: parent.width
         }

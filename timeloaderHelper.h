@@ -7,17 +7,6 @@
 #define TIMEZONESFILENAME "timezonedata.txt"
 #define TIMEFILENAME "countries.txt"
 
-struct worldTimeElement
-{
-    QString countryName;
-    QString regionName;
-    QString time;
-    worldTimeElement(QString country,QString region,QString time = "")
-        :countryName(country),regionName(region), time(time)
-    {}
-};
-
-
 class TimeLoader : public QObject
 {
     Q_OBJECT

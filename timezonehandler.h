@@ -8,6 +8,15 @@ enum Roles {
     Region,
     Time
 };
+struct worldTimeElement
+{
+    QString countryName;
+    QString regionName;
+    QString time;
+    worldTimeElement(QString country,QString region,QString time = "")
+        :countryName(country),regionName(region), time(time)
+    {}
+};
 
 
 class TimeZoneHandler : public QAbstractListModel
