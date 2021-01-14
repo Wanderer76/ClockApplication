@@ -1,8 +1,8 @@
 #include "worldtimelist.h"
 #include<QTimer>
 #include<QTime>
-#include<QCoreApplication>
-#include<QDebug>
+#include<QFile>
+#include<QStandardPaths>
 #include<QNetworkAccessManager>
 #include<QNetworkRequest>
 #include<QNetworkReply>
@@ -17,13 +17,14 @@ QString parseJson(const QByteArray&array)
     QString result;
     for(int i = index+1;i<index+6;i++)
         result += utc_time[i];
-qDebug()<<result;
+    qDebug()<<result;
     return result;
 }
 
 
 WorldTimeList::WorldTimeList()
 {
+    manager = new QNetworkAccessManager(this);
     _timer = new QTimer(this);
 
     _timer->setInterval(60000);
@@ -31,7 +32,7 @@ WorldTimeList::WorldTimeList()
         if(_elements.size()==0)
             return;
 
-        for(auto& element : _elements)
+        for(auto element : _elements)
         {
 
             QTime time = QTime::fromString(element->time);
@@ -41,19 +42,6 @@ WorldTimeList::WorldTimeList()
         }
         emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),QVector<int>{Roles::Time});
     });
-    _elements.append(new timeElement("df","17:40"));
-    _timer->start();
-}
-
-WorldTimeList::~WorldTimeList()
-{}
-
-void WorldTimeList::append(const QString &region, const QString &city)
-{
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    QNetworkRequest request;
-
-    request.setUrl(QUrl("http://worldtimeapi.org/api/timezone/"+region+"/"+city));
 
     connect(manager,&QNetworkAccessManager::finished,this,
             [&](QNetworkReply*reply){
@@ -64,13 +52,61 @@ void WorldTimeList::append(const QString &region, const QString &city)
 
         auto time = parseJson(reply->readAll());
         auto element = new timeElement(city,time);
-        if(_elements.contains(element))
-            return;
+
         beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
         _elements.append(element);
         endInsertRows();
+        _elements.last()->region = region;
+
     });
-   QCoreApplication::processEvents();
+
+
+#if defined (Q_OS_ANDROID)
+    auto path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    QFile file(path.append(("/" WorldTimes));
+        #else
+    QFile file(WorldTimes);
+#endif
+    if(file.size()>0&&file.open(QFile::ReadOnly)){
+        QTextStream in(&file);
+        auto text = in.readAll().split("|");
+        for(auto&i : text)
+        {
+            auto temp = i.split(":");
+            if(temp[0]!="")
+                this->append(temp.at(0),temp.at(1));
+        }
+    }
+    file.close();
+
+    _timer->start();
+}
+
+WorldTimeList::~WorldTimeList()
+{
+    QFile file(WorldTimes);
+    if(file.open(QFile::WriteOnly)){
+        QTextStream in(&file);
+        for(auto&i : _elements)
+        {
+            in<<i->region+":"+i->cityName<<"|";
+        }
+    }
+    file.close();
+}
+
+void WorldTimeList::append(const QString &region, const QString &city)
+{
+    for(auto&i : _elements)
+    {
+        if(i->cityName == city)
+            return;
+    }
+
+    this->region = region;
+    this->city = city;
+    QNetworkRequest request;
+    request.setUrl(QUrl("http://worldtimeapi.org/api/timezone/"+region+"/"+city));
     manager->get(request);
     qDebug()<<region<<city;
 
@@ -87,6 +123,7 @@ void WorldTimeList::remove(const int index)
 
 int WorldTimeList::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return _elements.size();
 }
 
@@ -113,3 +150,34 @@ QHash<int, QByteArray> WorldTimeList::roleNames() const
     return result;
 }
 
+void WorldTimeList::writeDataSlot(QNetworkReply *reply)
+{
+}
+
+
+Loader::Loader(QObject *pwgt)
+    :QObject(pwgt)
+{
+    manager = new QNetworkAccessManager(this);
+    connect(manager,&QNetworkAccessManager::finished,this,&Loader::slotReadyRead);
+
+}
+
+Loader::~Loader(){}
+
+void Loader::makeRequest(const QUrl &url)
+{
+    manager->get(QNetworkRequest(url));
+    manager->blockSignals(true);
+}
+
+void Loader::slotReadyRead(QNetworkReply *reply)
+{
+    if(reply->error()){
+        qDebug()<<reply->errorString();
+        return;
+    }
+    QByteArray data;
+    data = reply->readAll();
+    emit dataReadyRead(data);
+}
