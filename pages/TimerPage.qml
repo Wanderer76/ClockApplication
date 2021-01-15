@@ -4,8 +4,7 @@ import "../timer"
 
 Page {
     id: page
-    width: 480
-    height: 640
+
     clip: true
     property alias timer: clock
 
@@ -31,6 +30,8 @@ Page {
         anchors.top: label.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 20
+        seconds: time.hourIndex + time.minuteIndex + time.secondIndex
+        progressBar.text: time.hourIndex + ":" + time.minuteIndex + ":" + time.secondIndex
     }
     TimerTime {
         id: time
@@ -57,6 +58,7 @@ Page {
         width: 207
         height: 40
         anchors.top: time.bottom
+        anchors.horizontalCenterOffset: 6
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 6
         spacing: 70
@@ -96,8 +98,9 @@ Page {
         anchors.leftMargin: 80
         anchors.topMargin: 10
         onClicked: {
-            timer.timerTime.stop()
-            timer.seconds = 0
+            clock.timerTime.stop()
+            clock.progressBar.currentValue = 0
+            time.clear()
         }
 
         background: Rectangle {

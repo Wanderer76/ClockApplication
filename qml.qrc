@@ -49,5 +49,6 @@
         <file>timer/TimerNeedle.qml</file>
         <file>timer/TimerTime.qml</file>
         <file>timer/TimerDelegate.qml</file>
+        <file>timer/TimerProgressBar.qml</file>
     </qresource>
 </RCC>

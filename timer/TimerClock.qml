@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 Item {
     width: 480
     height: 640
+    property alias progressBar: progress
     property alias timerTime: timer
     property bool isActive: timer.running
     property int seconds: 0
@@ -14,11 +15,25 @@ Item {
         interval: 1000
         repeat: true
         onTriggered: {
-            seconds++
+            if (progress.currentValue !== progress.maximumValue)
+                progress.currentValue++
+            else {
+                timer.running = false
+            }
         }
     }
 
-    Rectangle {
+    TimerProgressBar {
+        id: progress
+        anchors.fill: parent
+        maximumValue: seconds
+        onMaximumValueChanged: {
+            console.log(progress.maximumValue)
+        }
+    }
+
+
+    /* Rectangle {
         antialiasing: true
         id: plate
         anchors.centerIn: parent
@@ -69,5 +84,5 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         value: seconds
         antialiasing: true
-    }
+    }*/
 }

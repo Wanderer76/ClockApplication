@@ -9,7 +9,6 @@ ApplicationWindow {
     visible: true
     height: 640
     width: 480
-
     title: qsTr("Часы")
 
     property bool isMainPage: stackView.depth === 1
@@ -40,6 +39,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
+        clip: true
         anchors.fill: parent
         initialItem: swipeView
     }

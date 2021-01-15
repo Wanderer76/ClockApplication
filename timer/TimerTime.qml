@@ -2,9 +2,17 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 Item {
+    property int hourIndex: hour.currentIndex
+    property int minuteIndex: minute.currentIndex
+    property int secondIndex: second.currentIndex
     id: item1
     width: 316
     height: 145
+    function clear() {
+        hour.currentIndex = 0
+        minute.currentIndex = 0
+        second.currentIndex = 0
+    }
 
     ListView {
         id: hour
@@ -19,7 +27,6 @@ Item {
         highlightRangeMode: ListView.StrictlyEnforceRange
         model: 100
         delegate: TimerDelegate {
-
             text: index
         }
     }
