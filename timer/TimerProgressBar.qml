@@ -8,7 +8,6 @@ Canvas {
     property alias canvasRoot: canvas
     property color primaryColor: "lightblue"
     property color secondaryColor: "orange"
-
     property real centerWidth: width / 2
     property real centerHeight: height / 2
     property real radius: Math.min(canvas.width, canvas.height) / 2
@@ -19,7 +18,6 @@ Canvas {
     property real angle: (currentValue - minimumValue) / (maximumValue - minimumValue) * 2 * Math.PI
 
     property real angleOffset: -Math.PI / 2
-
     property string text: "Text"
 
     signal clicked

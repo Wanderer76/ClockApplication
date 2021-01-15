@@ -25,8 +25,8 @@ Page {
     }
     TimerClock {
         id: clock
-        width: 240
-        height: 240
+        width: 235
+        height: 235
         anchors.top: label.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 20

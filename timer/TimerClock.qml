@@ -18,6 +18,7 @@ Item {
             if (progress.currentValue !== progress.maximumValue)
                 progress.currentValue++
             else {
+                Notifier.notification = "Время вышло"
                 timer.running = false
             }
         }

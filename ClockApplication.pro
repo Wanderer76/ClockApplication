@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        notifierclient.cpp \
         stopwatch.cpp \
         timeloaderHelper.cpp \
         timezonehandler.cpp \
@@ -44,11 +45,13 @@ DISTFILES += \
     android/gradlew \
     android/gradlew.bat \
     android/res/values/libs.xml \
+    android/src/org/artcompany/clock/Notifier.java \
     android/src/org/artcompany/clock/Vibration.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
+    notifierclient.h \
     stopwatch.h \
     timeloaderHelper.h \
     timezonehandler.h \
