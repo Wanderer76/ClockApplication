@@ -13,7 +13,7 @@ public:
     QString getNotification() const;
 signals:
     void notificationChanged();
-private slots:
+public slots:
     void updateNotification();
 };
 

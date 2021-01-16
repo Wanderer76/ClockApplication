@@ -18,7 +18,8 @@ Item {
         interval: 3000
         repeat: true
         onTriggered: {
-            Vibration.vibrate(800)
+            console.log("Vibrate")
+            core.vibrate(800)
         }
     }
     Audio {

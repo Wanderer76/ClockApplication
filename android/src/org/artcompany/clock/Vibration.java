@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.Context;
 
 
-public class Vibration extends org.qtproject.qt5.android.bindings.QtActivity{
+public class Vibration{
     static Vibrator vibrator;
     static Vibration vib;
 
@@ -15,13 +15,9 @@ public class Vibration extends org.qtproject.qt5.android.bindings.QtActivity{
 	vib = this;
 	}
 
-   @Override
-    public void onCreate(Bundle savedInstanceState) {
-	vibrator = (Vibrator)vib.getSystemService(Context.VIBRATOR_SERVICE);
-	super.onCreate(savedInstanceState);
 
-    }
-    public static void Vibrate(int x){
+    public static void Vibrate(Context context,int x){
+	vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 	vibrator.vibrate(x);
     }
 

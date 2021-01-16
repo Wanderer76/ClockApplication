@@ -5,6 +5,7 @@ Item {
     property int hourIndex: hour.currentIndex
     property int minuteIndex: minute.currentIndex
     property int secondIndex: second.currentIndex
+
     id: item1
     width: 316
     height: 145
@@ -29,6 +30,10 @@ Item {
         delegate: TimerDelegate {
             text: index
         }
+        onCurrentIndexChanged: {
+            TimerHelper.setHours(currentIndex)
+            clock.progressBar.maximumValue = TimerHelper.getMaxValue()
+        }
     }
 
     ListView {
@@ -51,6 +56,10 @@ Item {
         delegate: TimerDelegate {
             text: index
         }
+        onCurrentIndexChanged: {
+            TimerHelper.setMinutes(currentIndex)
+            clock.progressBar.maximumValue = TimerHelper.getMaxValue()
+        }
     }
     ListView {
         id: second
@@ -72,6 +81,10 @@ Item {
 
         delegate: TimerDelegate {
             text: index
+        }
+        onCurrentIndexChanged: {
+            TimerHelper.setSeconds(currentIndex)
+            clock.progressBar.maximumValue = TimerHelper.getMaxValue()
         }
     }
 }

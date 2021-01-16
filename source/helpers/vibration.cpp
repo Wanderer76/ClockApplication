@@ -15,7 +15,8 @@ void Vibration::vibrate(int x)
     QAndroidJniObject::callStaticMethod<void>(
                 "org/artcompany/clock/Vibration",
                 "Vibrate",
-                "(I)V",
+                "(Landroid/content/Context;Ljava/lang/String;)V",
+                 QtAndroid::androidContext().object(),
                 x);
 #endif
 }

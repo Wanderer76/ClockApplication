@@ -7,7 +7,6 @@ Item {
     property alias progressBar: progress
     property alias timerTime: timer
     property bool isActive: timer.running
-    property int seconds: 0
 
     Timer {
         id: timer
@@ -15,9 +14,10 @@ Item {
         interval: 1000
         repeat: true
         onTriggered: {
-            if (progress.currentValue !== progress.maximumValue)
+            if (progress.currentValue !== progress.maximumValue) {
                 progress.currentValue++
-            else {
+                console.log(progress.currentValue)
+            } else {
                 Notifier.notification = "Время вышло"
                 timer.running = false
             }
@@ -27,7 +27,7 @@ Item {
     TimerProgressBar {
         id: progress
         anchors.fill: parent
-        maximumValue: seconds
+        currentValue: 0
         onMaximumValueChanged: {
             console.log(progress.maximumValue)
         }

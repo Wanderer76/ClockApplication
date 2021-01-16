@@ -6,17 +6,26 @@ import android.os.Vibrator;
 import android.content.Context;
 import android.media.AudioManager;
 import android.widget.Toast;
+import android.content.Intent;
+import android.app.Activity;
+import android.provider.Settings;
 
 public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActivity {
     public static Vibrator m_vibrator;
     public static ClockApplication m_instance;
+    public static Notifier notifier;
     static String TAG = "ClockApplication";
+
+    public ClockApplication(){
+	m_instance = this;
+	}
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	super.onCreate(savedInstanceState);
+	notifier = new Notifier();
+	this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	Log.w(TAG, "onCreate() called!!!!!!!");
 	}
     @Override

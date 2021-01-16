@@ -14,7 +14,7 @@ Rectangle {
         Label {
             color: "#000000"
             text: qsTr(mainText)
-            font.pointSize: 13
+            font.pointSize: 15
             Layout.alignment: Qt.AlignLeft
         }
 

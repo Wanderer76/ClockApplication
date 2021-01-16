@@ -26,6 +26,7 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
     QQmlContext *context = engine->rootContext();
     context->setContextProperty("Vibration",&vib);
     context->setContextProperty("Notifier",&notifier);
+    context->setContextProperty("TimerHelper",&timerHelper);
     context->setContextProperty("Stopwatch",&stopwatch);
     qmlRegisterType<TimeZoneHandler>("TimeZones",1,0,"TimeZones");
     qmlRegisterType<WorldTimeList>("WorldTimeList",1,0,"WorldTimeList");
@@ -33,14 +34,21 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
 
 }
 
-int Core::cpp_to_java_and_java_to_cpp()
+/*int Core::invoke()
 {
-    qWarning() << "Invoke: C++";
 #if defined(Q_OS_ANDROID)
     QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/ClockApplication", "invoke", "(I)V", 30);
 #endif
     return 1;
+}*/
+
+void Core::vibrate(int x)
+{
+#if defined(Q_OS_ANDROID)
+    QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/ClockApplication", "vibrate", "(I)V",x);
+#endif
 }
+
 void Core::reciveFromQml()
 {
 
@@ -53,15 +61,25 @@ void Core::update()
 
 void Core::onCriticalError(QString message)
 {
+    qDebug()<<"Critical error - "<<message;
 
 }
 
 void Core::appActivation()
 {
+    if(isApplicationcreate == false)
+        return;
 
+    // QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/ClockApplication", "pushNotification", "()V");
+    qDebug()<<"appActivation";
+    //emit notifier.notificationChanged();
+    emit activation();
 }
 
 void Core::appDeactivation()
 {
-
+    if(isApplicationcreate==false)
+        return;
+    qDebug()<<"appDeactivation";
+    emit deactivation();
 }

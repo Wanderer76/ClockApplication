@@ -49,5 +49,6 @@
         <file>timer/TimerTime.qml</file>
         <file>timer/TimerDelegate.qml</file>
         <file>timer/TimerProgressBar.qml</file>
+        <file>images/bell.svg</file>
     </qresource>
 </RCC>

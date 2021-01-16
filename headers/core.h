@@ -4,6 +4,8 @@
 #include"headers/helpers/notifierclient.h"
 #include"headers/helpers/vibration.h"
 #include"headers/helpers/stopwatch.h"
+#include"headers/helpers/androidservices.h"
+#include"headers/helpers/TimerHelper.h"
 
 #if defined (Q_OS_ANDROID)
 #include <QtAndroid>
@@ -18,15 +20,16 @@ class Core : public QObject
     Q_OBJECT
 private:
     Vibration vib;
-    StopWatch stopwatch;
     NotifierClient notifier;
-
+    StopWatch stopwatch;
+    TimerHelper timerHelper;
 public:
     explicit Core(QObject *parent = nullptr);
     void setup();
     void init(QString mainProgrameFileName,QQmlApplicationEngine*engine);
     void registerQmlTypes(QQmlApplicationEngine*engine);
-    int cpp_to_java_and_java_to_cpp();
+    //int invoke();
+    Q_INVOKABLE void vibrate(int x);
 #if defined (Q_OS_ANDROID)
    JNIEXPORT void JNICALL Java_org_artcompany_clock_NativeHelper_invokeVoidMethod
    (JNIEnv *env, jclass jClass, jint val)
@@ -37,8 +40,10 @@ public:
             return;
 
         int arg = static_cast<int>(val);
-        if(arg==100)
+        if(arg==100){
+            qDebug()<<"ACTIVATE!!!!!!!!!";
             appActivation();
+        }
         if(arg==101)
             appDeactivation();
     }

@@ -31,7 +31,6 @@ Page {
         anchors.top: label.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 20
-        seconds: time.hourIndex + time.minuteIndex + time.secondIndex
         progressBar.text: time.hourIndex + ":" + time.minuteIndex + ":" + time.secondIndex
     }
     TimerTime {
@@ -114,7 +113,7 @@ Page {
         id: lapButton
         x: 332
         display: AbstractButton.IconOnly
-        icon.source: "qrc:/images/stopwatch.svg"
+        icon.source: "qrc:/images/bell.svg"
         icon.color: pressed ? "#007dfe" : "#646464"
         enabled: timer.isActive
         opacity: enabled ? 1 : 0.5

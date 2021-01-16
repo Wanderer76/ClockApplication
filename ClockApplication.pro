@@ -17,10 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     headers/app.h \
     headers/core.h \
+    headers/helpers/TimerHelper.h \
+    headers/helpers/androidservices.h \
     headers/helpers/notifierclient.h \
     headers/helpers/stopwatch.h \
     headers/helpers/timeloaderHelper.h \
     headers/helpers/vibration.h \
+    headers/main.h \
     headers/models/timezonehandler.h \
     headers/models/worldtimelist.h \
     headers/org_artcompany_clock_NativeHelper.h \
@@ -31,6 +34,8 @@ SOURCES += \
         main.cpp \
         source/app.cpp \
         source/core.cpp \
+    source/helpers/TimerHelper.cpp \
+    source/helpers/androidservices.cpp \
         source/helpers/stopwatch.cpp \
         source/helpers/timeloaderHelper.cpp \
 	source/helpers/notifierclient.cpp \
