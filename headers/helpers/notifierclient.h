@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QObject>
 
 class NotifierClient : public QObject

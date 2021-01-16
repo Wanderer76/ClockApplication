@@ -2,8 +2,8 @@ import QtQuick 2.12
 
 Canvas {
     id: canvas
-    width: 250
-    height: 250
+    width: parent.width - 20
+    height: width
     antialiasing: true
     property alias canvasRoot: canvas
     property color primaryColor: "lightblue"
@@ -34,15 +34,6 @@ Canvas {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-        if (mouseArea.pressed) {
-            ctx.beginPath()
-            ctx.lineWidth = 1
-            ctx.fillStyle = Qt.lighter(canvas.secondaryColor, 1.25)
-            ctx.arc(canvas.centerWidth, canvas.centerHeight, canvas.radius, 0,
-                    2 * Math.PI)
-            ctx.fill()
-        }
-
         ctx.beginPath()
         ctx.lineWidth = 3
         ctx.strokeStyle = primaryColor
@@ -69,12 +60,5 @@ Canvas {
 
             //  canvas.requestPaint()
         }
-    }
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        onClicked: canvas.clicked()
-        onPressedChanged: canvas.requestPaint()
     }
 }

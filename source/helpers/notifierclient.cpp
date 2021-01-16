@@ -1,4 +1,4 @@
-#include "notifierclient.h"
+#include "headers/helpers/notifierclient.h"
 
 #if defined(Q_OS_ANDROID)
 #include<QtAndroid>

@@ -49,7 +49,6 @@ Item {
         anchors.topMargin: 0
         anchors.leftMargin: 50
         delegate: TimerDelegate {
-
             text: index
         }
     }

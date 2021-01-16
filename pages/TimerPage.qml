@@ -4,7 +4,6 @@ import "../timer"
 
 Page {
     id: page
-
     clip: true
     property alias timer: clock
 
@@ -25,8 +24,10 @@ Page {
     }
     TimerClock {
         id: clock
-        width: 235
-        height: 235
+        x: 0
+        y: 0
+        width: 240
+        height: 240
         anchors.top: label.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 20
@@ -35,7 +36,7 @@ Page {
     }
     TimerTime {
         id: time
-        x: 0
+        visible: !clock.isActive
         width: 270
         height: 145
         anchors.top: clock.bottom
@@ -47,9 +48,10 @@ Page {
         x: -10
         width: parent.width + 20
         height: 40
+        visible: !clock.isActive
         color: "#00ffffff"
         anchors.top: time.top
-        anchors.topMargin: 0
+        anchors.topMargin: -5
         border.color: "#9f9f9f"
     }
     Row {
@@ -60,7 +62,7 @@ Page {
         anchors.top: time.bottom
         anchors.horizontalCenterOffset: 6
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 6
+        anchors.topMargin: 15
         spacing: 70
         Label {
             id: label1

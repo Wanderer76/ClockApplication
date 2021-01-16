@@ -1,4 +1,4 @@
-#include "vibration.h"
+#include "headers/helpers/vibration.h"
 #if defined(Q_OS_ANDROID)
 #include<QtAndroid>
 #include<QtAndroidExtras>

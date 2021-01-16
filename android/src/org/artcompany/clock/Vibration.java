@@ -1,4 +1,5 @@
 package org.artcompany.clock;
+
 import android.app.Activity;
 import android.os.Vibrator;
 import android.os.Bundle;
@@ -16,8 +17,8 @@ public class Vibration extends org.qtproject.qt5.android.bindings.QtActivity{
 
    @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
 	vibrator = (Vibrator)vib.getSystemService(Context.VIBRATOR_SERVICE);
+	super.onCreate(savedInstanceState);
 
     }
     public static void Vibrate(int x){
