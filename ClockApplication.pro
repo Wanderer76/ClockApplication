@@ -1,4 +1,4 @@
-QT += quick svg qml quickcontrols2 network
+QT += core quick svg qml quickcontrols2 network
 
 android:QT+=androidextras
 
@@ -24,6 +24,7 @@ HEADERS += \
     headers/helpers/timeloaderHelper.h \
     headers/helpers/vibration.h \
     headers/main.h \
+    headers/models/alarmsModel.h \
     headers/models/timezonehandler.h \
     headers/models/worldtimelist.h \
     headers/org_artcompany_clock_NativeHelper.h \
@@ -34,12 +35,13 @@ SOURCES += \
         main.cpp \
         source/app.cpp \
         source/core.cpp \
-    source/helpers/TimerHelper.cpp \
-    source/helpers/androidservices.cpp \
+	source/helpers/TimerHelper.cpp \
+	source/helpers/androidservices.cpp \
         source/helpers/stopwatch.cpp \
         source/helpers/timeloaderHelper.cpp \
 	source/helpers/notifierclient.cpp \
         source/helpers/vibration.cpp \
+    source/models/alarmsModel.cpp \
         source/models/timezonehandler.cpp \
         source/models/worldtimelist.cpp \
 

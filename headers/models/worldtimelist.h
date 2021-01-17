@@ -1,21 +1,11 @@
 #pragma once
 #include<QAbstractListModel>
+#include"headers/main.h"
+
 class QTimer;
 class QNetworkAccessManager;
 class QNetworkReply;
 #define WorldTimes "times.txt"
-
-struct timeElement
-{
-    QString cityName;
-    QString region = "";
-    QString time;
-    timeElement(const QString& city,const QString& time)
-        :cityName(city),time(time)
-    {}
-};
-
-
 
 class WorldTimeList : public QAbstractListModel
 {
@@ -25,12 +15,6 @@ private:
     QNetworkAccessManager *manager;
     QString city;
     QString region;
-
-    enum Roles {
-        City = Qt::UserRole+1,
-        Time,
-        Region
-    };
     QTimer *_timer;
 public:
     WorldTimeList();

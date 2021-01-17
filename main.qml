@@ -13,23 +13,26 @@ ApplicationWindow {
 
     property bool isMainPage: stackView.depth === 1
     property bool isAlarmSignal: false
-
     Alarms {
         id: audio
     }
 
     onIsAlarmSignalChanged: {
-        var element = alamPage.alarms.viewList.model.get(
-                    alamPage.alarms.indexOfAlarm)
+        var index = alamPage.alarms.indexOfAlarm
         if (isAlarmSignal === true) {
+            audio.audioSource = alamPage.alarms.alarmModel.getSound(index)
             swipeView.enabled = false
-            audio.startAlarm(element.vibro)
+            audio.startAlarm(alamPage.alarms.alarmModel.getVibration(index))
             stackView.push("qrc:/pages/AlarmSignalPage.qml", {
-                               "time": element.time,
-                               "desc": element.description,
-                               "pauseLong": element.longestOfPause,
-                               "longestCount": element.longest,
-                               "currentIndex": element.index
+                               "time": alamPage.alarms.alarmModel.getTime(
+                                           index),
+                               "desc": alamPage.alarms.alarmModel.getDescription(
+                                           index),
+                               "pauseLong": alamPage.alarms.alarmModel.getPauseLongest(
+                                                index),
+                               "longestCount": alamPage.alarms.alarmModel.getLongest(
+                                                   index),
+                               "currentIndex": index
                            })
         } else {
             swipeView.enabled = true

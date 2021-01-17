@@ -7,7 +7,6 @@
 
 TimeZoneHandler::TimeZoneHandler()
 {
-   //loader= new TimeLoader(this);
     createListOfElements();
 }
 
@@ -22,9 +21,9 @@ QVariant TimeZoneHandler::data(const QModelIndex &index, int role) const
     if(!index.isValid())
         return {};
     if(role == Roles::Country)
-        return _elements.at(index.row())->countryName;
+        return _elements.at(index.row())->cityName;
     if(role == Roles::Region)
-        return _elements.at(index.row())->regionName;
+        return _elements.at(index.row())->region;
     if(role == Roles::Time)
         return _elements.at(index.row())->time;
     return {};
@@ -58,7 +57,7 @@ void TimeZoneHandler::parseJson(QByteArray &&array)
         {
             beginInsertRows(QModelIndex(),i,i);
             auto ls = value.split('/');
-            _elements.append(new worldTimeElement(ls[1],ls[0]));
+            _elements.append(new timeElement(ls[1],ls[0]));
             endInsertRows();
             i++;
         }

@@ -13,10 +13,10 @@ NotifierClient::NotifierClient(QObject *parent) : QObject(parent)
 
 void NotifierClient::setNotification(const QString &notification)
 {
-    if(_notification ==notification)
+    if(_notification == notification)
         return;
     _notification = notification;
-   // emit notificationChanged();
+    emit notificationChanged();
 }
 
 QString NotifierClient::getNotification() const

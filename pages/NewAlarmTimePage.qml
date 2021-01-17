@@ -7,8 +7,11 @@ import "../controls"
 Page {
     id: page
     clip: true
-    property bool isEnable: true
     focusPolicy: Qt.ClickFocus
+
+    property bool isEnable: true
+    property var daysArray: []
+    property url sound: "qrc:/songs/28. Lacrimosa.mp3"
 
     header: ToolBar {
         height: 50
@@ -70,14 +73,9 @@ Page {
 
                 onClicked: {
 
-                    stackView.pop(alamPage.alarms.viewList.model.append({
-                                                                            "time": (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex),
-                                                                            "days": days.additionalText,
-                                                                            "vibro": vibro.switchElement.checked == true,
-                                                                            "description": description.additionalText,
-                                                                            "longest": alarmLongest.time,
-                                                                            "longestOfPause": pauseLong.additionalText
-                                                                        }))
+                    stackView.pop(
+                                alamPage.alarms.alarmModel.append(daysArray,
+                                                                  sound, (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex), description.additionalText, alarmLongest.time, 10, vibro.switchElement.checked == true))
                 }
             }
         }
@@ -132,15 +130,16 @@ Page {
         anchors.bottomMargin: 15
         acceptButton.onClicked: {
             var checked = parseDays()
-            if (checked.length === 7) {
-                days.additionalText = qsTr("Каждый день")
-            } else if (checked.length === 2) {
-                days.additionalText = checked[0] + "," + checked[checked.length - 1]
-            } else if (checked.length === 1) {
-                days.additionalText = checked[0]
-            } else {
-                days.additionalText = checked[0] + "-" + checked[checked.length - 1]
+            var temp = []
+            if (checked.length > 0) {
+                for (var i = 0; i < checked.length; i++) {
+                    temp.push(checked[i])
+                }
             }
+
+            daysArray = temp
+            days.additionalText = daysArray.length
+                    === 0 ? "Без повтора" : daysArray[0] + "," + daysArray[daysArray.length - 1]
             daysOFWeeks.visible = false
         }
         cancelButton.onClicked: {
@@ -321,7 +320,8 @@ Page {
                 anchors.left: parent.left
                 anchors.leftMargin: 5
                 mainText: "Дни недели"
-                additionalText: "Без повтора"
+                additionalText: daysArray.length === 0 ? "Без повтора" : daysArray[0] + ","
+                                                         + daysArray[daysArray.length - 1]
                 mouseArea.onClicked: {
                     daysOFWeeks.visible = true
                 }

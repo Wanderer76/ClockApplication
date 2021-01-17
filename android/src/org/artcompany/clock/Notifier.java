@@ -56,15 +56,14 @@ public class Notifier {
 				.setCategory(Notification.CATEGORY_ALARM)
 				.setVibrate(pattern);
 
-	Intent intent = new Intent(context,Notifier.class);
-	intent.putExtra("notificationId",1);
+	Intent intent = new Intent(context,ClockApplication.class);
+	intent.putExtra("notificationId","Clock");
 	intent.putExtra("message",message);
+	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-	/*TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-	stackBuilder.addParentStack(main.class);
-	stackBuilder.addNextIntent(intent);*/
+	PendingIntent pendingIntent = PendingIntent.getActivity(context,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+	m_builder.setContentIntent(pendingIntent);
 
 	m_notificationManager.notify(1, m_builder.build());
-
 	}
 }

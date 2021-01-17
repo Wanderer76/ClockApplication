@@ -24,8 +24,8 @@ public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActiv
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	notifier = new Notifier();
 	this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
 	Log.w(TAG, "onCreate() called!!!!!!!");
 	}
     @Override

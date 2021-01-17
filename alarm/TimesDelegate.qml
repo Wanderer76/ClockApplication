@@ -86,13 +86,13 @@ SwipeDelegate {
 
         Text {
             id: daysText
-            width: 100
+            width: 150
             height: 25
-            text: qsTr(description + "," + (days === "" ? "Без повтора" : days))
+            text: qsTr(" " + description + "," + parseDays())
             anchors.horizontalCenter: timeText.horizontalCenter
             anchors.top: timeText.bottom
             anchors.left: parent.left
-            anchors.leftMargin: 2
+            anchors.leftMargin: 5
             anchors.topMargin: -7
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -144,6 +144,18 @@ SwipeDelegate {
             anchors.bottomMargin: 0
             orientation: Qt.Horizontal
         }
+    }
+    function parseDays() {
+        console.log(days.length)
+        if (days.length > 0) {
+            if (days.length === 7)
+                return qsTr("Каждый день")
+            if (days.length > 2) {
+                return qsTr(days[0] + "-" + days[days.length - 1])
+            } else
+                return qsTr(days[0] + "," + days[1])
+        } else
+            return "Без повтора"
     }
 }
 

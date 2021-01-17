@@ -1,29 +1,16 @@
 #pragma once
 #include <QObject>
 #include<QAbstractListModel>
+#include"headers/main.h"
 
 #include"headers/helpers/timeloaderHelper.h"
-enum Roles {
-    Country= Qt::UserRole+1,
-    Region,
-    Time
-};
-struct worldTimeElement
-{
-    QString countryName;
-    QString regionName;
-    QString time;
-    worldTimeElement(QString country,QString region,QString time = "")
-        :countryName(country),regionName(region), time(time)
-    {}
-};
 
 
 class TimeZoneHandler : public QAbstractListModel
 {
     Q_OBJECT
 private:
-    QVector<worldTimeElement*> _elements;
+    QVector<timeElement*> _elements;
     void createListOfElements();
     void parseJson(QByteArray&&);
 public:

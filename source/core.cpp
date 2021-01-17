@@ -3,6 +3,7 @@
 
 #include"headers/models/timezonehandler.h"
 #include"headers/models/worldtimelist.h"
+#include"headers/models/alarmsModel.h"
 
 
 
@@ -30,6 +31,7 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
     context->setContextProperty("Stopwatch",&stopwatch);
     qmlRegisterType<TimeZoneHandler>("TimeZones",1,0,"TimeZones");
     qmlRegisterType<WorldTimeList>("WorldTimeList",1,0,"WorldTimeList");
+    qmlRegisterType<AlarmsModel>("AlarmsModel",1,0,"AlarmsModel");
     context->setContextProperty("core",this);
 
 }
