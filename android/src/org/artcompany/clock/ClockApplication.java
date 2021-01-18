@@ -9,10 +9,17 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.app.Activity;
 import android.provider.Settings;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Audio.AudioColumns;
+import java.io.File;
+
 
 public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActivity {
     public static Vibrator m_vibrator;
     public static ClockApplication m_instance;
+    public static Intent fileIntent;
     static String path;
     static String TAG = "ClockApplication";
 
@@ -40,6 +47,16 @@ public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActiv
 	   Log.w(TAG, "onDestroy() called!");
 	   super.onDestroy();
        }
+/*
+   @Override
+   protected void onActivityResult(int requestCode, int resultCode, Intent data){
+       switch(requestCode){
+	   case 10:
+	   if(requestCode == RESULT_OK)
+	        path = data.getData().getPath();
+	   break;
+	   }
+       }*/
 
    public static void invoke(int x) {
            final int z = x;
@@ -63,4 +80,27 @@ public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActiv
 	  }
           Log.w(TAG, "Vibro: Java");
       }
+
+
+  public String convertPath(Uri uri)
+  {
+      String[] projection = { };
+      Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+      if (cursor == null) return null;
+      int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+      cursor.moveToFirst();
+      String s = cursor.getString(column_index);
+      Log.w(TAG, "CONVERTPATH " + s+"\\" +uri );
+      cursor.close();
+      return s;
+  }
+
+
+  public String getPath(Uri uri)
+  {
+      String fullFilePath = UriUtils.getPathFromUri(this,uri);
+      Log.w(TAG, "FILEPATH - "+fullFilePath+"\\"+uri);
+      return  "file://"+fullFilePath;
+  }
+
 }

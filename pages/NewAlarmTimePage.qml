@@ -354,6 +354,12 @@ Page {
                     sound = FileHelper.getUrl()
                     additionalText = FileHelper.getOpenFileName()
                 }
+                Connections {
+                    target: FileHelper
+                    function onPathChanged(str) {
+                        sound = str
+                    }
+                }
             }
             AlarmSettingSwitchButton {
                 id: vibro

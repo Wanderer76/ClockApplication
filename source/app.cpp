@@ -4,8 +4,8 @@ App::App(int &argc, char **argv)
     :QApplication(argc,argv)
 {
     running = false;
-    connect(this,&App::applicationStateChanged,this,&App::onApplicationStateChange);
-    connect(this,&App::aboutToQuit,&core,&Core::appDeactivation);
+    connect(this,&QApplication::applicationStateChanged,this,&App::onApplicationStateChange);
+    connect(this,&QApplication::aboutToQuit,&core,&Core::appDeactivation);
 }
 
 int App::exec()

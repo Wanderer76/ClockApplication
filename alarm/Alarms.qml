@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtMultimedia 5.12
 
 Item {
-    property url audioSource: "qrc:/songs/28. Lacrimosa.mp3"
+    property url audioSource: ""
 
     function startAlarm(shouldVibrate) {
         if (shouldVibrate === true)
@@ -28,7 +28,7 @@ Item {
         id: audio
         source: audioSource
         autoLoad: true
-        audioRole: Audio.AlarmRole
+        //audioRole: Audio.AlarmRole
         onSourceChanged: {
             console.log("SOURCE - " + source)
         }
