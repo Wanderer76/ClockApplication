@@ -29,6 +29,7 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
     context->setContextProperty("Notifier",&notifier);
     context->setContextProperty("TimerHelper",&timerHelper);
     context->setContextProperty("Stopwatch",&stopwatch);
+    context->setContextProperty("FileHelper",&fileHelper);
     qmlRegisterType<TimeZoneHandler>("TimeZones",1,0,"TimeZones");
     qmlRegisterType<WorldTimeList>("WorldTimeList",1,0,"WorldTimeList");
     qmlRegisterType<AlarmsModel>("AlarmsModel",1,0,"AlarmsModel");
@@ -50,6 +51,7 @@ void Core::vibrate(int x)
     QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/ClockApplication", "vibrate", "(I)V",x);
 #endif
 }
+
 
 void Core::reciveFromQml()
 {

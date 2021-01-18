@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import QtQuick.Dialogs 1.3
 import "../alarm"
 import "../controls"
 
@@ -13,6 +14,19 @@ Page {
     property var daysArray: []
     property url sound: "qrc:/songs/28. Lacrimosa.mp3"
 
+
+    /*  FileDialog {
+        id: fileDial
+        onAccepted: {
+            var path = fileDial.fileUrl.toString()
+            // remove prefixed "file:///"
+            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/, "")
+            // unescape html codes like '%23' for '#'
+            let cleanPath = decodeURIComponent(path)
+
+            sound = cleanPath
+        }
+    }*/
     header: ToolBar {
         height: 50
         activeFocusOnTab: false
@@ -337,7 +351,8 @@ Page {
                 mainText: "Звук"
                 additionalText: "По умолчанию"
                 mouseArea.onClicked: {
-
+                    sound = FileHelper.getUrl()
+                    additionalText = FileHelper.getOpenFileName()
                 }
             }
             AlarmSettingSwitchButton {

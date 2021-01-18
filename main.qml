@@ -16,7 +16,6 @@ ApplicationWindow {
     Alarms {
         id: audio
     }
-
     onIsAlarmSignalChanged: {
         var index = alamPage.alarms.indexOfAlarm
         if (isAlarmSignal === true) {

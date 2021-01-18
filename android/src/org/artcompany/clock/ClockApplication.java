@@ -13,7 +13,7 @@ import android.provider.Settings;
 public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActivity {
     public static Vibrator m_vibrator;
     public static ClockApplication m_instance;
-    public static Notifier notifier;
+    static String path;
     static String TAG = "ClockApplication";
 
     public ClockApplication(){
@@ -51,6 +51,7 @@ public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActiv
 	   });
            NativeHelper.invokeVoidMethod(x);
        }
+
    public static void vibrate(int x) {
           if (m_vibrator == null) {
 	      if (m_instance != null) {

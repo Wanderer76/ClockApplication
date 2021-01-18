@@ -1,4 +1,4 @@
-QT += core quick svg qml quickcontrols2 network
+QT += core quick svg qml quickcontrols2 network multimedia
 
 android:QT+=androidextras
 
@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     headers/app.h \
     headers/core.h \
+    headers/helpers/FileHelper.h \
     headers/helpers/TimerHelper.h \
     headers/helpers/androidservices.h \
     headers/helpers/notifierclient.h \
@@ -35,6 +36,7 @@ SOURCES += \
         main.cpp \
         source/app.cpp \
         source/core.cpp \
+    source/helpers/FileHelper.cpp \
 	source/helpers/TimerHelper.cpp \
 	source/helpers/androidservices.cpp \
         source/helpers/stopwatch.cpp \

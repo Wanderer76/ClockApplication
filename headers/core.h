@@ -6,6 +6,7 @@
 #include"headers/helpers/stopwatch.h"
 #include"headers/helpers/androidservices.h"
 #include"headers/helpers/TimerHelper.h"
+#include"headers/helpers/FileHelper.h"
 
 #if defined (Q_OS_ANDROID)
 #include <QtAndroid>
@@ -19,10 +20,11 @@ class Core : public QObject
 {
     Q_OBJECT
 private:
-    Vibration vib;
-    NotifierClient notifier;
     StopWatch stopwatch;
     TimerHelper timerHelper;
+    NotifierClient notifier;
+    FileHelper fileHelper;
+    Vibration vib;
 public:
     explicit Core(QObject *parent = nullptr);
     void setup();
