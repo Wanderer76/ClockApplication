@@ -11,14 +11,14 @@ class TimeLoader : public QObject
 {
     Q_OBJECT
 private:
-    QFile coutriesAndRegionsFile;
-    QNetworkAccessManager* manager;
+    QFile _coutriesAndRegionsFile;
+    QNetworkAccessManager* _manager;
     void writeToFile(const QByteArray&arr);
 public:
-    TimeLoader(QObject*pwgt = nullptr);
+    explicit TimeLoader(QObject*pwgt = nullptr);
+    ~TimeLoader();
     void startRequest();
     QByteArray getTimeData();
-    ~TimeLoader();
 private slots:
     void finishedRegionDownload(QNetworkReply*rep);
 };

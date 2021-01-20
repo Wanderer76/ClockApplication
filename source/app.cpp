@@ -3,20 +3,25 @@
 App::App(int &argc, char **argv)
     :QApplication(argc,argv)
 {
-    running = false;
+    _running = false;
     connect(this,&QApplication::applicationStateChanged,this,&App::onApplicationStateChange);
     connect(this,&QApplication::aboutToQuit,&core,&Core::appDeactivation);
 }
 
+App::~App()
+{
+
+}
+
 int App::exec()
 {
-    running = true;
+    _running = true;
     return QApplication::exec();
 }
 
-bool App::isRunning()
+bool App::isRunning() const
 {
-    return running;
+    return _running;
 }
 
 void App::onApplicationStateChange(const Qt::ApplicationState state)

@@ -6,7 +6,10 @@
 #endif
 
 Vibration::Vibration(QObject *parent)
-    : QObject(parent)
+    : QObject{parent}
+{}
+
+Vibration::~Vibration()
 {}
 
 void Vibration::vibrate(int x)

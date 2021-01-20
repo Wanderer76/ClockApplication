@@ -24,7 +24,7 @@ QString parseJson(const QByteArray&array)
 
 WorldTimeList::WorldTimeList()
 {
-    manager = new QNetworkAccessManager(this);
+    _manager = new QNetworkAccessManager(this);
     _timer = new QTimer(this);
 
     _timer->setInterval(60000);
@@ -41,7 +41,7 @@ WorldTimeList::WorldTimeList()
         emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),QVector<int>{Roles::Time});
     });
 
-    connect(manager,&QNetworkAccessManager::finished,this,
+    connect(_manager,&QNetworkAccessManager::finished,this,
             [&](QNetworkReply*reply){
         if(reply->error()){
             qWarning()<<reply->errorString();
@@ -49,12 +49,12 @@ WorldTimeList::WorldTimeList()
         }
 
         auto time = parseJson(reply->readAll());
-        auto element = new timeElement(city,time);
+        auto element = new timeElement(_city,time);
 
         beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
         _elements.append(element);
         endInsertRows();
-        _elements.last()->region = region;
+        _elements.last()->region = _region;
 
     });
 
@@ -101,11 +101,11 @@ void WorldTimeList::append(const QString &region, const QString &city)
             return;
     }
 
-    this->region = region;
-    this->city = city;
+    this->_region = region;
+    this->_city = city;
     QNetworkRequest request;
     request.setUrl(QUrl("http://worldtimeapi.org/api/timezone/"+region+"/"+city));
-    manager->get(request);
+    _manager->get(request);
 }
 
 void WorldTimeList::remove(const int index)

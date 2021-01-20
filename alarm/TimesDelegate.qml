@@ -8,6 +8,7 @@ SwipeDelegate {
     property bool isTime: false
     height: 80
     width: parent.width
+
     swipe.right: Rectangle {
         id: deleteLabel
         height: parent.height
@@ -88,7 +89,7 @@ SwipeDelegate {
             id: daysText
             width: 150
             height: 25
-            text: qsTr(" " + description + "," + parseDays())
+            text: qsTr(description + "," + parseDays())
             anchors.horizontalCenter: timeText.horizontalCenter
             anchors.top: timeText.bottom
             anchors.left: parent.left
@@ -150,10 +151,12 @@ SwipeDelegate {
         if (days.length > 0) {
             if (days.length === 7)
                 return qsTr("Каждый день")
-            if (days.length > 2) {
-                return qsTr(days[0] + "-" + days[days.length - 1])
-            } else
+            else if (days.length === 1)
+                return qsTr(days[0])
+            else if (days.length === 2)
                 return qsTr(days[0] + "," + days[1])
+            else if (days.length > 2)
+                return qsTr(days[0] + "-" + days[days.length - 1])
         } else
             return "Без повтора"
     }

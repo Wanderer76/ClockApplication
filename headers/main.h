@@ -4,6 +4,10 @@
 #include<QUrl>
 #define APPCORE static_cast<App*>(qApp)->core
 
+#define COMPANYNAME "artcompany"
+
+#define APPNAME "clockapplication"
+
 struct timeElement
 {
     QString cityName;
@@ -24,8 +28,17 @@ struct AlarmElement
     int longest;
     int pauseLongest;
     bool vibration;
+    bool isRepeat;
     AlarmElement()
-        :days{},sound{},time{""},description{"Будильник"},longest{0},pauseLongest{0},vibration{false}
+        :
+          days{},
+          sound{},
+          time{""},
+          description{"Будильник"},
+          longest{0},
+          pauseLongest{0},
+          vibration{false},
+          isRepeat{false}
     {}
 };
 

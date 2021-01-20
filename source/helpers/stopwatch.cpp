@@ -5,11 +5,11 @@
 
 StopWatch::StopWatch(QObject *parent)
     : QObject{parent},
-      isRunning{false},
-      MillisecondTime{0},
-      StartTime{0},
-      TimeBuff{0},
-      UpdateTime{0}
+      _isRunning{false},
+      _millisecondTime{0},
+      _startTime{0},
+      _timeBuff{0},
+      _updateTime{0}
 
 {
     _timer.setInterval(20);
@@ -26,31 +26,31 @@ void StopWatch::startTimer()
 
 bool StopWatch::isActive() const
 {
-    return isRunning;
+    return _isRunning;
 }
 
 void StopWatch::startStop()
 {
     if(_timer.isActive())
     {
-        TimeBuff+=MillisecondTime;
+        _timeBuff+=_millisecondTime;
         _timer.stop();
-        isRunning = false;
+        _isRunning = false;
 
     }
     else {
-        StartTime = QTime::currentTime().msecsSinceStartOfDay();
+        _startTime = QTime::currentTime().msecsSinceStartOfDay();
         _timer.start();
-        isRunning = true;
+        _isRunning = true;
     }
-    emit sendState(isRunning);
+    emit sendState(_isRunning);
 }
 
 void StopWatch::onTime()
 {
-    MillisecondTime = QTime::currentTime().msecsSinceStartOfDay() - StartTime;
-    UpdateTime = TimeBuff + MillisecondTime;
-    auto time = QTime::fromMSecsSinceStartOfDay(UpdateTime);
+    _millisecondTime = QTime::currentTime().msecsSinceStartOfDay() - _startTime;
+    _updateTime = _timeBuff + _millisecondTime;
+    auto time = QTime::fromMSecsSinceStartOfDay(_updateTime);
     emit sendTime(time.toString("mm:ss:zzz"));
     QCoreApplication::processEvents();
 }
@@ -58,17 +58,17 @@ void StopWatch::onTime()
 void StopWatch::reset()
 {
     _timer.stop();
-    MillisecondTime = 0;
-    TimeBuff = 0;
-    UpdateTime = 0;
-    isRunning = false;
+    _millisecondTime = 0;
+    _timeBuff = 0;
+    _updateTime = 0;
+    _isRunning = false;
     auto time = "00:00:00";
     emit sendTime(time);
-    emit sendState(isRunning);
+    emit sendState(_isRunning);
 }
 
 void StopWatch::lap()
 {
-    auto time = QTime::fromMSecsSinceStartOfDay(UpdateTime);
+    auto time = QTime::fromMSecsSinceStartOfDay(_updateTime);
     emit sendLap(time.toString("mm:ss:zzz"));
 }

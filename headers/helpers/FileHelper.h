@@ -13,16 +13,16 @@ class FileHelper : public QObject
 {
     Q_OBJECT
 private:
-    QString fileName;
-    QUrl ANDROIDUrl;
+    QString _fileName;
+    QUrl _androidUrl;
 public:
-    FileHelper(QObject*pwgt = nullptr);
+    explicit FileHelper(QObject*pwgt = nullptr);
     ~FileHelper();
     Q_INVOKABLE QUrl getUrl();
     Q_INVOKABLE QString getOpenFileName() const;
 
     // QAndroidActivityResultReceiver interface
-  #if defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
     virtual void handleActivityResult(int receiverRequestCode, int resultCode, const QAndroidJniObject &data) override;
 #endif
 signals:

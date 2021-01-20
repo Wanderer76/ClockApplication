@@ -9,6 +9,7 @@ private:
     QString _notification;
 public:
     explicit NotifierClient(QObject *parent = nullptr);
+    ~NotifierClient();
     void setNotification(const QString &notification);
     QString getNotification() const;
 signals:

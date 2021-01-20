@@ -14,20 +14,26 @@ private:
         Description,
         Longest,
         PauseLongest,
-        Vibration
+        Vibration,
+        Repeat
     };
+
     QList<AlarmElement *> _elements;
+    SavingSystemHelper *_helper;
 public:
-    AlarmsModel();
+    explicit AlarmsModel();
     ~AlarmsModel();
-    Q_INVOKABLE AlarmElement get(const int index);
-    Q_INVOKABLE QList<QString> getDays(const int index);
-    Q_INVOKABLE QUrl getSound(const int index);
-    Q_INVOKABLE QString getTime(const int index);
-    Q_INVOKABLE QString getDescription(const int index);
-    Q_INVOKABLE int getLongest(const int index);
-    Q_INVOKABLE int getPauseLongest(const int index);
-    Q_INVOKABLE bool getVibration(const int index);
+
+    Q_INVOKABLE AlarmElement get(const int index) const;
+    Q_INVOKABLE QList<QString> getDays(const int index) const;
+    Q_INVOKABLE QUrl getSound(const int index) const;
+    Q_INVOKABLE QString getTime(const int index) const;
+    Q_INVOKABLE QString getDescription(const int index) const;
+    Q_INVOKABLE int getLongest(const int index) const;
+    Q_INVOKABLE int getPauseLongest(const int index) const;
+    Q_INVOKABLE bool getVibration(const int index) const;
+    Q_INVOKABLE bool getRepeat(const int index) const;
+
     Q_INVOKABLE void remove(const int index);
     Q_INVOKABLE void append
     (
@@ -43,4 +49,6 @@ public:
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
+    void writeData();
+    void readData();
 };

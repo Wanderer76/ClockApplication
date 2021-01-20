@@ -6,13 +6,15 @@ class TimerHelper : public QObject
     Q_OBJECT
     Q_PROPERTY(double maxValue READ getMaxValue)
 private:
-    int seconds;
-    int minutes;
-    int hours;
-    int currentValue;
-    int maxValue;
+    int _hours;
+    int _minutes;
+    int _seconds;
+    int _currentValue;
+    int _maxValue;
 public:
-    TimerHelper(QObject*pwgt = nullptr);
+    explicit TimerHelper(QObject*pwgt = nullptr);
+    ~TimerHelper();
+
     Q_INVOKABLE int getMaxValue() const;
     Q_INVOKABLE void setSeconds(int value);
     Q_INVOKABLE void setMinutes(int value);

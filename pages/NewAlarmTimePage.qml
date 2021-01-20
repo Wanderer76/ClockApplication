@@ -14,19 +14,6 @@ Page {
     property var daysArray: []
     property url sound: "qrc:/songs/28. Lacrimosa.mp3"
 
-
-    /*  FileDialog {
-        id: fileDial
-        onAccepted: {
-            var path = fileDial.fileUrl.toString()
-            // remove prefixed "file:///"
-            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/, "")
-            // unescape html codes like '%23' for '#'
-            let cleanPath = decodeURIComponent(path)
-
-            sound = cleanPath
-        }
-    }*/
     header: ToolBar {
         height: 50
         activeFocusOnTab: false
@@ -152,8 +139,15 @@ Page {
             }
 
             daysArray = temp
-            days.additionalText = daysArray.length
-                    === 0 ? "Без повтора" : daysArray[0] + "," + daysArray[daysArray.length - 1]
+
+            if (daysArray.length === 0)
+                days.additionalText = "Без повтора"
+            else if (daysArray.length === 1)
+                days.additionalText = daysArray[0]
+            else if (daysArray.length === 2)
+                days.additionalText = daysArray[0] + "," + daysArray[1]
+            else
+                days.additionalText = daysArray[0] + "," + daysArray[daysArray.length - 1]
             daysOFWeeks.visible = false
         }
         cancelButton.onClicked: {

@@ -4,26 +4,26 @@
 #include<QStandardPaths>
 
 TimeLoader::TimeLoader(QObject*pwgt)
-    :QObject(pwgt)
+    :QObject{pwgt}
 {
 #if defined (Q_OS_ANDROID)
     auto path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-    coutriesAndRegionsFile.setFileName(path.append(("/" TIMEZONESFILENAME)));
+    _coutriesAndRegionsFile.setFileName(path.append(("/" TIMEZONESFILENAME)));
 #else
-    coutriesAndRegionsFile.setFileName(TIMEZONESFILENAME);
+    _coutriesAndRegionsFile.setFileName(TIMEZONESFILENAME);
 #endif
-    manager = new QNetworkAccessManager(this);
-    connect(manager,&QNetworkAccessManager::finished,this,&TimeLoader::finishedRegionDownload);
+    _manager = new QNetworkAccessManager(this);
+    connect(_manager,&QNetworkAccessManager::finished,this,&TimeLoader::finishedRegionDownload);
 }
 
 void TimeLoader::startRequest()
 {
 
-    if(coutriesAndRegionsFile.size()>0)
+    if(_coutriesAndRegionsFile.size()>0)
         return;
     QNetworkRequest request;
     request.setUrl(QUrl("http://worldtimeapi.org/api/timezone"));
-    manager->get(request);
+    _manager->get(request);
     qDebug()<<"get";
 }
 
@@ -32,32 +32,32 @@ void TimeLoader::startRequest()
 QByteArray TimeLoader::getTimeData()
 {
     QByteArray result;
-    if(coutriesAndRegionsFile.open(QIODevice::ReadOnly))
+    if(_coutriesAndRegionsFile.open(QIODevice::ReadOnly))
     {
-        result = coutriesAndRegionsFile.readAll();
+        result = _coutriesAndRegionsFile.readAll();
     }
-    coutriesAndRegionsFile.close();
+    _coutriesAndRegionsFile.close();
 
     return result;
 }
 
 TimeLoader::~TimeLoader()
 {
-    if(coutriesAndRegionsFile.isOpen())
-        coutriesAndRegionsFile.close();
+    if(_coutriesAndRegionsFile.isOpen())
+        _coutriesAndRegionsFile.close();
 }
 
 
 void TimeLoader::writeToFile(const QByteArray &arr)
 {
 
-    if(coutriesAndRegionsFile.open(QFile::WriteOnly))
+    if(_coutriesAndRegionsFile.open(QFile::WriteOnly))
     {
         qDebug()<<"Open";
-        QTextStream out(&coutriesAndRegionsFile);
+        QTextStream out(&_coutriesAndRegionsFile);
         out<<arr;
     }
-    coutriesAndRegionsFile.close();
+    _coutriesAndRegionsFile.close();
 }
 
 void TimeLoader::finishedRegionDownload(QNetworkReply *reply)

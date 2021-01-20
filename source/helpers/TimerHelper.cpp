@@ -3,55 +3,58 @@
 
 
 TimerHelper::TimerHelper(QObject *pwgt)
-    :QObject(pwgt)
+    :QObject{pwgt},
+      _hours{0},
+      _minutes { 0},
+      _seconds {0},
+      _currentValue{0},
+      _maxValue {0}
 {
-    hours = 0;
-    minutes = 0;
-    seconds = 0;
-    currentValue = 0;
-    maxValue = 0;
     connect(this,&TimerHelper::valueChanged,this,&TimerHelper::recalculate);
 
 }
 
+TimerHelper::~TimerHelper()
+{}
+
 int TimerHelper::getCurrentValue() const
 {
-    return currentValue;
+    return _currentValue;
 }
 
 void TimerHelper::setCurrentValue(int value)
 {
-    currentValue = value;
+    _currentValue = value;
 }
 
 void TimerHelper::recalculate()
 {
-    maxValue = seconds + minutes * 60 + hours * 3600;
-    qDebug()<<maxValue;
+    _maxValue = _seconds + _minutes * 60 + _hours * 3600;
+    qDebug()<<_maxValue;
 }
 
 
 void TimerHelper::setSeconds(int value)
 {
-    seconds = value;
+    _seconds = value;
     emit valueChanged();
 }
 
 void TimerHelper::setMinutes(int value)
 {
-    minutes = value;
+    _minutes = value;
     emit valueChanged();
 }
 
 void TimerHelper::setHours(int value)
 {
-    hours = value;
+    _hours = value;
     emit valueChanged();
 }
 
 
 int TimerHelper::getMaxValue() const
 {
-    return maxValue;
+    return _maxValue;
 }
 

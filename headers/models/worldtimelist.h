@@ -12,12 +12,12 @@ class WorldTimeList : public QAbstractListModel
     Q_OBJECT
 private:
     QList<timeElement*>_elements;
-    QNetworkAccessManager *manager;
-    QString city;
-    QString region;
+    QNetworkAccessManager *_manager;
+    QString _city;
+    QString _region;
     QTimer *_timer;
 public:
-    WorldTimeList();
+    explicit WorldTimeList();
     ~WorldTimeList();
     Q_INVOKABLE void append(const QString&region,const QString&city);
     Q_INVOKABLE void remove(const int index);

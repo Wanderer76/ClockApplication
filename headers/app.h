@@ -8,12 +8,13 @@ class App : public QApplication
 {
     Q_OBJECT
 private:
-    bool running;
+    bool _running;
 public:
-    App(int &argc, char **argv);
+    explicit App(int &argc, char **argv);
+    ~App();
     Core core;
     int exec();
-    bool isRunning();
+    bool isRunning() const;
 public slots:
     void onApplicationStateChange(const Qt::ApplicationState state);
 };

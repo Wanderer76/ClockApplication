@@ -10,11 +10,19 @@
 Core::Core(QObject *parent) : QObject(parent)
 {
     isApplicationcreate = true;
+    _helper = SavingSystemHelper::getInstance(COMPANYNAME,APPNAME);
+}
+
+Core::~Core()
+{
+
 }
 
 void Core::setup()
 {
     emit setupCompleted();
+    emit _helper->read();
+
 }
 
 void Core::init(QString mainProgrameFileName, QQmlApplicationEngine *engine)
@@ -25,11 +33,11 @@ void Core::init(QString mainProgrameFileName, QQmlApplicationEngine *engine)
 void Core::registerQmlTypes(QQmlApplicationEngine*engine)
 {
     QQmlContext *context = engine->rootContext();
-    context->setContextProperty("Vibration",&vib);
-    context->setContextProperty("Notifier",&notifier);
-    context->setContextProperty("TimerHelper",&timerHelper);
-    context->setContextProperty("Stopwatch",&stopwatch);
-    context->setContextProperty("FileHelper",&fileHelper);
+    context->setContextProperty("Vibration",&_vibration);
+    context->setContextProperty("Notifier",&_notifier);
+    context->setContextProperty("TimerHelper",&_timerHelper);
+    context->setContextProperty("Stopwatch",&_stopwatch);
+    context->setContextProperty("FileHelper",&_fileHelper);
     qmlRegisterType<TimeZoneHandler>("TimeZones",1,0,"TimeZones");
     qmlRegisterType<WorldTimeList>("WorldTimeList",1,0,"WorldTimeList");
     qmlRegisterType<AlarmsModel>("AlarmsModel",1,0,"AlarmsModel");
@@ -86,4 +94,5 @@ void Core::appDeactivation()
         return;
     qDebug()<<"appDeactivation";
     emit deactivation();
+    emit _helper->write();
 }

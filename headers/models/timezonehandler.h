@@ -14,7 +14,8 @@ private:
     void createListOfElements();
     void parseJson(QByteArray&&);
 public:
-    TimeZoneHandler();
+    explicit TimeZoneHandler();
+    ~TimeZoneHandler();
     // QAbstractItemModel interface
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;

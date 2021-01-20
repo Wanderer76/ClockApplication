@@ -10,6 +10,11 @@ TimeZoneHandler::TimeZoneHandler()
     createListOfElements();
 }
 
+TimeZoneHandler::~TimeZoneHandler()
+{
+
+}
+
 int TimeZoneHandler::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

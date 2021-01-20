@@ -6,11 +6,11 @@ class StopWatch : public QObject
 {
     Q_OBJECT
 private:
-    bool isRunning;
-    quint32 MillisecondTime;
-    quint32 StartTime;
-    quint32 TimeBuff;
-    quint32 UpdateTime;
+    bool _isRunning;
+    quint32 _millisecondTime;
+    quint32 _startTime;
+    quint32 _timeBuff;
+    quint32 _updateTime;
     QTimer _timer;
 public:
     explicit StopWatch(QObject *parent = nullptr);

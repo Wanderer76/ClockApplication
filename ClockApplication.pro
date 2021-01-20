@@ -18,8 +18,8 @@ HEADERS += \
     headers/app.h \
     headers/core.h \
     headers/helpers/FileHelper.h \
+    headers/helpers/SavingSystemHelper.h \
     headers/helpers/TimerHelper.h \
-    headers/helpers/androidservices.h \
     headers/helpers/notifierclient.h \
     headers/helpers/stopwatch.h \
     headers/helpers/timeloaderHelper.h \
@@ -37,8 +37,8 @@ SOURCES += \
         source/app.cpp \
         source/core.cpp \
     source/helpers/FileHelper.cpp \
+    source/helpers/SavingSystemHelper.cpp \
 	source/helpers/TimerHelper.cpp \
-	source/helpers/androidservices.cpp \
         source/helpers/stopwatch.cpp \
         source/helpers/timeloaderHelper.cpp \
 	source/helpers/notifierclient.cpp \

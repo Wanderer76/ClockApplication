@@ -21,7 +21,7 @@ Item {
                 if (isTime === true) {
                     indexOfAlarm = index
                     isAlarmSignal = true
-                    if (days === null)
+                    if (days.length === 0)
                         isTime = false
                 }
             }
