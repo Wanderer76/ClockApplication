@@ -28,6 +28,7 @@ Item {
         id: progress
         anchors.fill: parent
         currentValue: 0
+
         onMaximumValueChanged: {
             console.log(progress.maximumValue)
         }

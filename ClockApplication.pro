@@ -17,12 +17,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     headers/app.h \
     headers/core.h \
-    headers/helpers/FileHelper.h \
-    headers/helpers/SavingSystemHelper.h \
-    headers/helpers/TimerHelper.h \
+    headers/helpers/fileHelper.h \
     headers/helpers/notifierclient.h \
+    headers/helpers/savingSystemHelper.h \
     headers/helpers/stopwatch.h \
     headers/helpers/timeloaderHelper.h \
+    headers/helpers/timerHelper.h \
     headers/helpers/vibration.h \
     headers/main.h \
     headers/models/alarmsModel.h \
@@ -36,12 +36,12 @@ SOURCES += \
         main.cpp \
         source/app.cpp \
         source/core.cpp \
-    source/helpers/FileHelper.cpp \
-    source/helpers/SavingSystemHelper.cpp \
-	source/helpers/TimerHelper.cpp \
+    source/helpers/fileHelper.cpp \
+    source/helpers/savingSystemHelper.cpp \
         source/helpers/stopwatch.cpp \
         source/helpers/timeloaderHelper.cpp \
 	source/helpers/notifierclient.cpp \
+    source/helpers/timerHelper.cpp \
         source/helpers/vibration.cpp \
     source/models/alarmsModel.cpp \
         source/models/timezonehandler.cpp \
@@ -71,6 +71,7 @@ DISTFILES += \
     android/src/org/artcompany/clock/ClockApplication.java \
     android/src/org/artcompany/clock/NativeHelper.java \
     android/src/org/artcompany/clock/Notifier.java \
+    android/src/org/artcompany/clock/TimerService.java \
     android/src/org/artcompany/clock/UriUtils.java \
     android/src/org/artcompany/clock/Vibration.java
 

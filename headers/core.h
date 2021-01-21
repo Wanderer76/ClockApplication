@@ -4,9 +4,9 @@
 #include"headers/helpers/notifierclient.h"
 #include"headers/helpers/vibration.h"
 #include"headers/helpers/stopwatch.h"
-#include"headers/helpers/TimerHelper.h"
-#include"headers/helpers/FileHelper.h"
-#include"headers/helpers/SavingSystemHelper.h"
+#include"headers/helpers/timerHelper.h"
+#include"headers/helpers/fileHelper.h"
+#include"headers/helpers/savingSystemHelper.h"
 
 #if defined (Q_OS_ANDROID)
 #include <QtAndroid>

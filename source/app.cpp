@@ -1,5 +1,6 @@
 #include "headers/app.h"
 
+
 App::App(int &argc, char **argv)
     :QApplication(argc,argv)
 {
@@ -16,6 +17,10 @@ App::~App()
 int App::exec()
 {
     _running = true;
+#if defined (Q_OS_ANDROID)
+    QtAndroid::androidActivity().callMethod<void>("createNotifChannel","()V");
+
+#endif
     return QApplication::exec();
 }
 

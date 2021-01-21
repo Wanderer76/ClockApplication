@@ -1,17 +1,18 @@
-#include"headers/helpers/TimerHelper.h"
+#include"headers/helpers/timerHelper.h"
 #include<QDebug>
-
+#include<QtAndroid>
+#include<QtAndroidExtras>
+#include<QAndroidJniObject>
 
 TimerHelper::TimerHelper(QObject *pwgt)
     :QObject{pwgt},
       _hours{0},
-      _minutes { 0},
+      _minutes {0},
       _seconds {0},
       _currentValue{0},
       _maxValue {0}
 {
     connect(this,&TimerHelper::valueChanged,this,&TimerHelper::recalculate);
-
 }
 
 TimerHelper::~TimerHelper()
@@ -25,6 +26,13 @@ int TimerHelper::getCurrentValue() const
 void TimerHelper::setCurrentValue(int value)
 {
     _currentValue = value;
+}
+
+void TimerHelper::startTimer()
+{
+#if defined (Q_OS_ANDROID)
+     QtAndroid::androidContext().callMethod<void>("startService","()V");
+#endif
 }
 
 void TimerHelper::recalculate()

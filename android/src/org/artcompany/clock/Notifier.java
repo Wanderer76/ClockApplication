@@ -1,6 +1,5 @@
 package org.artcompany.clock;
 
-import android.app.Service;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -18,52 +17,55 @@ public class Notifier {
 
     private static NotificationManager m_notificationManager;
     private static Notification.Builder m_builder;
-    private static Uri alarmSound;
-    private static long[] pattern = { 100, 300, 300, 300 };
-
+    private static NotificationChannel notificationChannel;
     public Notifier() {
-	alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+
     }
 
     public static void notify(Context context, String message) {
 
-	m_notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+	//if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
-	    int importance = NotificationManager.IMPORTANCE_HIGH;
-	    NotificationChannel notificationChannel = new NotificationChannel("Clock", "Clock Notifier", importance);
-	    notificationChannel.enableVibration(true);
-	    notificationChannel.setVibrationPattern(pattern);
+	    //m_notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+	    //NotificationChannel notificationChannel = new NotificationChannel("Clock", "Clock Notifier",  NotificationManager.IMPORTANCE_HIGH);
+	    //notificationChannel.enableVibration(true);
+	    //m_notificationManager.createNotificationChannel(notificationChannel);
 	    //notificationChannel.setSound(alarmSound);
 
-	    m_notificationManager.createNotificationChannel(notificationChannel);
-	    m_builder = new Notification.Builder(context, notificationChannel.getId());
+	    //m_builder = new Notification.Builder(context, notificationChannel.getId());
 
-	} else {
-	    m_builder = new Notification.Builder(context);
-	}
-
-        m_builder.setSmallIcon(R.drawable.icon)
+	    /*} else {
+	        m_builder = new Notification.Builder(context);
+	}*/
+       m_builder = new Notification.Builder(context, "Timer");
+       m_builder.setSmallIcon(R.drawable.icon)
 				.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
 				.setContentTitle("Таймер")
 				.setContentText(message)
 				.setDefaults(Notification.DEFAULT_ALL)
 				.setColor(Color.GREEN)
 				.setAutoCancel(true)
-				.setSound(alarmSound)
 				.setPriority(Notification.PRIORITY_HIGH)
-				.setCategory(Notification.CATEGORY_ALARM)
-				.setVibrate(pattern);
+				.setCategory(Notification.CATEGORY_ALARM);
 
 	Intent intent = new Intent(context,ClockApplication.class);
 	intent.putExtra("notificationId","Clock");
 	intent.putExtra("message",message);
 	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-	PendingIntent pendingIntent = PendingIntent.getActivity(context,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+	PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	m_builder.setContentIntent(pendingIntent);
 
-	m_notificationManager.notify(1, m_builder.build());
+	m_notificationManager.notify(5, m_builder.build());
 	}
+    public void createNotificationChannel(Context context) {
+	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+	    notificationChannel = new NotificationChannel("Timer", "Timer Notifier",  NotificationManager.IMPORTANCE_HIGH);
+	    notificationChannel.enableVibration(true);
+	    m_notificationManager = context.getSystemService(NotificationManager.class);
+	    m_notificationManager.createNotificationChannel(notificationChannel);
+	}
+    }
+
 }

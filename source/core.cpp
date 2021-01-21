@@ -1,9 +1,8 @@
 #include "headers/core.h"
-#include<QQmlContext>
-
+#include"headers/models/alarmsModel.h"
 #include"headers/models/timezonehandler.h"
 #include"headers/models/worldtimelist.h"
-#include"headers/models/alarmsModel.h"
+#include<QQmlContext>
 
 
 
@@ -86,6 +85,7 @@ void Core::appActivation()
     qDebug()<<"appActivation";
     //emit notifier.notificationChanged();
     emit activation();
+
 }
 
 void Core::appDeactivation()

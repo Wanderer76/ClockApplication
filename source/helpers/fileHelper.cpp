@@ -1,4 +1,4 @@
-#include"headers/helpers/FileHelper.h"
+#include"headers/helpers/fileHelper.h"
 #include<QUrl>
 #include<QFileDialog>
 #include<QDebug>

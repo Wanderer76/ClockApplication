@@ -6,7 +6,7 @@ RoundButton {
     width: height
     id: _
     property string imageValue: ""
-    opacity: pressed ? 0.5 : 1
+    opacity: pressed || !enabled ? 0.5 : 1
     background: Rectangle {
         color: "#007dfe"
         radius: width / 2

@@ -6,7 +6,7 @@ Page {
     id: page
     clip: true
     property alias timer: clock
-
+    property bool isNull: time.hourIndex + time.minuteIndex + time.secondIndex == 0
     Label {
         id: label
         x: 20
@@ -92,7 +92,7 @@ Page {
         display: AbstractButton.IconOnly
         icon.source: "qrc:/images/reload.svg"
         icon.color: pressed ? "#007dfe" : "#646464"
-        enabled: timer.isActive ? false : true
+        enabled: timer.isActive || isNull ? false : true
         opacity: enabled ? 1 : 0.5
         anchors.left: parent.left
         anchors.top: row.bottom

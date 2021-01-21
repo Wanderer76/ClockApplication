@@ -1,7 +1,7 @@
 #include "headers/helpers/stopwatch.h"
 #include<QDebug>
 #include<QTime>
-#include<QCoreApplication>
+#include<QApplication>
 
 StopWatch::StopWatch(QObject *parent)
     : QObject{parent},
@@ -52,7 +52,7 @@ void StopWatch::onTime()
     _updateTime = _timeBuff + _millisecondTime;
     auto time = QTime::fromMSecsSinceStartOfDay(_updateTime);
     emit sendTime(time.toString("mm:ss:zzz"));
-    QCoreApplication::processEvents();
+    QApplication::processEvents();
 }
 
 void StopWatch::reset()

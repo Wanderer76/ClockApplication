@@ -76,6 +76,13 @@ ApplicationWindow {
         anchors.bottom: tabBar.top
         anchors.bottomMargin: 15
         anchors.horizontalCenter: parent.horizontalCenter
+        enabled: {
+            if (tabBar.currentIndex === 3 && timerPage.isNull)
+                return false
+            else
+                return true
+        }
+
         imageValue: {
             if (tabBar.currentIndex === 0 || tabBar.currentIndex === 1)
                 return "qrc:/images/plus (1).svg"
@@ -98,6 +105,7 @@ ApplicationWindow {
             }
             if (tabBar.currentIndex === 3) {
                 timerPage.timer.timerTime.running = !timerPage.timer.isActive
+                TimerHelper.startTimer()
             }
         }
     }

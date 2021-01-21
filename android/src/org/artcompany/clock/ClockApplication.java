@@ -13,23 +13,22 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.AudioColumns;
-import java.io.File;
-
+import android.os.Build;
 
 public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActivity {
     public static Vibrator m_vibrator;
     public static ClockApplication m_instance;
     static String TAG = "ClockApplication";
-
+    public Notifier notifier;
     public ClockApplication(){
 	m_instance = this;
+
 	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
 	Log.w(TAG, "onCreate() called!!!!!!!");
 	}
 
@@ -69,11 +68,24 @@ public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActiv
           Log.w(TAG, "Vibro: Java");
       }
 
-  public String getPath(Uri uri)
-  {
+  public String getPath(Uri uri) {
       String fullFilePath = UriUtils.getPathFromUri(this,uri);
       Log.w(TAG, "FILEPATH - "+fullFilePath+"\\"+uri);
       return  "file://"+fullFilePath;
   }
+
+    public void createNotifChannel() {
+	notifier = new Notifier();
+	notifier.createNotificationChannel(this);
+	Log.w(TAG, "CHANNEL CREATE");
+    }
+
+    public void startService() {
+	Intent intent = new Intent(this, TimerService.class);
+	startForegroundService(intent);
+	Log.w(TAG, "STARTSERVICE");
+    }
+
+
 
 }
