@@ -18,6 +18,7 @@ ApplicationWindow {
         id: audio
     }
     onIsAlarmSignalChanged: {
+        console.log("ISALARM - " + isAlarmSignal)
         var index = alamPage.alarms.indexOfAlarm
         if (isAlarmSignal === true) {
             audio.audioSource = alamPage.alarms.alarmModel.getSound(index)
@@ -36,6 +37,7 @@ ApplicationWindow {
                            })
         } else {
             swipeView.enabled = true
+            isAlarmSignal = false
             audio.stopAlarm()
         }
     }

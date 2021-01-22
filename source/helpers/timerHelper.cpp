@@ -1,8 +1,11 @@
 #include"headers/helpers/timerHelper.h"
 #include<QDebug>
+
+#if defined(Q_OS_ANDROID)
 #include<QtAndroid>
 #include<QtAndroidExtras>
 #include<QAndroidJniObject>
+#endif
 
 TimerHelper::TimerHelper(QObject *pwgt)
     :QObject{pwgt},

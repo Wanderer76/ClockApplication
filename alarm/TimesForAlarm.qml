@@ -17,13 +17,13 @@ Item {
         delegate: TimesDelegate {
             id: deleg
             width: parent.width
-            onIsTimeChanged: {
-                if (isTime === true) {
-                    indexOfAlarm = index
-                    isAlarmSignal = true
-                    if (days.length === 0)
-                        isTime = false
-                }
+        }
+
+        Connections {
+            target: model
+            function onShouldAlarm(currIndex) {
+                indexOfAlarm = currIndex
+                isAlarmSignal = true
             }
         }
     }

@@ -220,6 +220,7 @@ Page {
 
             ListView {
                 id: hourView
+                model: 24
                 width: 40
                 flickableDirection: Flickable.VerticalFlick
                 layoutDirection: Qt.RightToLeft
@@ -234,7 +235,6 @@ Page {
                 anchors.left: parent.left
                 anchors.leftMargin: 0
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignLeft
-                model: 25
                 antialiasing: true
                 clip: true
                 delegate: Label {
@@ -263,7 +263,7 @@ Page {
                 anchors.rightMargin: 0
                 Layout.leftMargin: -10
                 Layout.alignment: Qt.AlignRight | Qt.AlignHCenter
-                model: 61
+                model: 60
                 antialiasing: true
                 clip: true
                 delegate: Label {

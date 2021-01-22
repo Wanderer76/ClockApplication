@@ -5,7 +5,6 @@ import QtGraphicalEffects 1.0
 SwipeDelegate {
     id: swipeDelegate
     property alias alarm: control
-    property bool isTime: false
     height: 80
     width: parent.width
 
@@ -107,8 +106,8 @@ SwipeDelegate {
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
+            checked: view.model.getActive(index)
             antialiasing: true
-            checked: isTime
 
             indicator: Rectangle {
                 antialiasing: true
@@ -117,20 +116,21 @@ SwipeDelegate {
                 x: control.width - width - control.rightPadding
                 y: parent.height / 2 - height / 2
                 radius: 13
-                color: isTime ? "#007dfe" : "#e6e6e6"
+                color: control.checked ? "#007dfe" : "#e6e6e6"
 
                 Rectangle {
                     antialiasing: true
                     anchors.verticalCenter: parent.verticalCenter
-                    x: isTime ? parent.width - width - 3 : 1
+                    x: control.checked ? parent.width - width - 3 : 1
                     width: 20
                     height: width
                     radius: 13
                     border.color: "#dcdcdc"
                 }
             }
-            onPressed: {
-                isTime = !isTime
+            onClicked: {
+                view.model.setActive(index, control.checked)
+                console.log("checked - " + control.checked)
             }
         }
 

@@ -29,6 +29,8 @@ struct AlarmElement
     int pauseLongest;
     bool vibration;
     bool isRepeat;
+    bool isActive;
+
     AlarmElement()
         :
           days{},
@@ -38,7 +40,8 @@ struct AlarmElement
           longest{0},
           pauseLongest{0},
           vibration{false},
-          isRepeat{false}
+          isRepeat{days.size()>0},
+          isActive{false}
     {}
 };
 

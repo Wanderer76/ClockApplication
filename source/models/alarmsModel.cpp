@@ -1,18 +1,66 @@
 #include"headers/models/alarmsModel.h"
 #include"headers/helpers/savingSystemHelper.h"
-
+#include<QThread>
 #include<QJsonObject>
 #include<QJsonArray>
 #include<QJsonDocument>
 
 bool isUpdated = false;
 
+QMap<QString,int> daysToInt = {
+    {"Пн",1},
+    {"Вт",2},
+    {"Ср",3},
+    {"Чт",4},
+    {"Пт",5},
+    {"Сб",6},
+    {"Вс",7},
+};
+QMap<int,QString> daysToString = {
+    {1,"Пн"},
+    {2,"Вт"},
+    {3,"Ср"},
+    {4,"Чт"},
+    {5,"Пт"},
+    {6,"Сб"},
+    {7,"Вс"},
+};
+
+
+
+void AlarmsModel::checkForAlarms()
+{
+    if(_elements.size()==0)
+        return;
+
+    QDateTime dateTime = QDateTime::currentDateTime();
+    auto time = dateTime.time();
+
+    auto hour = time.hour() <10? "0" + QString::number(time.hour()) : QString::number(time.hour());
+    auto minute = time.minute()<10 ? "0" + QString::number(time.minute()) : QString::number(time.minute());
+    auto seconds= time.second();
+
+    auto dayOfWeek =  daysToString[dateTime.date().dayOfWeek()];
+    auto timeString = hour + ":" + minute;
+
+    for(const auto& i : _elements)
+    {
+        if(i->days.contains(dayOfWeek) || i->days.isEmpty())
+        {
+            if(i->time == timeString && i->isActive && seconds < 3){
+                emit shouldAlarm(_elements.indexOf(i));
+                break;
+            }
+        }
+    }
+}
 
 AlarmsModel::AlarmsModel()
 {
+    _updateTimer = new QTimer(this);
+
     _helper = SavingSystemHelper::getInstance(COMPANYNAME,APPNAME);
     connect(_helper,&SavingSystemHelper::write,this,[&](){
-        qDebug()<<"Upadated - "<<isUpdated;
         if(isUpdated)
             writeData();
     });
@@ -21,6 +69,12 @@ AlarmsModel::AlarmsModel()
         readData();
     });
 
+    connect(_updateTimer,&QTimer::timeout,this,[&](){
+        checkForAlarms();
+    });
+
+    _updateTimer->setInterval(1000);
+    _updateTimer->start();
 }
 
 AlarmsModel::~AlarmsModel()
@@ -71,6 +125,18 @@ bool AlarmsModel::getVibration(const int index) const
 bool AlarmsModel::getRepeat(const int index) const
 {
     return _elements.at(index)->isRepeat;
+}
+
+bool AlarmsModel::getActive(const int index)
+{
+    if(index<0 ||index>=_elements.size())
+        return false;
+    return _elements.at(index)->isActive;
+}
+
+void AlarmsModel::setActive(const int index, const bool value)
+{
+    _elements.at(index)->isActive = value;
 }
 
 void AlarmsModel::remove(const int index)
@@ -135,6 +201,9 @@ QVariant AlarmsModel::data(const QModelIndex &index, int role) const
     if(role==AlarmRoles::Repeat)
         return QVariant::fromValue(_elements.at(index.row())->isRepeat);
 
+    if(role == AlarmRoles::IsActive)
+        return QVariant::fromValue(_elements.at(index.row())->isActive);
+
     return {};
 }
 
@@ -149,6 +218,7 @@ QHash<int, QByteArray> AlarmsModel::roleNames() const
     roles[AlarmRoles::PauseLongest] = "pauselongest";
     roles[AlarmRoles::Vibration] = "vibration";
     roles[AlarmRoles::Repeat] = "repeat";
+    roles[AlarmRoles::IsActive] = "isActive";
     return roles;
 }
 
@@ -171,6 +241,7 @@ void AlarmsModel::writeData()
         result.insert("pauseLongest",element->pauseLongest);
         result.insert("vibration",element->vibration);
         result.insert("repeat",element->isRepeat);
+        result.insert("active",element->isActive);
         QJsonValue val(result);
         data.insert(QString::number(index),val);
         index++;
@@ -202,6 +273,7 @@ void AlarmsModel::readData()
         alarm->pauseLongest = element["pauseLongest"].toInt();
         alarm->vibration = element["vibration"].toBool();
         alarm->isRepeat = element["repeat"].toBool();
+        alarm->isActive = element["active"].toBool();
 
         beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
         _elements.append(std::move(alarm));

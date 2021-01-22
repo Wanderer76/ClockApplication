@@ -22,7 +22,6 @@ public class ClockApplication extends org.qtproject.qt5.android.bindings.QtActiv
     public Notifier notifier;
     public ClockApplication(){
 	m_instance = this;
-
 	}
 
     @Override

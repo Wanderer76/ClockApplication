@@ -15,11 +15,14 @@ private:
         Longest,
         PauseLongest,
         Vibration,
-        Repeat
+        Repeat,
+        IsActive
     };
 
     QList<AlarmElement *> _elements;
     SavingSystemHelper *_helper;
+    QTimer *_updateTimer;
+
 public:
     explicit AlarmsModel();
     ~AlarmsModel();
@@ -33,6 +36,9 @@ public:
     Q_INVOKABLE int getPauseLongest(const int index) const;
     Q_INVOKABLE bool getVibration(const int index) const;
     Q_INVOKABLE bool getRepeat(const int index) const;
+    Q_INVOKABLE bool getActive(const int index);
+    Q_INVOKABLE void setActive(const int index, const bool value);
+
 
     Q_INVOKABLE void remove(const int index);
     Q_INVOKABLE void append
@@ -51,4 +57,10 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
     void writeData();
     void readData();
+
+
+private slots:
+    void checkForAlarms();
+signals:
+    void shouldAlarm(const int index);
 };
