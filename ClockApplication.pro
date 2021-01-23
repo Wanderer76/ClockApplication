@@ -68,6 +68,7 @@ DISTFILES += \
     android/gradlew \
     android/gradlew.bat \
     android/res/values/libs.xml \
+    android/src/org/artcompany/clock/App.java \
     android/src/org/artcompany/clock/ClockApplication.java \
     android/src/org/artcompany/clock/NativeHelper.java \
     android/src/org/artcompany/clock/Notifier.java \

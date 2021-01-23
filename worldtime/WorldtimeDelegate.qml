@@ -5,6 +5,7 @@ import QtGraphicalEffects 1.0
 SwipeDelegate {
     width: 480
     height: 80
+
     id: swipeDelegate
     swipe.right: Rectangle {
         id: deleteLabel
@@ -85,7 +86,7 @@ SwipeDelegate {
             id: label1
             x: 400
             y: 24
-            text: time
+            text: time + ":" + minute
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             horizontalAlignment: Text.AlignHCenter

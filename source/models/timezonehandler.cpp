@@ -50,7 +50,7 @@ void TimeZoneHandler::createListOfElements()
     parseJson(loader->getTimeData());
 }
 
-void TimeZoneHandler::parseJson(QByteArray &&array)
+void TimeZoneHandler::parseJson(const QByteArray &array)
 {
     auto document = QJsonDocument::fromJson(array);
     auto jsonArray = document.array();
@@ -60,9 +60,10 @@ void TimeZoneHandler::parseJson(QByteArray &&array)
         auto value = item.toString();
         if(value.contains('/')&&!value.contains("Etc"))
         {
-            beginInsertRows(QModelIndex(),i,i);
             auto ls = value.split('/');
-            _elements.append(new timeElement(ls[1],ls[0]));
+            qDebug()<<ls;
+            beginInsertRows(QModelIndex(),i,i);
+            _elements.append(new timeElement(ls[1],ls[0],""));
             endInsertRows();
             i++;
         }

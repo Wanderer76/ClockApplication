@@ -32,9 +32,10 @@ void TimeLoader::startRequest()
 QByteArray TimeLoader::getTimeData()
 {
     QByteArray result;
+
     if(_coutriesAndRegionsFile.open(QIODevice::ReadOnly))
     {
-        result = _coutriesAndRegionsFile.readAll();
+        result = (_coutriesAndRegionsFile.readAll());
     }
     _coutriesAndRegionsFile.close();
 
@@ -54,8 +55,7 @@ void TimeLoader::writeToFile(const QByteArray &arr)
     if(_coutriesAndRegionsFile.open(QFile::WriteOnly))
     {
         qDebug()<<"Open";
-        QTextStream out(&_coutriesAndRegionsFile);
-        out<<arr;
+       _coutriesAndRegionsFile.write(arr);
     }
     _coutriesAndRegionsFile.close();
 }
@@ -67,6 +67,6 @@ void TimeLoader::finishedRegionDownload(QNetworkReply *reply)
         qDebug()<<reply->errorString();
         return;
     }
-    qDebug()<<"Connect - "<<reply->readAll();
     writeToFile(reply->readAll());
+
 }

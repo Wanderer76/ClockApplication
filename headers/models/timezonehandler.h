@@ -12,7 +12,7 @@ class TimeZoneHandler : public QAbstractListModel
 private:
     QVector<timeElement*> _elements;
     void createListOfElements();
-    void parseJson(QByteArray&&);
+    void parseJson(const QByteArray&);
 public:
     explicit TimeZoneHandler();
     ~TimeZoneHandler();

@@ -3,6 +3,8 @@ import WorldTimeList 1.0
 
 Item {
     property alias worldTimeView: view
+    property int minute: 0
+
     ListView {
         id: view
         anchors.fill: parent

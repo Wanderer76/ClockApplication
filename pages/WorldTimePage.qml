@@ -113,6 +113,7 @@ Page {
     }
     WorldTimeView {
         id: worldPage
+        minute: clock.minutes
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: label1.bottom

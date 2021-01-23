@@ -72,4 +72,8 @@ public class TimerService extends QtService {
 	}
     }
 
+public static void startQtAndroidService(Context context) {
+        context.startService(new Intent(context, TimerService.class));
+}
+
 }

@@ -11,10 +11,10 @@
 struct timeElement
 {
     QString cityName;
-    QString region = "";
+    QString region;
     QString time;
-    timeElement(const QString& city,const QString& time)
-        :cityName(city),time(time)
+    timeElement(const QString& city,const QString& region,const QString time)
+        :cityName(city),region(region),time(time)
     {}
 };
 

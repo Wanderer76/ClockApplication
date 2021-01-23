@@ -48,9 +48,8 @@ WorldTimeList::WorldTimeList()
             return;
         }
 
-        auto time = parseJson(reply->readAll());
-        auto element = new timeElement(_city,time);
-
+        auto time = parseJson(reply->readAll()).split(':')[0];
+        auto element = new timeElement(_city,"",time);
         beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
         _elements.append(element);
         endInsertRows();
@@ -132,7 +131,7 @@ QVariant WorldTimeList::data(const QModelIndex &index, int role) const
     else if(role == Roles::Time)
         return QVariant::fromValue(_elements.at(index.row())->time);
     else if(role==Roles::Region)
-        return {};
+        return QVariant::fromValue(_elements.at(index.row())->region);
     else
         return {};
 }
