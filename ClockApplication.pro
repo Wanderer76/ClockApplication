@@ -68,13 +68,11 @@ DISTFILES += \
     android/gradlew \
     android/gradlew.bat \
     android/res/values/libs.xml \
-    android/src/org/artcompany/clock/App.java \
     android/src/org/artcompany/clock/ClockApplication.java \
     android/src/org/artcompany/clock/NativeHelper.java \
     android/src/org/artcompany/clock/Notifier.java \
     android/src/org/artcompany/clock/TimerService.java \
-    android/src/org/artcompany/clock/UriUtils.java \
-    android/src/org/artcompany/clock/Vibration.java
+    android/src/org/artcompany/clock/UriUtils.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 

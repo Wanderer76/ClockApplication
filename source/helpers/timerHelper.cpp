@@ -38,6 +38,13 @@ void TimerHelper::startTimer()
 #endif
 }
 
+void TimerHelper::stopTimer()
+{
+#if defined (Q_OS_ANDROID)
+     QtAndroid::androidContext().callMethod<void>("stopService","()V");
+#endif
+}
+
 void TimerHelper::recalculate()
 {
     _maxValue = _seconds + _minutes * 60 + _hours * 3600;

@@ -2,6 +2,7 @@
 #include"core.h"
 #include"app.h"
 #include<QUrl>
+
 #define APPCORE static_cast<App*>(qApp)->core
 
 #define COMPANYNAME "artcompany"

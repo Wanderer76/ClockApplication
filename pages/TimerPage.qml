@@ -102,6 +102,7 @@ Page {
             clock.timerTime.stop()
             clock.progressBar.currentValue = 0
             time.clear()
+            TimerHelper.stopTimer()
         }
 
         background: Rectangle {

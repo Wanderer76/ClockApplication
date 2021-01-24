@@ -24,7 +24,6 @@ public class Notifier {
 
     public static void notify(Context context, String message) {
 
-
 	//if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
 	    //m_notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

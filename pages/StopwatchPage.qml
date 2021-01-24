@@ -89,7 +89,7 @@ Page {
         anchors.left: parent.left
         anchors.top: lapView.bottom
         anchors.leftMargin: 80
-        anchors.topMargin: 15
+        anchors.topMargin: 10
         onClicked: {
             Stopwatch.reset()
             lapView.lapView.model.clear()
@@ -111,7 +111,7 @@ Page {
         anchors.right: parent.right
         anchors.top: lapView.bottom
         anchors.rightMargin: 80
-        anchors.topMargin: 15
+        anchors.topMargin: 10
         onClicked: {
             Stopwatch.lap()
         }

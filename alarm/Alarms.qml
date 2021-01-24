@@ -27,7 +27,6 @@ Item {
     Audio {
         id: audio
         source: audioSource
-        autoLoad: true
         audioRole: Audio.AlarmRole
         onSourceChanged: {
             console.log("SOURCE - " + source)

@@ -38,7 +38,7 @@ WorldTimeList::WorldTimeList()
             time = time.addSecs(60);
             element->time = time.toString("hh:mm");
         }
-        emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),QVector<int>{Roles::Time});
+        emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),{Roles::Time});
     });
 
     connect(_manager,&QNetworkAccessManager::finished,this,

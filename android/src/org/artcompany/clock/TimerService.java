@@ -18,62 +18,72 @@ import android.net.Uri;
 
 public class TimerService extends QtService {
 
-    private static final String TAG = "TimerService";
-    private static final String CHANNEL = "TimerServiceChannel";
+	private NotificationManager manager;
+	public static final int DEFAULT_NOTIFICATION_ID = 101;
 
-    @Override
-    public void onCreate() {
-	super.onCreate();
-	Log.w(TAG, "Create");
-    }
-
-    @Override
-    public void onDestroy() {
-	stopForeground(true);
-	stopSelf();
-	super.onDestroy();
-	Log.w(TAG, "Destroy");
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-	createNotificationChannel();
+	private static final String TAG = "TimerService";
+	private static final String CHANNEL = "TimerServiceChannel";
 
 
-	int ret = super.onStartCommand(intent,flags,startId);
-	Log.w(TAG, "SERVICE!!!!!!!!!");
-
-	Intent notificationIntent = new Intent(this,ClockApplication.class);
-	PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent, 0);
-
-	Notification notification = new Notification.Builder(this,CHANNEL)
-	                                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
-						    .setContentTitle("Таймер")
-						    .setContentText("Таймер запущен")
-						    .setDefaults(Notification.DEFAULT_ALL)
-						    .setAutoCancel(true)
-						    .setPriority(Notification.PRIORITY_HIGH)
-						    .setCategory(Notification.CATEGORY_ALARM)
-						    .build();
-
-	       startForeground(1, notification);
-
-	       return START_NOT_STICKY;
-    }
-
-
-
-    private void createNotificationChannel() {
-	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-	    NotificationChannel notChannel = new NotificationChannel(CHANNEL,"foreground channel", NotificationManager.IMPORTANCE_DEFAULT);
-
-	    NotificationManager manager = getSystemService(NotificationManager.class);
-	    manager.createNotificationChannel(notChannel);
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		Log.w(TAG, "Create");
+		createNotificationChannel();
+		manager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
 	}
-    }
 
-public static void startQtAndroidService(Context context) {
-        context.startService(new Intent(context, TimerService.class));
-}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		manager.cancel(DEFAULT_NOTIFICATION_ID);
+		stopSelf();
+		Log.w(TAG, "Destroy");
+	}
+
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		return null;
+	}
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		createNotificationChannel();
+
+
+		int ret = super.onStartCommand(intent, flags, startId);
+		Log.w(TAG, "SERVICE!!!!!!!!!");
+
+		Intent notificationIntent = new Intent(this, ClockApplication.class);
+		notificationIntent.setAction(Intent.ACTION_MAIN);
+		notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Notification.Builder builder = new Notification.Builder(this);
+		builder.setContentIntent(pendingIntent)
+				.setOngoing(true)
+				.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
+				.setContentTitle("Таймер")
+				.setContentText("Таймер запущен")
+				.setDefaults(Notification.DEFAULT_ALL)
+				.setAutoCancel(true)
+				.setPriority(Notification.PRIORITY_HIGH)
+				.setCategory(Notification.CATEGORY_ALARM);
+
+		Notification notification = builder.build();
+		startForeground(DEFAULT_NOTIFICATION_ID, notification);
+		return START_NOT_STICKY;
+	}
+
+
+	private void createNotificationChannel() {
+		Log.w(TAG, "CREATESERVICECHANNEL");
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+			NotificationChannel notChannel = new NotificationChannel(CHANNEL, "foreground channel", NotificationManager.IMPORTANCE_DEFAULT);
+			manager.createNotificationChannel(notChannel);
+		}
+	}
 
 }

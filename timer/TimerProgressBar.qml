@@ -35,7 +35,7 @@ Canvas {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         ctx.beginPath()
-        ctx.lineWidth = 3
+        ctx.lineWidth = 4
         ctx.strokeStyle = primaryColor
         ctx.arc(canvas.centerWidth, canvas.centerHeight, canvas.radius,
                 angleOffset + canvas.angle, angleOffset + 2 * Math.PI)

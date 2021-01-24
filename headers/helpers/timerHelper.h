@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE int getCurrentValue() const;
     Q_INVOKABLE void setCurrentValue(int value);
     Q_INVOKABLE void startTimer();
+    Q_INVOKABLE void stopTimer();
 signals:
     void valueChanged();
 private slots:

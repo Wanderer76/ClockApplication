@@ -36,7 +36,7 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
     context->setContextProperty("Notifier",&_notifier);
     context->setContextProperty("TimerHelper",&_timerHelper);
     context->setContextProperty("Stopwatch",&_stopwatch);
-    context->setContextProperty("FileHelper",&_fileHelper);
+    context->setContextProperty("FileHelper",&_fileHelper);    
     qmlRegisterType<TimeZoneHandler>("TimeZones",1,0,"TimeZones");
     qmlRegisterType<WorldTimeList>("WorldTimeList",1,0,"WorldTimeList");
     qmlRegisterType<AlarmsModel>("AlarmsModel",1,0,"AlarmsModel");

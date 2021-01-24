@@ -18,6 +18,7 @@ Item {
                 progress.currentValue++
                 console.log(progress.currentValue)
             } else {
+                TimerHelper.stopTimer()
                 Notifier.notification = "Время вышло"
                 timer.running = false
             }
