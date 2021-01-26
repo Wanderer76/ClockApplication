@@ -2,11 +2,13 @@
 #include<QAbstractListModel>
 #include<QObject>
 #include"headers/main.h"
+#include"headers/helpers/audioHelper.h"
 
 class AlarmsModel : public QAbstractListModel
 {
     Q_OBJECT
 private:
+
     enum AlarmRoles{
         Days = Qt::UserRole+1,
         Sound,
@@ -20,14 +22,14 @@ private:
     };
 
     QList<AlarmElement *> _elements;
-    SavingSystemHelper *_helper;
+    SavingSystemHelper *_savingHelper;
+    AudioHelper *_audioHelper;
     QTimer *_updateTimer;
 
 public:
     explicit AlarmsModel();
     ~AlarmsModel();
 
-    Q_INVOKABLE AlarmElement get(const int index) const;
     Q_INVOKABLE QList<QString> getDays(const int index) const;
     Q_INVOKABLE QUrl getSound(const int index) const;
     Q_INVOKABLE QString getTime(const int index) const;
@@ -38,18 +40,17 @@ public:
     Q_INVOKABLE bool getRepeat(const int index) const;
     Q_INVOKABLE bool getActive(const int index);
     Q_INVOKABLE void setActive(const int index, const bool value);
-
-
     Q_INVOKABLE void remove(const int index);
     Q_INVOKABLE void append
     (
-            QList<QString> days,
-            QUrl sound,
-            QString time,
-            QString description,
-            int longest,
-            int pauseLongest,
-            bool vibration
+            const QList<QString>& days,
+            const QUrl &sound,
+            const QString &time,
+            const QString &description,
+            const int longest,
+            const int pauseLongest,
+            const int pauseCount,
+            const bool vibration
     );
     // QAbstractItemModel interface
     virtual int rowCount(const QModelIndex &parent) const override;
@@ -60,7 +61,7 @@ public:
 
 
 private slots:
-    void checkForAlarms();
+    bool checkForAlarms();
 signals:
     void shouldAlarm(const int index);
 };

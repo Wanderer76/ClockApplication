@@ -28,6 +28,7 @@ struct AlarmElement
     QString description;
     int longest;
     int pauseLongest;
+    int pauseCount;
     bool vibration;
     bool isRepeat;
     bool isActive;
@@ -40,6 +41,7 @@ struct AlarmElement
           description{"Будильник"},
           longest{0},
           pauseLongest{0},
+          pauseCount{0},
           vibration{false},
           isRepeat{days.size()>0},
           isActive{false}

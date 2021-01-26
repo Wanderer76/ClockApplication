@@ -1,27 +1,27 @@
-#include "headers/models/timezonehandler.h"
+#include "headers/models/globalWorldtimeModel.h"
 #include<QNetworkAccessManager>
 #include<QNetworkRequest>
 #include<QNetworkReply>
 #include<QJsonDocument>
 #include<QJsonArray>
 
-TimeZoneHandler::TimeZoneHandler()
+GlobalWorldtimeModel::GlobalWorldtimeModel()
 {
     createListOfElements();
 }
 
-TimeZoneHandler::~TimeZoneHandler()
+GlobalWorldtimeModel::~GlobalWorldtimeModel()
 {
 
 }
 
-int TimeZoneHandler::rowCount(const QModelIndex &parent) const
+int GlobalWorldtimeModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return _elements.size();
 }
 
-QVariant TimeZoneHandler::data(const QModelIndex &index, int role) const
+QVariant GlobalWorldtimeModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid())
         return {};
@@ -34,7 +34,7 @@ QVariant TimeZoneHandler::data(const QModelIndex &index, int role) const
     return {};
 }
 
-QHash<int, QByteArray> TimeZoneHandler::roleNames() const
+QHash<int, QByteArray> GlobalWorldtimeModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[Roles::Country] = "country";
@@ -43,14 +43,14 @@ QHash<int, QByteArray> TimeZoneHandler::roleNames() const
     return roles;
 }
 
-void TimeZoneHandler::createListOfElements()
+void GlobalWorldtimeModel::createListOfElements()
 {
-    TimeLoader *loader = new TimeLoader(this);
+    TimeLoaderHelper *loader = new TimeLoaderHelper(this);
     loader->startRequest();
     parseJson(loader->getTimeData());
 }
 
-void TimeZoneHandler::parseJson(const QByteArray &array)
+void GlobalWorldtimeModel::parseJson(const QByteArray &array)
 {
     auto document = QJsonDocument::fromJson(array);
     auto jsonArray = document.array();

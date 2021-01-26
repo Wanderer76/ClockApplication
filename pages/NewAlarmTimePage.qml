@@ -76,7 +76,7 @@ Page {
 
                     stackView.pop(
                                 alamPage.alarms.alarmModel.append(daysArray,
-                                                                  sound, (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex), description.additionalText, alarmLongest.time, 10, vibro.switchElement.checked == true))
+                                                                  sound, (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex), description.additionalText, alarmLongest.time * 1000, 10 * 1000, 3, vibro.switchElement.checked == true))
                 }
             }
         }

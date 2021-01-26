@@ -1,4 +1,4 @@
-#include "headers/models/worldtimelist.h"
+#include "headers/models/userWorldtimeModel.h"
 #include<QTimer>
 #include<QTime>
 #include<QFile>
@@ -22,7 +22,7 @@ QString parseJson(const QByteArray&array)
 }
 
 
-WorldTimeList::WorldTimeList()
+UserWorldtimeModel::UserWorldtimeModel()
 {
     _manager = new QNetworkAccessManager(this);
     _timer = new QTimer(this);
@@ -79,7 +79,7 @@ WorldTimeList::WorldTimeList()
     _timer->start();
 }
 
-WorldTimeList::~WorldTimeList()
+UserWorldtimeModel::~UserWorldtimeModel()
 {
     QFile file(WorldTimes);
     if(file.open(QFile::WriteOnly)){
@@ -92,7 +92,7 @@ WorldTimeList::~WorldTimeList()
     file.close();
 }
 
-void WorldTimeList::append(const QString &region, const QString &city)
+void UserWorldtimeModel::append(const QString &region, const QString &city)
 {
     for(auto&i : _elements)
     {
@@ -107,7 +107,7 @@ void WorldTimeList::append(const QString &region, const QString &city)
     _manager->get(request);
 }
 
-void WorldTimeList::remove(const int index)
+void UserWorldtimeModel::remove(const int index)
 {
     if(index<0||index>=_elements.size())
         return;
@@ -116,13 +116,13 @@ void WorldTimeList::remove(const int index)
     endRemoveRows();
 }
 
-int WorldTimeList::rowCount(const QModelIndex &parent) const
+int UserWorldtimeModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return _elements.size();
 }
 
-QVariant WorldTimeList::data(const QModelIndex &index, int role) const
+QVariant UserWorldtimeModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid())
         return {};
@@ -136,7 +136,7 @@ QVariant WorldTimeList::data(const QModelIndex &index, int role) const
         return {};
 }
 
-QHash<int, QByteArray> WorldTimeList::roleNames() const
+QHash<int, QByteArray> UserWorldtimeModel::roleNames() const
 {
     QHash<int,QByteArray> result;
     result[Roles::City] = "city";

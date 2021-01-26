@@ -109,6 +109,8 @@ Page {
             onPositionChanged: {
                 if (position === 1 || position === 0) {
                     isAlarmSignal = false
+                    //AudioHelper.stop()
+                    AudioHelper.close()
                     stackView.pop()
                 }
             }

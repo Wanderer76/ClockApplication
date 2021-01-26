@@ -1,15 +1,15 @@
 #pragma once
 #include <QObject>
 
-class NotifierClient : public QObject
+class NotifierHelper : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString notification READ getNotification WRITE setNotification NOTIFY notificationChanged)
 private:
     QString _notification;
 public:
-    explicit NotifierClient(QObject *parent = nullptr);
-    ~NotifierClient();
+    explicit NotifierHelper(QObject *parent = nullptr);
+    ~NotifierHelper();
     void setNotification(const QString &notification);
     QString getNotification() const;
 signals:

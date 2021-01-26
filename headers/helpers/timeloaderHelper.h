@@ -7,7 +7,7 @@
 #define TIMEZONESFILENAME "timezonedata.txt"
 #define TIMEFILENAME "countries.txt"
 
-class TimeLoader : public QObject
+class TimeLoaderHelper : public QObject
 {
     Q_OBJECT
 private:
@@ -15,8 +15,8 @@ private:
     QNetworkAccessManager* _manager;
     void writeToFile(const QByteArray&arr);
 public:
-    explicit TimeLoader(QObject*pwgt = nullptr);
-    ~TimeLoader();
+    explicit TimeLoaderHelper(QObject*pwgt = nullptr);
+    ~TimeLoaderHelper();
     void startRequest();
     QByteArray getTimeData();
 private slots:

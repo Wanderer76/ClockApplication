@@ -1,4 +1,4 @@
-#include "headers/helpers/notifierclient.h"
+#include "headers/helpers/notifierHelper.h"
 
 #if defined(Q_OS_ANDROID)
 #include<QtAndroid>
@@ -6,15 +6,15 @@
 #include<QAndroidJniObject>
 #endif
 
-NotifierClient::NotifierClient(QObject *parent) : QObject{parent}
+NotifierHelper::NotifierHelper(QObject *parent) : QObject{parent}
 {
-    connect(this,&NotifierClient::notificationChanged,this,&NotifierClient::updateNotification);
+    connect(this,&NotifierHelper::notificationChanged,this,&NotifierHelper::updateNotification);
 }
 
-NotifierClient::~NotifierClient()
+NotifierHelper::~NotifierHelper()
 {}
 
-void NotifierClient::setNotification(const QString &notification)
+void NotifierHelper::setNotification(const QString &notification)
 {
     if(_notification == notification)
         return;
@@ -23,12 +23,12 @@ void NotifierClient::setNotification(const QString &notification)
     emit notificationChanged();
 }
 
-QString NotifierClient::getNotification() const
+QString NotifierHelper::getNotification() const
 {
     return _notification;
 }
 
-void NotifierClient::updateNotification()
+void NotifierHelper::updateNotification()
 {
 #if defined (Q_OS_ANDROID)
 

@@ -27,10 +27,10 @@ Page {
 
     MainStopWatch {
         id: stopwatch
-        width: 250
-        height: 250
+        width: 240
+        height: 240
         anchors.top: label.bottom
-        anchors.topMargin: 25
+        anchors.topMargin: 20
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
@@ -45,19 +45,19 @@ Page {
         font.pointSize: 18
         text: "00:00:00"
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 50
+        anchors.topMargin: 30
     }
 
     LapView {
         id: lapView
+        height: 185
+        // height: 185
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: secondsLabel.bottom
-        anchors.bottom: parent.bottom
         anchors.topMargin: 15
         anchors.rightMargin: 15
         anchors.leftMargin: 15
-        anchors.bottomMargin: 80
     }
 
     Connections {

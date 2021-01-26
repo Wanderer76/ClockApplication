@@ -23,7 +23,7 @@ ApplicationWindow {
         if (isAlarmSignal === true) {
             audio.audioSource = alamPage.alarms.alarmModel.getSound(index)
             swipeView.enabled = false
-            audio.startAlarm(alamPage.alarms.alarmModel.getVibration(index))
+            //audio.startAlarm(alamPage.alarms.alarmModel.getVibration(index))
             stackView.push("qrc:/pages/AlarmSignalPage.qml", {
                                "time": alamPage.alarms.alarmModel.getTime(
                                            index),

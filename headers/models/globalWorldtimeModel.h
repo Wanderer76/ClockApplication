@@ -6,7 +6,7 @@
 #include"headers/helpers/timeloaderHelper.h"
 
 
-class TimeZoneHandler : public QAbstractListModel
+class GlobalWorldtimeModel : public QAbstractListModel
 {
     Q_OBJECT
 private:
@@ -14,8 +14,8 @@ private:
     void createListOfElements();
     void parseJson(const QByteArray&);
 public:
-    explicit TimeZoneHandler();
-    ~TimeZoneHandler();
+    explicit GlobalWorldtimeModel();
+    ~GlobalWorldtimeModel();
     // QAbstractItemModel interface
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;

@@ -6,10 +6,7 @@ class SavingSystemHelper : public QObject
 {
     Q_OBJECT
 private:
-    QString _orgName;
-    QString _appName;
-
-    SavingSystemHelper(const QString &orgName,const QString &appName);
+    SavingSystemHelper();
     QString _groupName;
     QJsonObject data;
 
@@ -17,7 +14,7 @@ public:
     SavingSystemHelper(const SavingSystemHelper&) = delete;
     void operator=(const SavingSystemHelper&) = delete;
 
-    static SavingSystemHelper* getInstance(const QString &orgName,const QString &appName);
+    static SavingSystemHelper* getInstance();
     void beginGroup(const QString& name);
     void endGroup();
     void saveFile(const QString &key,const QJsonObject &value);

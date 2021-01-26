@@ -5,9 +5,7 @@
 #include<QJsonArray>
 #include<QJsonDocument>
 
-bool isUpdated = false;
-
-QMap<QString,int> daysToInt = {
+const QMap<QString,int> daysToInt = {
     {"Пн",1},
     {"Вт",2},
     {"Ср",3},
@@ -16,7 +14,8 @@ QMap<QString,int> daysToInt = {
     {"Сб",6},
     {"Вс",7},
 };
-QMap<int,QString> daysToString = {
+
+const QMap<int,QString> daysToString = {
     {1,"Пн"},
     {2,"Вт"},
     {3,"Ср"},
@@ -28,51 +27,70 @@ QMap<int,QString> daysToString = {
 
 
 
-void AlarmsModel::checkForAlarms()
+bool AlarmsModel::checkForAlarms()
 {
     if(_elements.size()==0)
-        return;
+        return false;
 
     QDateTime dateTime = QDateTime::currentDateTime();
     auto time = dateTime.time();
 
     auto hour = time.hour() <10? "0" + QString::number(time.hour()) : QString::number(time.hour());
     auto minute = time.minute()<10 ? "0" + QString::number(time.minute()) : QString::number(time.minute());
-    auto seconds= time.second();
+    auto second = time.second();
 
     auto dayOfWeek =  daysToString[dateTime.date().dayOfWeek()];
     auto timeString = hour + ":" + minute;
 
-    for(const auto& i : _elements)
+    for(const auto i : _elements)
     {
         if(i->days.contains(dayOfWeek) || i->days.isEmpty())
         {
-            if(i->time == timeString && i->isActive && seconds < 3){
-                emit shouldAlarm(_elements.indexOf(i));
-                break;
+            if(i->time == timeString && i->isActive && second < 5){
+                auto index = _elements.indexOf(i);
+                emit shouldAlarm(index);
+                i->isActive = i->isRepeat ? true : false;
+                emit dataChanged(createIndex(index,0),createIndex(index,0),{AlarmRoles::IsActive});
+                return true;
             }
         }
     }
+    return false;
 }
 
 AlarmsModel::AlarmsModel()
 {
     _updateTimer = new QTimer(this);
 
-    _helper = SavingSystemHelper::getInstance(COMPANYNAME,APPNAME);
-    connect(_helper,&SavingSystemHelper::write,this,[&](){
-        if(isUpdated)
-            writeData();
+    _savingHelper = SavingSystemHelper::getInstance();
+    _audioHelper = AudioHelper::getInstance();
+
+    connect(_savingHelper,&SavingSystemHelper::write,this,[&](){
+        writeData();
     });
 
-    connect(_helper,&SavingSystemHelper::read,this,[&](){
+    connect(_savingHelper,&SavingSystemHelper::read,this,[&](){
         readData();
     });
 
     connect(_updateTimer,&QTimer::timeout,this,[&](){
-        checkForAlarms();
+        if(checkForAlarms())
+        {
+            _updateTimer->start(10000);
+            _updateTimer->setInterval(1000);
+        }
     });
 
+    connect(this,&AlarmsModel::shouldAlarm,this,[&](const int index){
+        auto elem = _elements.at(index);
+        _audioHelper->setPath(elem->sound.toString());
+        _audioHelper->setDuration(elem->longest);
+        _audioHelper->setPauseTime(elem->pauseLongest);
+        _audioHelper->setPlayTime(elem->longest);
+        _audioHelper->setPauseCount(elem->pauseCount);
+        _audioHelper->start();
+
+    });
     _updateTimer->setInterval(1000);
     _updateTimer->start();
 }
@@ -80,11 +98,6 @@ AlarmsModel::AlarmsModel()
 AlarmsModel::~AlarmsModel()
 {
 
-}
-
-AlarmElement AlarmsModel::get(const int index) const
-{
-    return *_elements.at(index);
 }
 
 QList<QString> AlarmsModel::getDays(const int index) const
@@ -146,10 +159,18 @@ void AlarmsModel::remove(const int index)
     beginRemoveRows(QModelIndex(),index,index);
     _elements.removeAt(index);
     endRemoveRows();
-    isUpdated = true;
 }
 
-void AlarmsModel::append(QList<QString> days, QUrl sound, QString time, QString description, int longest, int pauseLongest, bool vibration)
+void AlarmsModel::append(
+        const QList<QString>& days,
+        const QUrl& sound,
+        const QString& time,
+        const QString& description,
+        const int longest,
+        const int pauseLongest,
+        const int pauseCount,
+        const bool vibration
+        )
 {
     AlarmElement* element = new AlarmElement();
     element->days = days;
@@ -158,12 +179,13 @@ void AlarmsModel::append(QList<QString> days, QUrl sound, QString time, QString 
     element->description = description;
     element->longest = longest;
     element->pauseLongest = pauseLongest;
+    element->pauseCount = pauseCount;
     element->vibration = vibration;
-    element->isRepeat = days.size()==0 ? false : true;
+    element->isRepeat = days.size() == 0 ? false : true;
+    element->isActive = true;
     beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
     _elements.append(element);
     endInsertRows();
-    isUpdated = true;
 }
 
 int AlarmsModel::rowCount(const QModelIndex &parent) const
@@ -226,11 +248,11 @@ void AlarmsModel::writeData()
 {
     QJsonObject data;
     int index = 0;
-    for(auto &element : _elements){
+    for(const auto element : qAsConst(_elements)) {
         QJsonObject result;
         QJsonArray daysArray;
 
-        for(auto &day : element->days)
+        for(const auto &day : qAsConst(element->days))
             daysArray.append(day);
 
         result.insert("days",daysArray);
@@ -246,22 +268,23 @@ void AlarmsModel::writeData()
         data.insert(QString::number(index),val);
         index++;
     }
-    _helper->saveFile("alarms",data);
+    _savingHelper->saveFile("alarms",data);
 }
 
 void AlarmsModel::readData()
 {
-    auto json = _helper->readFile("alarms.json");
+    auto json = _savingHelper->readFile("alarms.json");
     auto doc = QJsonDocument::fromJson(json);
     auto data = doc["alarms"].toObject();
 
-    for(auto i :data)
+    for(const auto i : data)
     {
         auto element = i.toObject();
         auto alarm = new AlarmElement;
 
         QList<QString> days;
-        for(auto day : element["days"].toArray())
+
+        for(const auto day : element["days"].toArray())
         {
             days.append(day.toString());
         }

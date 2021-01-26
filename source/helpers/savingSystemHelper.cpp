@@ -5,17 +5,16 @@
 #include<QJsonArray>
 #include<QJsonObject>
 
-SavingSystemHelper::SavingSystemHelper(const QString &orgName, const QString &appName)
-    :_orgName{orgName},_appName{appName}
+SavingSystemHelper::SavingSystemHelper()
 {}
 
 
 
-SavingSystemHelper *SavingSystemHelper::getInstance(const QString &orgName, const QString &appName)
+SavingSystemHelper *SavingSystemHelper::getInstance()
 {
     static SavingSystemHelper* _instance = nullptr;
     if(_instance == nullptr)
-        _instance = new SavingSystemHelper(orgName,appName);
+        _instance = new SavingSystemHelper();
     return _instance;
 }
 

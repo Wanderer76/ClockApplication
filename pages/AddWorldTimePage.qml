@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import TimeZones 1.0
+import GlobalWorldtimeModel 1.0
 import QtQuick.Layouts 1.12
 import "../controls"
 
@@ -57,7 +57,7 @@ Page {
         anchors.fill: parent
         cacheBuffer: 4096
         spacing: 10
-        model: TimeZones {
+        model: GlobalWorldtimeModel {
             id: mod
         }
         delegate: AddWorldTimeDelegate {

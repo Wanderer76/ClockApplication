@@ -17,17 +17,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     headers/app.h \
     headers/core.h \
+    headers/helpers/audioHelper.h \
     headers/helpers/fileHelper.h \
-    headers/helpers/notifierclient.h \
+    headers/helpers/notifierHelper.h \
     headers/helpers/savingSystemHelper.h \
-    headers/helpers/stopwatch.h \
+    headers/helpers/stopwatchHelper.h \
     headers/helpers/timeloaderHelper.h \
     headers/helpers/timerHelper.h \
-    headers/helpers/vibration.h \
+    headers/helpers/vibrationHelper.h \
     headers/main.h \
     headers/models/alarmsModel.h \
-    headers/models/timezonehandler.h \
-    headers/models/worldtimelist.h \
+    headers/models/globalWorldtimeModel.h \
+    headers/models/userWorldtimeModel.h \
     headers/org_artcompany_clock_NativeHelper.h \
     headers/timeloaderHelper.h \
 
@@ -36,16 +37,17 @@ SOURCES += \
         main.cpp \
         source/app.cpp \
         source/core.cpp \
+    source/helpers/audioHelper.cpp \
     source/helpers/fileHelper.cpp \
+    source/helpers/notifierHelper.cpp \
     source/helpers/savingSystemHelper.cpp \
-        source/helpers/stopwatch.cpp \
+    source/helpers/stopwatchHelper.cpp \
         source/helpers/timeloaderHelper.cpp \
-	source/helpers/notifierclient.cpp \
     source/helpers/timerHelper.cpp \
-        source/helpers/vibration.cpp \
+    source/helpers/vibrationHelper.cpp \
     source/models/alarmsModel.cpp \
-        source/models/timezonehandler.cpp \
-        source/models/worldtimelist.cpp \
+    source/models/globalWorldtimeModel.cpp \
+    source/models/userWorldtimeModel.cpp
 
 RESOURCES += qml.qrc
 

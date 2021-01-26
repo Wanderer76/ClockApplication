@@ -24,19 +24,6 @@ public class Notifier {
 
     public static void notify(Context context, String message) {
 
-	//if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-
-	    //m_notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-	    //NotificationChannel notificationChannel = new NotificationChannel("Clock", "Clock Notifier",  NotificationManager.IMPORTANCE_HIGH);
-	    //notificationChannel.enableVibration(true);
-	    //m_notificationManager.createNotificationChannel(notificationChannel);
-	    //notificationChannel.setSound(alarmSound);
-
-	    //m_builder = new Notification.Builder(context, notificationChannel.getId());
-
-	    /*} else {
-	        m_builder = new Notification.Builder(context);
-	}*/
        m_builder = new Notification.Builder(context, "Timer");
        m_builder.setSmallIcon(R.drawable.icon)
 				.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
@@ -58,6 +45,7 @@ public class Notifier {
 
 	m_notificationManager.notify(5, m_builder.build());
 	}
+
     public void createNotificationChannel(Context context) {
 	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 	    notificationChannel = new NotificationChannel("Timer", "Timer Notifier",  NotificationManager.IMPORTANCE_HIGH);
@@ -66,5 +54,4 @@ public class Notifier {
 	    m_notificationManager.createNotificationChannel(notificationChannel);
 	}
     }
-
 }

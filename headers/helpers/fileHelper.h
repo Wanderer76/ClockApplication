@@ -26,5 +26,5 @@ public:
     virtual void handleActivityResult(int receiverRequestCode, int resultCode, const QAndroidJniObject &data) override;
 #endif
 signals:
-    void pathChanged(QString);
+    void pathChanged(const QString&);
 };

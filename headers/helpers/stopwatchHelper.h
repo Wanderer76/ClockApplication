@@ -2,7 +2,7 @@
 #include<QTimer>
 #include <QObject>
 
-class StopWatch : public QObject
+class StopWatchHelper : public QObject
 {
     Q_OBJECT
 private:
@@ -13,8 +13,8 @@ private:
     quint32 _updateTime;
     QTimer _timer;
 public:
-    explicit StopWatch(QObject *parent = nullptr);
-    ~StopWatch();
+    explicit StopWatchHelper(QObject *parent = nullptr);
+    ~StopWatchHelper();
     Q_INVOKABLE void startTimer();
 public slots:
     void onTime();

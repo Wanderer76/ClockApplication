@@ -7,7 +7,7 @@ class QNetworkAccessManager;
 class QNetworkReply;
 #define WorldTimes "times.txt"
 
-class WorldTimeList : public QAbstractListModel
+class UserWorldtimeModel : public QAbstractListModel
 {
     Q_OBJECT
 private:
@@ -17,8 +17,8 @@ private:
     QString _region;
     QTimer *_timer;
 public:
-    explicit WorldTimeList();
-    ~WorldTimeList();
+    explicit UserWorldtimeModel();
+    ~UserWorldtimeModel();
     Q_INVOKABLE void append(const QString&region,const QString&city);
     Q_INVOKABLE void remove(const int index);
     // QAbstractItemModel interface

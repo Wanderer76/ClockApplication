@@ -1,9 +1,9 @@
-#include "headers/helpers/stopwatch.h"
+#include "headers/helpers/stopwatchHelper.h"
 #include<QDebug>
 #include<QTime>
 #include<QApplication>
 
-StopWatch::StopWatch(QObject *parent)
+StopWatchHelper::StopWatchHelper(QObject *parent)
     : QObject{parent},
       _isRunning{false},
       _millisecondTime{0},
@@ -13,23 +13,23 @@ StopWatch::StopWatch(QObject *parent)
 
 {
     _timer.setInterval(20);
-    connect(&_timer,&QTimer::timeout,this,&StopWatch::onTime);
+    connect(&_timer,&QTimer::timeout,this,&StopWatchHelper::onTime);
 }
 
-StopWatch::~StopWatch()
+StopWatchHelper::~StopWatchHelper()
 {}
 
-void StopWatch::startTimer()
+void StopWatchHelper::startTimer()
 {
     startStop();
 }
 
-bool StopWatch::isActive() const
+bool StopWatchHelper::isActive() const
 {
     return _isRunning;
 }
 
-void StopWatch::startStop()
+void StopWatchHelper::startStop()
 {
     if(_timer.isActive())
     {
@@ -46,7 +46,7 @@ void StopWatch::startStop()
     emit sendState(_isRunning);
 }
 
-void StopWatch::onTime()
+void StopWatchHelper::onTime()
 {
     _millisecondTime = QTime::currentTime().msecsSinceStartOfDay() - _startTime;
     _updateTime = _timeBuff + _millisecondTime;
@@ -55,7 +55,7 @@ void StopWatch::onTime()
     QApplication::processEvents();
 }
 
-void StopWatch::reset()
+void StopWatchHelper::reset()
 {
     _timer.stop();
     _millisecondTime = 0;
@@ -67,7 +67,7 @@ void StopWatch::reset()
     emit sendState(_isRunning);
 }
 
-void StopWatch::lap()
+void StopWatchHelper::lap()
 {
     auto time = QTime::fromMSecsSinceStartOfDay(_updateTime);
     emit sendLap(time.toString("mm:ss:zzz"));

@@ -106,7 +106,7 @@ SwipeDelegate {
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            checked: view.model.getActive(index)
+            checked: isActive
             antialiasing: true
 
             indicator: Rectangle {
@@ -129,8 +129,7 @@ SwipeDelegate {
                 }
             }
             onClicked: {
-                view.model.setActive(index, control.checked)
-                console.log("checked - " + control.checked)
+                isActive = !isActive
             }
         }
 
@@ -147,7 +146,6 @@ SwipeDelegate {
         }
     }
     function parseDays() {
-        console.log(days.length)
         if (days.length > 0) {
             if (days.length === 7)
                 return qsTr("Каждый день")

@@ -3,7 +3,7 @@
 #include<QNetworkRequest>
 #include<QStandardPaths>
 
-TimeLoader::TimeLoader(QObject*pwgt)
+TimeLoaderHelper::TimeLoaderHelper(QObject*pwgt)
     :QObject{pwgt}
 {
 #if defined (Q_OS_ANDROID)
@@ -13,10 +13,10 @@ TimeLoader::TimeLoader(QObject*pwgt)
     _coutriesAndRegionsFile.setFileName(TIMEZONESFILENAME);
 #endif
     _manager = new QNetworkAccessManager(this);
-    connect(_manager,&QNetworkAccessManager::finished,this,&TimeLoader::finishedRegionDownload);
+    connect(_manager,&QNetworkAccessManager::finished,this,&TimeLoaderHelper::finishedRegionDownload);
 }
 
-void TimeLoader::startRequest()
+void TimeLoaderHelper::startRequest()
 {
 
     if(_coutriesAndRegionsFile.size()>0)
@@ -29,7 +29,7 @@ void TimeLoader::startRequest()
 
 
 
-QByteArray TimeLoader::getTimeData()
+QByteArray TimeLoaderHelper::getTimeData()
 {
     QByteArray result;
 
@@ -42,14 +42,14 @@ QByteArray TimeLoader::getTimeData()
     return result;
 }
 
-TimeLoader::~TimeLoader()
+TimeLoaderHelper::~TimeLoaderHelper()
 {
     if(_coutriesAndRegionsFile.isOpen())
         _coutriesAndRegionsFile.close();
 }
 
 
-void TimeLoader::writeToFile(const QByteArray &arr)
+void TimeLoaderHelper::writeToFile(const QByteArray &arr)
 {
 
     if(_coutriesAndRegionsFile.open(QFile::WriteOnly))
@@ -60,7 +60,7 @@ void TimeLoader::writeToFile(const QByteArray &arr)
     _coutriesAndRegionsFile.close();
 }
 
-void TimeLoader::finishedRegionDownload(QNetworkReply *reply)
+void TimeLoaderHelper::finishedRegionDownload(QNetworkReply *reply)
 {
     if(reply->error())
     {

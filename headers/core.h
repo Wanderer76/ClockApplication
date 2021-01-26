@@ -1,12 +1,13 @@
 #pragma once
 #include<QQmlApplicationEngine>
 #include <QObject>
-#include"headers/helpers/notifierclient.h"
-#include"headers/helpers/vibration.h"
-#include"headers/helpers/stopwatch.h"
+#include"headers/helpers/notifierHelper.h"
+#include"headers/helpers/vibrationHelper.h"
+#include"headers/helpers/stopwatchHelper.h"
 #include"headers/helpers/timerHelper.h"
 #include"headers/helpers/fileHelper.h"
 #include"headers/helpers/savingSystemHelper.h"
+#include"headers/helpers/audioHelper.h"
 
 #if defined (Q_OS_ANDROID)
 #include <QtAndroid>
@@ -20,18 +21,19 @@ class Core : public QObject
 {
     Q_OBJECT
 private:
-    StopWatch _stopwatch;
+    StopWatchHelper _stopwatch;
     TimerHelper _timerHelper;
-    NotifierClient _notifier;
+    NotifierHelper _notifier;
     FileHelper _fileHelper;
-    Vibration _vibration;
+    VibrationHelper _vibration;
     SavingSystemHelper *_helper;
+    AudioHelper *_audioHelper;
 public:
     explicit Core(QObject *parent = nullptr);
     ~Core();
 
     void setup();
-    void init(QString mainProgrameFileName,QQmlApplicationEngine*engine);
+    void init(QQmlApplicationEngine*engine);
     void registerQmlTypes(QQmlApplicationEngine*engine);
     //int invoke();
     Q_INVOKABLE void vibrate(int x);

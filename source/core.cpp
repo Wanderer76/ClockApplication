@@ -1,7 +1,7 @@
 #include "headers/core.h"
 #include"headers/models/alarmsModel.h"
-#include"headers/models/timezonehandler.h"
-#include"headers/models/worldtimelist.h"
+#include"headers/models/globalWorldtimeModel.h"
+#include"headers/models/userWorldtimeModel.h"
 #include<QQmlContext>
 
 
@@ -9,7 +9,8 @@
 Core::Core(QObject *parent) : QObject(parent)
 {
     isApplicationcreate = true;
-    _helper = SavingSystemHelper::getInstance(COMPANYNAME,APPNAME);
+    _helper = SavingSystemHelper::getInstance();
+    _audioHelper = AudioHelper::getInstance();
 }
 
 Core::~Core()
@@ -24,7 +25,7 @@ void Core::setup()
 
 }
 
-void Core::init(QString mainProgrameFileName, QQmlApplicationEngine *engine)
+void Core::init(QQmlApplicationEngine *engine)
 {
     registerQmlTypes(engine);
 }
@@ -36,9 +37,11 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
     context->setContextProperty("Notifier",&_notifier);
     context->setContextProperty("TimerHelper",&_timerHelper);
     context->setContextProperty("Stopwatch",&_stopwatch);
-    context->setContextProperty("FileHelper",&_fileHelper);    
-    qmlRegisterType<TimeZoneHandler>("TimeZones",1,0,"TimeZones");
-    qmlRegisterType<WorldTimeList>("WorldTimeList",1,0,"WorldTimeList");
+    context->setContextProperty("FileHelper",&_fileHelper);
+    context->setContextProperty("AudioHelper",_audioHelper);
+
+    qmlRegisterType<GlobalWorldtimeModel>("GlobalWorldtimeModel",1,0,"GlobalWorldtimeModel");
+    qmlRegisterType<UserWorldtimeModel>("UserWorldTimeModel",1,0,"UserWorldTimeModel");
     qmlRegisterType<AlarmsModel>("AlarmsModel",1,0,"AlarmsModel");
     context->setContextProperty("core",this);
 
