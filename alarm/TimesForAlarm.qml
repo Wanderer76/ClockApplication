@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import AlarmsModel 1.0
+import "../pages"
 
 Item {
     property alias viewList: view
@@ -13,6 +14,7 @@ Item {
         model: AlarmsModel {
             id: model
         }
+        opacity: enabled ? 1 : 0.6
 
         delegate: TimesDelegate {
             id: deleg
@@ -21,9 +23,24 @@ Item {
 
         Connections {
             target: model
-            function onShouldAlarm(currIndex) {
-                indexOfAlarm = currIndex
-                isAlarmSignal = true
+            function onStartAlarm(index) {
+                indexOfAlarm = index
+                //isAlarmSignal = true
+                view.enabled = false
+                stackView.push("qrc:/pages/AlarmSignalPage.qml", {
+                                   "time": model.getTime(index),
+                                   "desc": model.getDescription(index),
+                                   "pauseLong": model.getPauseLongest(index),
+                                   "longestCount": model.getLongest(index),
+                                   "currentIndex": index
+                               })
+            }
+            function onPause() {
+                console.log("onPause")
+                stackView.pop("qrc:/pages/AlarmSignalPage.qml")
+            }
+            function onStopAlarm() {
+                view.enabled = true
             }
         }
     }

@@ -6,7 +6,7 @@ SwipeDelegate {
     id: swipeDelegate
     property alias alarm: control
     height: 80
-    width: parent.width
+    width: 480
 
     swipe.right: Rectangle {
         id: deleteLabel
@@ -70,10 +70,9 @@ SwipeDelegate {
 
     background: Rectangle {
         id: element
-        Text {
+        Label {
             id: timeText
-            width: 100
-            height: 40
+
             text: qsTr(time)
             anchors.left: parent.left
             anchors.leftMargin: 15
@@ -84,16 +83,13 @@ SwipeDelegate {
             font.pointSize: 18
         }
 
-        Text {
+        Label {
             id: daysText
-            width: 150
-            height: 25
-            text: qsTr(description + "," + parseDays())
-            anchors.horizontalCenter: timeText.horizontalCenter
+            text: qsTr(description + ", " + parseDays())
             anchors.top: timeText.bottom
-            anchors.left: parent.left
+            anchors.left: element.left
+            anchors.topMargin: 2
             anchors.leftMargin: 5
-            anchors.topMargin: -7
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: 13
@@ -159,10 +155,3 @@ SwipeDelegate {
             return "Без повтора"
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:8}
-}
-##^##*/
-

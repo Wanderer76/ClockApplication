@@ -62,7 +62,9 @@ bool AudioHelper::start()
 {
     _isPlaying = true;
     _mediaPlayer->play();
+#if defined (Q_OS_ANDROID)
     _vibroTimer->start();
+#endif
     _mainTimer->start(_playTime);
     return true;
 }
@@ -70,11 +72,14 @@ bool AudioHelper::start()
 bool AudioHelper::stop()
 {
     _mediaPlayer->stop();
+#if defined (Q_OS_ANDROID)
     _vibroTimer->stop();
+#endif
     _isPlaying = false;
     canResume = false;
     _mainTimer->stop();
     countOfPause = 0;
+    emit this->stopAudio();
     return true;
 }
 
@@ -113,7 +118,10 @@ bool AudioHelper::Resume()
     canResume = true;
     _isPlaying = true;
     _mediaPlayer->play();
+#if defined (Q_OS_ANDROID)
     _vibroTimer->start();
+#endif
+    emit this->startAudio();
     return true;
 }
 
@@ -122,6 +130,9 @@ bool AudioHelper::Pause()
     canResume = false;
     _isPlaying = false;
     _mediaPlayer->stop();
+#if defined (Q_OS_ANDROID)
     _vibroTimer->stop();
+#endif
+    emit this->pauseAudio();
     return true;
 }

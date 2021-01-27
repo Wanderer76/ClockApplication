@@ -36,4 +36,7 @@ public slots:
     void setPath(const QString&path);
 signals:
     void close();
+    void startAudio();
+    void pauseAudio();
+    void stopAudio();
 };

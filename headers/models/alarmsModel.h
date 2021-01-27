@@ -63,5 +63,8 @@ public:
 private slots:
     bool checkForAlarms();
 signals:
-    void shouldAlarm(const int index);
+    void startAlarm(const int index);
+    void pause();
+    void resumeAlarm();
+    void stopAlarm();
 };

@@ -25,6 +25,7 @@ const QMap<int,QString> daysToString = {
     {7,"Вс"},
 };
 
+ int currentIndex = 0;
 
 
 bool AlarmsModel::checkForAlarms()
@@ -48,7 +49,8 @@ bool AlarmsModel::checkForAlarms()
         {
             if(i->time == timeString && i->isActive && second < 5){
                 auto index = _elements.indexOf(i);
-                emit shouldAlarm(index);
+                currentIndex = index;
+                emit startAlarm(currentIndex);
                 i->isActive = i->isRepeat ? true : false;
                 emit dataChanged(createIndex(index,0),createIndex(index,0),{AlarmRoles::IsActive});
                 return true;
@@ -81,7 +83,17 @@ AlarmsModel::AlarmsModel()
         }
     });
 
-    connect(this,&AlarmsModel::shouldAlarm,this,[&](const int index){
+    connect(_audioHelper,&AudioHelper::pauseAudio,this,[&](){
+        emit this->pause();
+    });
+    connect(_audioHelper,&AudioHelper::startAudio,this,[&](){
+        emit this->startAlarm(currentIndex);
+    });
+    connect(_audioHelper,&AudioHelper::stopAudio,this,[&](){
+        emit this->stopAlarm();
+    });
+
+    connect(this,&AlarmsModel::startAlarm,this,[&](const int index){
         auto elem = _elements.at(index);
         _audioHelper->setPath(elem->sound.toString());
         _audioHelper->setDuration(elem->longest);
@@ -89,7 +101,6 @@ AlarmsModel::AlarmsModel()
         _audioHelper->setPlayTime(elem->longest);
         _audioHelper->setPauseCount(elem->pauseCount);
         _audioHelper->start();
-
     });
     _updateTimer->setInterval(1000);
     _updateTimer->start();
