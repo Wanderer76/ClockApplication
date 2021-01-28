@@ -151,16 +151,11 @@ bool AlarmsModel::getRepeat(const int index) const
     return _elements.at(index)->isRepeat;
 }
 
-bool AlarmsModel::getActive(const int index)
+bool AlarmsModel::getActive(const int index) const
 {
     if(index<0 ||index>=_elements.size())
         return false;
     return _elements.at(index)->isActive;
-}
-
-void AlarmsModel::setActive(const int index, const bool value)
-{
-    _elements.at(index)->isActive = value;
 }
 
 void AlarmsModel::remove(const int index)
@@ -197,6 +192,21 @@ void AlarmsModel::append(
     beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
     _elements.append(element);
     endInsertRows();
+}
+
+void AlarmsModel::editElement(const int index, const QList<QString> &days, const QUrl &sound, const QString &time, const QString &description, const int longest, const int pauseLongest, const int pauseCount, const bool vibration)
+{
+    AlarmElement* elemPtr = _elements.at(index);
+    elemPtr->days = days;
+    elemPtr->sound = sound;
+    elemPtr->time = time;
+    elemPtr->description = description;
+    elemPtr->longest = longest;
+    elemPtr->pauseLongest = pauseLongest;
+    elemPtr->pauseCount = pauseCount;
+    elemPtr->vibration = vibration;
+    elemPtr->isRepeat = days.size() > 0 ? true : false;
+    emit dataChanged(createIndex(index,0),createIndex(index,0));
 }
 
 int AlarmsModel::rowCount(const QModelIndex &parent) const

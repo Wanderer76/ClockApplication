@@ -38,11 +38,23 @@ public:
     Q_INVOKABLE int getPauseLongest(const int index) const;
     Q_INVOKABLE bool getVibration(const int index) const;
     Q_INVOKABLE bool getRepeat(const int index) const;
-    Q_INVOKABLE bool getActive(const int index);
-    Q_INVOKABLE void setActive(const int index, const bool value);
+    Q_INVOKABLE bool getActive(const int index) const;
+
     Q_INVOKABLE void remove(const int index);
     Q_INVOKABLE void append
     (
+            const QList<QString>& days,
+            const QUrl &sound,
+            const QString &time,
+            const QString &description,
+            const int longest,
+            const int pauseLongest,
+            const int pauseCount,
+            const bool vibration
+    );
+    Q_INVOKABLE void editElement
+    (
+            const int index,
             const QList<QString>& days,
             const QUrl &sound,
             const QString &time,

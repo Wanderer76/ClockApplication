@@ -5,6 +5,7 @@ import "../controls"
 
 DialogArea {
     property string text: textField.text
+    property alias textField: textField
     id: desc
     labelText: "Описание"
     rightButtonText: "Ок"

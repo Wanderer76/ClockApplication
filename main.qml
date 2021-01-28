@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import Qt.labs.settings 1.1
+
 import "pages"
 import "clock"
 import "alarm"
@@ -8,41 +8,18 @@ import "alarm"
 ApplicationWindow {
     id: applicationWindow
     visible: true
-    height: 640
-    width: 480
+    minimumHeight: 640
+    minimumWidth: 480
+
     title: qsTr("Часы")
 
     property bool isMainPage: stackView.depth === 1
     property bool isAlarmSignal: false
 
-
-    /* Alarms {
-        id: audio
-    }*/
-   /* onIsAlarmSignalChanged: {
-        console.log("ISALARM - " + isAlarmSignal)
-        var index = alamPage.alarms.indexOfAlarm
-        if (isAlarmSignal === true) {
-            // audio.audioSource = alamPage.alarms.alarmModel.getSound(index)
-            swipeView.enabled = false
-            //audio.startAlarm(alamPage.alarms.alarmModel.getVibration(index))
-            stackView.push("qrc:/pages/AlarmSignalPage.qml", {
-                               "time": alamPage.alarms.alarmModel.getTime(
-                                           index),
-                               "desc": alamPage.alarms.alarmModel.getDescription(
-                                           index),
-                               "pauseLong": alamPage.alarms.alarmModel.getPauseLongest(
-                                                index),
-                               "longestCount": alamPage.alarms.alarmModel.getLongest(
-                                                   index),
-                               "currentIndex": index
-                           })
-        } else {
-            swipeView.enabled = true
-            isAlarmSignal = false
-            //audio.stopAlarm()
-        }
-    }*/
+    Keys.onBackPressed: {
+        if (stackView.depth > 1)
+            stackView.pop()
+    }
 
     StackView {
         id: stackView

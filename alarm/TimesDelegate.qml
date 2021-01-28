@@ -1,6 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
+import "../controls"
+import "../pages"
 
 SwipeDelegate {
     id: swipeDelegate
@@ -153,5 +155,16 @@ SwipeDelegate {
                 return qsTr(days[0] + "-" + days[days.length - 1])
         } else
             return "Без повтора"
+    }
+    onClicked: {
+        stackView.push("qrc:/pages/AlarmEditPage.qml", {
+                           "currentIndex": index,
+                           "daysOfWeek": days,
+                           "time": time,
+                           "longest": longest / 1000,
+                           "songUrl": sound,
+                           "descriptionText": description,
+                           "vibration": vibration
+                       })
     }
 }

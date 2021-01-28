@@ -50,5 +50,7 @@
         <file>timer/TimerDelegate.qml</file>
         <file>timer/TimerProgressBar.qml</file>
         <file>images/bell.svg</file>
+        <file>controls/MaterialMouseArea.qml</file>
+        <file>pages/AlarmEditPage.qml</file>
     </qresource>
 </RCC>
