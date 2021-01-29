@@ -52,5 +52,8 @@
         <file>images/bell.svg</file>
         <file>controls/MaterialMouseArea.qml</file>
         <file>pages/AlarmEditPage.qml</file>
+        <file>images/cancel.svg</file>
+        <file>controls/HeaderToolBar.qml</file>
+        <file>images/check.svg</file>
     </qresource>
 </RCC>

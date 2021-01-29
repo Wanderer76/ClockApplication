@@ -24,72 +24,21 @@ Page {
 
     property bool isEnable: true
 
-    header: ToolBar {
-        height: 50
-        activeFocusOnTab: false
-        antialiasing: true
-        wheelEnabled: false
-        contentHeight: 35
-        contentWidth: 190
-        enabled: true
-        focusPolicy: Qt.TabFocus
-        width: parent.width
-
-        background: Rectangle {
-            anchors.fill: parent
-            color: "white"
+    header: HeaderToolBar {
+        titleText: "Изменить"
+        cancelButton.onClicked: {
+            stackView.pop()
         }
-        RowLayout {
-            width: parent.width
-            height: parent.height
-            ToolButton {
-                width: 35
-                height: 35
-                Layout.alignment: Qt.AlignLeft | Qt.AlignBaseline
-                display: AbstractButton.IconOnly
-                icon.source: "qrc:/images/letter-x.svg"
-                leftPadding: 10
-                highlighted: false
-                flat: true
-                background: Rectangle {
-                    anchors.fill: parent
-                    color: "white"
-                }
-                onClicked: {
-                    stackView.pop()
-                }
-            }
+        acceptButton.onClicked: {
 
-            Label {
-                text: qsTr("Изменить")
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.pointSize: 17
-            }
-
-            ToolButton {
-                width: 40
-                height: 40
-                Layout.rightMargin: 0
-                display: AbstractButton.IconOnly
-                Layout.alignment: Qt.AlignRight | Qt.AlignBaseline
-                icon.source: "qrc:/images/tick (1).svg"
-                rightPadding: 10
-                flat: true
-
-                background: Rectangle {
-                    anchors.fill: parent
-                    color: "white"
-                }
-
-                onClicked: {
-
-                    stackView.pop(
-                                alamPage.alarms.alarmModel.editElement(currentIndex,
-                                                                       daysOfWeek, songUrl,
-                                                                       (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex), description.additionalText, alarmLongest.time * 1000, 10 * 1000, 3, vibro.switchElement.checked == true))
-                }
-            }
+            stackView.pop(
+                        alamPage.alarms.alarmModel.editElement(currentIndex,
+                                                               daysOfWeek, songUrl,
+                                                               (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex), description.additionalText,
+                                                               alarmLongest.time * 1000,
+                                                               10 * 1000,
+                                                               3, vibro.switchElement.checked
+                                                               == true))
         }
     }
     function parseDays() {
@@ -235,6 +184,7 @@ Page {
                 model: 24
                 width: 40
                 spacing: 20
+                currentIndex: hourIndex
                 antialiasing: true
                 anchors.bottom: parent.bottom
                 anchors.top: parent.top
@@ -257,6 +207,7 @@ Page {
                 model: 60
                 width: 40
                 spacing: 20
+                currentIndex: minuteIndex
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
@@ -281,10 +232,9 @@ Page {
             width: parent.width + 20
             height: 40
             color: "#00ffffff"
-            anchors.top: element.top
-            anchors.topMargin: 0
             anchors.horizontalCenterOffset: 0
             border.color: "#9f9f9f"
+            anchors.verticalCenter: element.verticalCenter
         }
 
         Rectangle {

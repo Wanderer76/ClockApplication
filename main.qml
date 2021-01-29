@@ -16,16 +16,22 @@ ApplicationWindow {
     property bool isMainPage: stackView.depth === 1
     property bool isAlarmSignal: false
 
+
     Keys.onBackPressed: {
         if (stackView.depth > 1)
             stackView.pop()
     }
-
     StackView {
         id: stackView
         clip: true
         anchors.fill: parent
         initialItem: swipeView
+     /*   Keys.onReleased: {
+            if (event.key === Qt.Key_Back && stackView.depth > 1) {
+                stackView.pop()
+                event.accepted = true
+            }
+        }*/
     }
 
     SwipeView {

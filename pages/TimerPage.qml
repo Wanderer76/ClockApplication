@@ -38,8 +38,8 @@ Page {
     TimerTime {
         id: time
         visible: !clock.isActive
-        width: 270
-        height: 181
+        width: 230
+        height: 180
         anchors.top: clock.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 40

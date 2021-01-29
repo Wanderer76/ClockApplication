@@ -13,74 +13,19 @@ Page {
     property bool isEnable: true
     property var daysArray: []
     property url sound: "qrc:/songs/28. Lacrimosa.mp3"
-    width: 480
-    height: 640
 
-    header: ToolBar {
-        height: 50
-        activeFocusOnTab: false
-        antialiasing: true
-        wheelEnabled: false
-        contentHeight: 35
-        contentWidth: 190
-        enabled: true
-        focusPolicy: Qt.TabFocus
-        width: parent.width
-
-        background: Rectangle {
-            anchors.fill: parent
-            color: "white"
+    header: HeaderToolBar {
+        titleText: "Добавить"
+        cancelButton.onClicked: {
+            stackView.pop()
         }
-        RowLayout {
-            width: parent.width
-            height: parent.height
-            ToolButton {
-                width: 35
-                height: 35
-                Layout.alignment: Qt.AlignLeft | Qt.AlignBaseline
-                display: AbstractButton.IconOnly
-                icon.source: "qrc:/images/letter-x.svg"
-                leftPadding: 10
-                highlighted: false
-                flat: true
-                background: Rectangle {
-                    anchors.fill: parent
-                    color: "white"
-                }
-                onClicked: {
-                    stackView.pop()
-                }
-            }
 
-            Label {
-                text: qsTr("Добавить")
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.pointSize: 17
-            }
+        acceptButton.onClicked: {
 
-            ToolButton {
-                width: 40
-                height: 40
-                Layout.rightMargin: 0
-                display: AbstractButton.IconOnly
-                Layout.alignment: Qt.AlignRight | Qt.AlignBaseline
-                icon.source: "qrc:/images/tick (1).svg"
-                rightPadding: 10
-                flat: true
-
-                background: Rectangle {
-                    anchors.fill: parent
-                    color: "white"
-                }
-
-                onClicked: {
-
-                    stackView.pop(
-                                alamPage.alarms.alarmModel.append(daysArray,
-                                                                  sound, (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex), description.additionalText, alarmLongest.time * 1000, 10 * 1000, 3, vibro.switchElement.checked == true))
-                }
-            }
+            stackView.pop(
+                        alamPage.alarms.alarmModel.append(daysArray,
+                                                          sound, (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex), description.additionalText, alarmLongest.time * 1000, 10 * 1000, 3,
+                                                          vibro.switchElement.checked == true))
         }
     }
     function parseDays() {
