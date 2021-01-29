@@ -7,6 +7,8 @@ Page {
     clip: true
     property alias timer: clock
     property bool isNull: time.hourIndex + time.minuteIndex + time.secondIndex == 0
+    width: 480
+    height: 640
     Label {
         id: label
         x: 20
@@ -37,10 +39,10 @@ Page {
         id: time
         visible: !clock.isActive
         width: 270
-        height: 145
+        height: 181
         anchors.top: clock.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 56
+        anchors.topMargin: 40
     }
     Rectangle {
         id: rectangle
@@ -49,9 +51,8 @@ Page {
         height: 40
         visible: !clock.isActive
         color: "#00ffffff"
-        anchors.top: time.top
-        anchors.topMargin: -5
         border.color: "#9f9f9f"
+        anchors.verticalCenter: time.verticalCenter
     }
     Row {
         id: row

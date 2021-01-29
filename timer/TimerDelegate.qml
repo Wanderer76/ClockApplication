@@ -6,5 +6,6 @@ Label {
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     font.pointSize: 20
-    color: ListView.isCurrentItem ? "#007dfe" : "black"
+    opacity: 1.0 - Math.abs(
+                 Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
 }

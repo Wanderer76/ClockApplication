@@ -15,17 +15,14 @@ Item {
         second.currentIndex = 0
     }
 
-    ListView {
+    Tumbler {
         id: hour
         width: 40
-        spacing: 20
-        height: parent.height
-        anchors.left: parent.left
-        anchors.leftMargin: 35
-        flickableDirection: Flickable.VerticalFlick
-        layoutDirection: Qt.RightToLeft
-        snapMode: ListView.SnapPosition
-        highlightRangeMode: ListView.StrictlyEnforceRange
+        spacing: 25
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        anchors.topMargin: 0
         model: 100
         delegate: TimerDelegate {
             text: index
@@ -36,23 +33,17 @@ Item {
         }
     }
 
-    ListView {
+    Tumbler {
         id: minute
         width: 40
-        spacing: 20
-        model: 60
-        flickableDirection: Flickable.VerticalFlick
-        layoutDirection: Qt.RightToLeft
-
-        snapMode: ListView.SnapPosition
-        highlightRangeMode: ListView.StrictlyEnforceRange
-
-        anchors.left: hour.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 0
         anchors.topMargin: 0
-        anchors.leftMargin: 50
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: 25
+        model: 60
+
         delegate: TimerDelegate {
             text: index
         }
@@ -61,23 +52,17 @@ Item {
             clock.progressBar.maximumValue = TimerHelper.getMaxValue()
         }
     }
-    ListView {
+    Tumbler {
         id: second
         width: 40
-        spacing: 20
+        spacing: 25
         model: 60
-        height: parent.height
-        anchors.left: minute.right
-        antialiasing: true
-        layoutDirection: Qt.LeftToRight
-        anchors.leftMargin: 50
-        flickableDirection: Flickable.VerticalFlick
+        anchors.right: parent.right
+        anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 0
-        anchors.top: parent.top
         anchors.topMargin: 0
-        snapMode: ListView.SnapPosition
-        highlightRangeMode: ListView.StrictlyEnforceRange
+        anchors.rightMargin: 0
 
         delegate: TimerDelegate {
             text: index

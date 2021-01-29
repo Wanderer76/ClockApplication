@@ -13,6 +13,8 @@ Page {
     property bool isEnable: true
     property var daysArray: []
     property url sound: "qrc:/songs/28. Lacrimosa.mp3"
+    width: 480
+    height: 640
 
     header: ToolBar {
         height: 50
@@ -212,65 +214,51 @@ Page {
 
         Item {
             id: element
-            width: parent.width / 2 // 188
+            width: 200
             height: 200
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
-            anchors.topMargin: 50
+            anchors.topMargin: 45
 
-            ListView {
+            Tumbler {
                 id: hourView
                 model: 24
                 width: 40
-                flickableDirection: Flickable.VerticalFlick
-                layoutDirection: Qt.RightToLeft
-                contentHeight: 1024
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
-                anchors.top: parent.top
-                anchors.topMargin: 0
-                snapMode: ListView.SnapPosition
-                highlightRangeMode: ListView.StrictlyEnforceRange
                 spacing: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignLeft
                 antialiasing: true
+                anchors.bottom: parent.bottom
+                anchors.top: parent.top
+                anchors.left: parent.left
                 clip: true
                 delegate: Label {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
+                    opacity: 1.0 - Math.abs(
+                                 Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+
                     font.pointSize: 22
-                    color: ListView.isCurrentItem ? "#007dfe" : "black"
                     text: index < 10 ? "0" + index : index
                     textFormat: Text.PlainText
                 }
             }
-            ListView {
+
+            Tumbler {
                 id: minuteView
-                width: 40
-                highlightRangeMode: ListView.StrictlyEnforceRange
-                contentHeight: 1024
-                keyNavigationWraps: false
-                layoutDirection: Qt.LeftToRight
-                snapMode: ListView.SnapPosition
-                anchors.top: parent.top
-                anchors.topMargin: 0
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
-                spacing: 20
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                Layout.leftMargin: -10
-                Layout.alignment: Qt.AlignRight | Qt.AlignHCenter
                 model: 60
+                width: 40
+                spacing: 20
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
                 antialiasing: true
                 clip: true
                 delegate: Label {
+                    width: 640
+                    height: 480
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    color: ListView.isCurrentItem ? "#007dfe" : "black"
-
+                    opacity: 1.0 - Math.abs(
+                                 Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
                     font.pointSize: 22
                     text: index < 10 ? "0" + index : index
                     textFormat: Text.PlainText
@@ -283,10 +271,9 @@ Page {
             width: parent.width + 20
             height: 40
             color: "#00ffffff"
-            anchors.top: element.top
-            anchors.topMargin: 0
             anchors.horizontalCenterOffset: 0
             border.color: "#9f9f9f"
+            anchors.verticalCenter: element.verticalCenter
         }
 
         Rectangle {

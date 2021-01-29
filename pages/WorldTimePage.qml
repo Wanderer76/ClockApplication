@@ -6,8 +6,7 @@ import "../worldtime"
 Page {
     id: page
     property alias list: worldPage
-    width: 480
-    height: 640
+
     function parseMounth(mounth) {
         let result = ""
         switch (mounth) {
