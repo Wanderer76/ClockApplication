@@ -18,13 +18,20 @@ Page {
     property string songUrl: ""
     property string descriptionText: ""
     property bool vibration: false
-
+    property bool isEdit: {
+        if (alarmDescription.visible === true || dayOFWeeks.visible === true
+                || alarmLongest.visible === true)
+            return true
+        else
+            return false
+    }
     clip: true
     focusPolicy: Qt.ClickFocus
 
     property bool isEnable: true
 
     header: HeaderToolBar {
+        visible: !isEdit
         titleText: "Изменить"
         cancelButton.onClicked: {
             stackView.pop()
@@ -240,17 +247,8 @@ Page {
         Rectangle {
             id: shadowOverlay
             color: "#df0e0e0e"
-            visible: {
-                if (alarmDescription.visible === true
-                        || dayOFWeeks.visible === true
-                        || alarmLongest.visible === true)
-                    return true
-                else
-                    return false
-            }
-
+            visible: isEdit
             z: 1
-
             enabled: false
             width: parent.width
             height: parent.height + 60

@@ -16,7 +16,6 @@ ApplicationWindow {
     property bool isMainPage: stackView.depth === 1
     property bool isAlarmSignal: false
 
-
     Keys.onBackPressed: {
         if (stackView.depth > 1)
             stackView.pop()
@@ -26,12 +25,11 @@ ApplicationWindow {
         clip: true
         anchors.fill: parent
         initialItem: swipeView
-     /*   Keys.onReleased: {
-            if (event.key === Qt.Key_Back && stackView.depth > 1) {
+        Keys.onBackPressed: {
+            if (stackView.depth > 1) {
                 stackView.pop()
-                event.accepted = true
             }
-        }*/
+        }
     }
 
     SwipeView {
@@ -106,6 +104,7 @@ ApplicationWindow {
         visible: isMainPage
         currentIndex: 0
         antialiasing: true
+
         PagesDelegate {
             textValue: qsTr("Будильник")
             imageValue: "qrc:/images/alarm-clock.svg"

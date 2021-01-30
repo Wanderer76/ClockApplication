@@ -14,7 +14,18 @@ Page {
     property var daysArray: []
     property url sound: "qrc:/songs/28. Lacrimosa.mp3"
 
+    property bool isEdit: {
+        if (alarmDescription.visible === true || daysOFWeeks.visible === true
+                || alarmLongest.visible === true)
+            return true
+        else
+            return false
+    }
+
     header: HeaderToolBar {
+
+        visible: !isEdit
+
         titleText: "Добавить"
         cancelButton.onClicked: {
             stackView.pop()
@@ -224,14 +235,7 @@ Page {
         Rectangle {
             id: shadowOverlay
             color: "#df0e0e0e"
-            visible: {
-                if (alarmDescription.visible === true
-                        || daysOFWeeks.visible === true
-                        || alarmLongest.visible === true)
-                    return true
-                else
-                    return false
-            }
+            visible: isEdit
 
             z: 1
 
