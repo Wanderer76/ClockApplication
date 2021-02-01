@@ -1,8 +1,9 @@
 QT += core quick svg qml quickcontrols2 network multimedia
 
-android:QT+=androidextras
+android:QT+=androidextras remoteobjects
 
 CONFIG += c++17 qtquickcompiler
+
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -74,7 +75,19 @@ DISTFILES += \
     android/src/org/artcompany/clock/NativeHelper.java \
     android/src/org/artcompany/clock/Notifier.java \
     android/src/org/artcompany/clock/TimerService.java \
-    android/src/org/artcompany/clock/UriUtils.java
+    android/src/org/artcompany/clock/UriUtils.java \
+    service/common.pri \
+    service/qtandroidservice.rep \
+    service/service.pri \
+    service/Новый текстовый документ.txt
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+SUBDIRS += \
+    androidService.pro \
+    androidService.pro \
+    androidService.pro \
+    androidServiceDirs.pro \
+    service/androidService.pro \
+    service/androidService.pro
 

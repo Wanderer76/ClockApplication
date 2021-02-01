@@ -43,5 +43,12 @@ Item {
                 view.enabled = true
             }
         }
+        Connections {
+            target: core
+            function onNeedAlarm(val) {
+                if (val === true)
+                    model.startAlarm(0)
+            }
+        }
     }
 }

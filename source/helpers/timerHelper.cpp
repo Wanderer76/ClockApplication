@@ -34,7 +34,7 @@ void TimerHelper::setCurrentValue(int value)
 void TimerHelper::startTimer()
 {
 #if defined (Q_OS_ANDROID)
-     QtAndroid::androidContext().callMethod<void>("startService","()V");
+    QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/TimerService","startTimerService","(Landroid/content/Context;)V",QtAndroid::androidActivity().object());
 #endif
 }
 

@@ -1,19 +1,18 @@
 package org.artcompany.clock;
 
-import android.graphics.BitmapFactory;
-import android.content.Context;
-import android.util.Log;
-import org.qtproject.qt5.android.bindings.QtService;
 import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
-
+import android.app.PendingIntent;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.app.TaskStackBuilder;
+import android.util.Log;
 import android.app.NotificationManager;
 import android.graphics.Color;
 import android.app.NotificationChannel;
 import android.net.Uri;
+import org.qtproject.qt5.android.bindings.QtService;
 
 
 public class TimerService extends QtService {
@@ -29,25 +28,40 @@ public class TimerService extends QtService {
 	public void onCreate() {
 		super.onCreate();
 		Log.w(TAG, "Create");
-		createNotificationChannel();
-		manager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+		  Notification.Builder builder = new Notification.Builder(this, "Timer")
+		                            .setSmallIcon(R.drawable.icon)
+					    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
+					    .setContentTitle("Сервис")
+					    .setContentText("Сервис запущуен")
+					    .setDefaults(Notification.DEFAULT_ALL)
+					    .setColor(Color.GREEN)
+					    .setAutoCancel(true)
+					    .setPriority(Notification.PRIORITY_HIGH)
+					    .setCategory(Notification.CATEGORY_ALARM);
+
+
+			   Intent intent = new Intent(this,ClockApplication.class);
+			   intent.putExtra("notificationId",101);
+			   PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			   builder.setContentIntent(pendingIntent);
+			   startForeground(101,builder.build());
+
+	    }
+
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		manager.cancel(DEFAULT_NOTIFICATION_ID);
-		stopSelf();
 		Log.w(TAG, "Destroy");
 	}
 
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
-	}
 
-	@Override
+
+
+/*	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		createNotificationChannel();
 
@@ -85,5 +99,10 @@ public class TimerService extends QtService {
 			manager.createNotificationChannel(notChannel);
 		}
 	}
+
+    public static void startTimerService(Context context) {
+	    context.startService(new Intent(context,TimerService.class));
+
+    }*/
 
 }

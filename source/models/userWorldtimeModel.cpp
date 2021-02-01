@@ -55,6 +55,8 @@ UserWorldtimeModel::UserWorldtimeModel()
         endInsertRows();
         _elements.last()->region = _region;
 
+        _city = "";
+        _region = "";
     });
 
 
@@ -70,6 +72,7 @@ UserWorldtimeModel::UserWorldtimeModel()
         for(auto&i : text)
         {
             auto temp = i.split(":");
+            qDebug()<<"TImeZone - "<<temp;
             if(temp[0]!="")
                 this->append(temp.at(0),temp.at(1));
         }

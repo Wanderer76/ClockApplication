@@ -30,7 +30,6 @@
         <file>images/tick (1).svg</file>
         <file>alarm/AlarmPauseLongest.qml</file>
         <file>pages/WorldTimePage.qml</file>
-        <file>pages/MainPage.qml</file>
         <file>pages/AddWorldTimePage.qml</file>
         <file>controls/AddWorldTimeDelegate.qml</file>
         <file>images/left-arrow.svg</file>

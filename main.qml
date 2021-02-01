@@ -16,10 +16,15 @@ ApplicationWindow {
     property bool isMainPage: stackView.depth === 1
     property bool isAlarmSignal: false
 
-    Keys.onBackPressed: {
+    Component.onCompleted: {
+        console.log("Depth" + stackView.depth)
+    }
+
+
+    /*Keys.onBackPressed: {
         if (stackView.depth > 1)
             stackView.pop()
-    }
+    }*/
     StackView {
         id: stackView
         clip: true
@@ -49,11 +54,13 @@ ApplicationWindow {
         TimerPage {
             id: timerPage
         }
+        Keys.onBackPressed: {
+            applicationWindow.close()
+        }
     }
 
     ButtonAdd {
         id: addButton
-        property bool isStopwatchActive: false
         height: 45
         width: height
         z: 2

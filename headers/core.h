@@ -53,6 +53,10 @@ public:
         }
         if(arg==101)
             appDeactivation();
+        if(arg==50)
+        {
+            emit needAlarm(true);
+        }
     }
 #endif
 signals:
@@ -60,6 +64,7 @@ signals:
     void activation();
     void deactivation();
     void qmlCriticalError(QString message);
+    void needAlarm(const bool val);
 public slots:
     void reciveFromQml();
     void update();

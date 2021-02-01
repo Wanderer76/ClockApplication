@@ -47,7 +47,7 @@ bool AlarmsModel::checkForAlarms()
     {
         if(i->days.contains(dayOfWeek) || i->days.isEmpty())
         {
-            if(i->time == timeString && i->isActive && second < 5){
+            if(i->time == timeString && i->isActive && second < 3){
                 auto index = _elements.indexOf(i);
                 currentIndex = index;
                 emit startAlarm(currentIndex);

@@ -15,15 +15,20 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.AudioColumns;
 import android.os.Build;
 import org.qtproject.qt5.android.bindings.QtActivity;
+import android.app.NotificationManager;
+import android.graphics.Color;
+import android.app.NotificationChannel;
+import android.net.Uri;
 
 public class ClockApplication extends QtActivity {
 
-    public static ClockApplication m_instance;
-
+    public static ClockApplication m_instance;   
     public static Vibrator m_vibrator;
     static String TAG = "ClockApplication";
     public Notifier notifier;
-
+    private static NotificationChannel notificationChannel;
+    private static NotificationManager m_notificationManager;
+    private Intent forService;
 
     public ClockApplication() {
         m_instance = this;
@@ -32,10 +37,17 @@ public class ClockApplication extends QtActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+	    notificationChannel = new NotificationChannel("Timer", "Timer Notifier",  NotificationManager.IMPORTANCE_HIGH);
+	    notificationChannel.enableVibration(true);
+	    m_notificationManager = getSystemService(NotificationManager.class);
+	    m_notificationManager.createNotificationChannel(notificationChannel);
+	}
+
+        forService = new Intent(ClockApplication.this,TimerService.class);
+	Log.w(TAG, "onCreate() called!!!!!!!");
 	notifier = new Notifier();
-	notifier.createNotificationChannel(this);
-	this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        Log.w(TAG, "onCreate() called!!!!!!!");
+	startService();
 	super.onCreate(savedInstanceState);
     }
 
@@ -48,9 +60,10 @@ public class ClockApplication extends QtActivity {
 
     @Override
     public void onDestroy() {
+	super.onDestroy();
         Log.w(TAG, "onDestroy() called!");
         m_instance = null;
-        super.onDestroy();
+	stopService(forService);
     }
 
     public static void invoke(int x) {
@@ -82,4 +95,14 @@ public class ClockApplication extends QtActivity {
         return "file://" + fullFilePath;
     }
 
+public static void Toast(){
+     NativeHelper.invokeVoidMethod(50);
+    }
+    private void startService() {
+	if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+	     startForegroundService(forService);
+	} else {
+	     startService(forService);
+	}
+     }
 }

@@ -22,6 +22,17 @@ int App::exec()
            if(resultHash["android.permission.READ_EXTERNAL_STORAGE"] == QtAndroid::PermissionResult::Denied||resultHash["android.permission.WRITE_EXTERNAL_STORAGE"] == QtAndroid::PermissionResult::Denied)
                return 0;
        }
+
+
+/*    QAndroidJniObject activity = QtAndroid::androidActivity();
+    QAndroidJniObject context = activity.callObjectMethod("getApplicationContext","()Landroid/content/Context;");
+    auto importance = QAndroidJniObject::getStaticField<jint>("android/app/NotificationManager","IMPORTANCE_HIGH");
+    auto notificationChannel = QAndroidJniObject("android/app/NotificationChannel","(Ljava/lang/String;Ljava/lang/String;I)V","Timer","Timer Notifier",importance);
+   QAndroidJniObject notifString = QAndroidJniObject::fromString("notification");
+    auto notificationManager = context.callObjectMethod("getSystemService","(Ljava/lang/String;)Ljava/lang/Object;",notifString.object<jstring>());
+    notificationManager.callMethod<void>("createNotificationChannel","(Landroid/app/NotificationChannel;)V",notificationChannel.object());
+    */
+
 #endif
     _running = true;
     return QApplication::exec();

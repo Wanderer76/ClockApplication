@@ -22,7 +22,7 @@ void Core::setup()
 {
     emit setupCompleted();
     emit _helper->read();
-
+  //  emit needAlarm(true);
 }
 
 void Core::init(QQmlApplicationEngine *engine)
