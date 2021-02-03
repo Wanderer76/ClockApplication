@@ -83,6 +83,12 @@ AlarmsModel::AlarmsModel()
         }
     });
 
+    connect(&APPCORE,&Core::doAlarm,this,[&](){
+        if(_elements.size() > 0){
+            emit startAlarm(0);
+        }
+    });
+
     connect(_audioHelper,&AudioHelper::pauseAudio,this,[&](){
         emit this->pause();
     });

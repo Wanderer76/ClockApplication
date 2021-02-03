@@ -23,10 +23,13 @@ public class ClockApplication extends QtActivity {
     private static String TAG = "ClockApplication";
     public Notifier notifier;
     private static NotificationChannel notificationChannel;
+    private static NotificationChannel timerChannel;
     private static NotificationManager m_notificationManager;
     public Intent forService;
 
     public final static String BROADCAST_ACTION = "GET_BROADCAST_VALUE";
+
+    AlarmBroadcastReceiver broadcastReceiver = new AlarmBroadcastReceiver();
 
 
     public ClockApplication() {
@@ -34,15 +37,7 @@ public class ClockApplication extends QtActivity {
 
     }
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
-	public void onReceive(Context context, Intent intent) {
-	    int result = intent.getIntExtra("result",0);
-	    NativeHelper.invokeVoidMethod(result);
-	   Toast.makeText(ClockApplication.this,"Value from service - " + String.valueOf(result),Toast.LENGTH_LONG).show();
-	 }
-
-       };
     @Override
     protected void onStart() {
 	super.onStart();
@@ -63,15 +58,16 @@ public class ClockApplication extends QtActivity {
     public void onStop() {
         Log.w(TAG, "onStop() called!");
 	super.onStop();
+	// NativeHelper.invokeVoidMethod(50);
     }
 
     @Override
     public void onDestroy() {
 	super.onDestroy();
-	//unregisterReceiver(broadcastReceiver);
+	unregisterReceiver(broadcastReceiver);
         Log.w(TAG, "onDestroy() called!");
         m_instance = null;
-	//stopService(forService);
+	stopService(forService);
     }
 
     public static void invoke(int x) {
@@ -117,9 +113,13 @@ public class ClockApplication extends QtActivity {
 	 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 	         notificationChannel = new NotificationChannel("Service", "Service Notifier",  NotificationManager.IMPORTANCE_HIGH);
 		 notificationChannel.enableVibration(true);
+
+		 timerChannel = new NotificationChannel("Timer", "Timer Service",  NotificationManager.IMPORTANCE_HIGH);
+		 timerChannel.enableVibration(true);
+
 		 m_notificationManager = getSystemService(NotificationManager.class);
 		 m_notificationManager.createNotificationChannel(notificationChannel);
+		 m_notificationManager.createNotificationChannel(timerChannel);
 		}
     }
-
 }

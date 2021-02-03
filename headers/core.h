@@ -37,36 +37,13 @@ public:
     void registerQmlTypes(QQmlApplicationEngine*engine);
     //int invoke();
     Q_INVOKABLE void vibrate(int x);
-#if defined (Q_OS_ANDROID)
-   JNIEXPORT void JNICALL Java_org_artcompany_clock_NativeHelper_invokeVoidMethod
-   (JNIEnv *env, jclass jClass, jint val)
-    {
-        Q_UNUSED(env);
-        Q_UNUSED(jClass);
-        if(isApplicationcreate==false)
-            return;
 
-        int arg = static_cast<int>(val);
-        if(arg==100){
-            qDebug()<<"ACTIVATE!!!!!!!!!";
-            appActivation();
-        }
-        if(arg==101)
-            appDeactivation();
-
-        if(arg==50)
-        {
-            qDebug()<<"Invoke ALAAAARM;););)";
-            //emit needAlarm(true);
-        }
-    }
-#endif
 signals:
     void setupCompleted();
     void activation();
     void deactivation();
     void qmlCriticalError(QString message);
-    void needAlarm(const bool val);
+    void doAlarm();
 public slots:
     void reciveFromQml();
     void update();
