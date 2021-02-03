@@ -1,79 +1,87 @@
 package org.artcompany.clock;
 
-import android.util.Log;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.content.Context;
-import android.media.AudioManager;
+import android.util.Log;
 import android.widget.Toast;
-import android.content.Intent;
-import android.app.Activity;
-import android.provider.Settings;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Audio.AudioColumns;
-import android.os.Build;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+
 import org.qtproject.qt5.android.bindings.QtActivity;
-import android.app.NotificationManager;
-import android.graphics.Color;
-import android.app.NotificationChannel;
-import android.net.Uri;
+
 
 public class ClockApplication extends QtActivity {
 
-    public static ClockApplication m_instance;   
+    public static ClockApplication m_instance;
     public static Vibrator m_vibrator;
-    static String TAG = "ClockApplication";
+    private static String TAG = "ClockApplication";
     public Notifier notifier;
     private static NotificationChannel notificationChannel;
     private static NotificationManager m_notificationManager;
-    private Intent forService;
+    public Intent forService;
+
+    public final static String BROADCAST_ACTION = "GET_BROADCAST_VALUE";
+
 
     public ClockApplication() {
         m_instance = this;
 
     }
 
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+	public void onReceive(Context context, Intent intent) {
+	    int result = intent.getIntExtra("result",0);
+	    NativeHelper.invokeVoidMethod(result);
+	   Toast.makeText(ClockApplication.this,"Value from service - " + String.valueOf(result),Toast.LENGTH_LONG).show();
+	 }
+
+       };
+    @Override
+    protected void onStart() {
+	super.onStart();
+	registerReceiver(broadcastReceiver,new IntentFilter(BROADCAST_ACTION));
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-	    notificationChannel = new NotificationChannel("Timer", "Timer Notifier",  NotificationManager.IMPORTANCE_HIGH);
-	    notificationChannel.enableVibration(true);
-	    m_notificationManager = getSystemService(NotificationManager.class);
-	    m_notificationManager.createNotificationChannel(notificationChannel);
-	}
-
-        forService = new Intent(ClockApplication.this,TimerService.class);
-	Log.w(TAG, "onCreate() called!!!!!!!");
-	notifier = new Notifier();
-	startService();
 	super.onCreate(savedInstanceState);
+	registerNotificationChannel();
+	notifier = new Notifier();
+	forService = new Intent(ClockApplication.this,TimerService.class);
+	Log.w(TAG, "onCreate() called!!!!!!!");
+	startService();
     }
 
     @Override
     public void onStop() {
         Log.w(TAG, "onStop() called!");
-        //NativeHelper.invokeVoidMethod(42);
-        super.onStop();
+	super.onStop();
     }
 
     @Override
     public void onDestroy() {
 	super.onDestroy();
+	//unregisterReceiver(broadcastReceiver);
         Log.w(TAG, "onDestroy() called!");
         m_instance = null;
-	stopService(forService);
+	//stopService(forService);
     }
 
     public static void invoke(int x) {
         final int z = x;
-        m_instance.runOnUiThread(new Runnable() {
-            public void run() {
-                Toast.makeText(m_instance, "Invoke from C++ => Java: " + String.valueOf(z) + " (Button)",
+	m_instance.runOnUiThread(new Runnable() {
+	    public void run() {
+		Toast.makeText(m_instance, "Invoke from C++ => Java: " + String.valueOf(z) + " (Button)",
                         Toast.LENGTH_SHORT).show();
-            }
-        });
+			}
+	});
         NativeHelper.invokeVoidMethod(x);
     }
 
@@ -95,9 +103,7 @@ public class ClockApplication extends QtActivity {
         return "file://" + fullFilePath;
     }
 
-public static void Toast(){
-     NativeHelper.invokeVoidMethod(50);
-    }
+
     private void startService() {
 	if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 	     startForegroundService(forService);
@@ -105,4 +111,15 @@ public static void Toast(){
 	     startService(forService);
 	}
      }
+
+
+     private void registerNotificationChannel() {
+	 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+	         notificationChannel = new NotificationChannel("Service", "Service Notifier",  NotificationManager.IMPORTANCE_HIGH);
+		 notificationChannel.enableVibration(true);
+		 m_notificationManager = getSystemService(NotificationManager.class);
+		 m_notificationManager.createNotificationChannel(notificationChannel);
+		}
+    }
+
 }

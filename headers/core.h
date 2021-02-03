@@ -53,9 +53,11 @@ public:
         }
         if(arg==101)
             appDeactivation();
+
         if(arg==50)
         {
-            emit needAlarm(true);
+            qDebug()<<"Invoke ALAAAARM;););)";
+            //emit needAlarm(true);
         }
     }
 #endif

@@ -70,7 +70,7 @@ void Core::reciveFromQml()
 
 void Core::update()
 {
-
+    QtAndroid::androidActivity().callMethod<void>("startService");
 }
 
 void Core::onCriticalError(QString message)

@@ -64,9 +64,8 @@
 	    <!-- extract android style -->
 	</activity>
 	<service android:name=".TimerService">
-	    <meta-data android:name="android.app.background_running" android:value="true"/>
-	    <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
-	</service>
+
+        </service>
 	<!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
     </application>
 
