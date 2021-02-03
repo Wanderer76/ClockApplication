@@ -99,3 +99,28 @@ void Core::appDeactivation()
     emit deactivation();
     emit _helper->write();
 }
+
+#if defined (Q_OS_ANDROID)
+   JNIEXPORT void JNICALL Java_org_artcompany_clock_NativeHelper_invokeVoidMethod
+   (JNIEnv *env, jclass jClass, jint val)
+    {
+        Q_UNUSED(env);
+        Q_UNUSED(jClass);
+        if(isApplicationcreate==false)
+            return;
+
+        int arg = static_cast<int>(val);
+        if (arg == 100) {
+            qDebug()<<"ACTIVATE!!!!!!!!!";
+           APPCORE.appActivation();
+        }
+        else if (arg == 101)
+            APPCORE.appDeactivation();
+
+        else if (arg == 50)
+        {
+            qDebug()<<"Invoke ALAAAARM;););)";
+            emit APPCORE.doAlarm();
+        }
+    }
+#endif
