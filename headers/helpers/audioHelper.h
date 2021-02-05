@@ -15,6 +15,7 @@ private:
     int _pauseTime;
     int _countOfSignals = 3;
     bool _isPlaying;
+    bool _isVibrate;
     AudioHelper(QObject*pwgt = nullptr);
 public:
     AudioHelper() = delete;
@@ -27,6 +28,7 @@ public:
     void setPauseTime(const int pauseTime);
     void setPlayTime(const int playTime);
     void setPauseCount(const int pauseCount);
+    void setVibrate(const bool val);
     bool canResume;
 public slots:
     bool start();

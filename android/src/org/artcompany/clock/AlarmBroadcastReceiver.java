@@ -12,5 +12,4 @@ public class AlarmBroadcastReceiver extends  BroadcastReceiver {
 	int result = intent.getIntExtra("result",0);
 	NativeHelper.invokeVoidMethod(result);
     }
-
 }

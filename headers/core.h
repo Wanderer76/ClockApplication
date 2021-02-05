@@ -44,6 +44,8 @@ signals:
     void deactivation();
     void qmlCriticalError(QString message);
     void doAlarm();
+    void startService();
+    void stopService();
 public slots:
     void reciveFromQml();
     void update();

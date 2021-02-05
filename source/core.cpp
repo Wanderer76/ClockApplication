@@ -11,6 +11,7 @@ Core::Core(QObject *parent) : QObject(parent)
     isApplicationcreate = true;
     _helper = SavingSystemHelper::getInstance();
     _audioHelper = AudioHelper::getInstance();
+
 }
 
 Core::~Core()

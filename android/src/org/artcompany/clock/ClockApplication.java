@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
+import java.util.ArrayList;
 
 import org.qtproject.qt5.android.bindings.QtActivity;
 
@@ -24,8 +25,7 @@ public class ClockApplication extends QtActivity {
     public Notifier notifier;
     private static NotificationChannel notificationChannel;
     private static NotificationChannel timerChannel;
-    private static NotificationManager m_notificationManager;
-    public Intent forService;
+    public static NotificationManager m_notificationManager;
 
     public final static String BROADCAST_ACTION = "GET_BROADCAST_VALUE";
 
@@ -34,9 +34,7 @@ public class ClockApplication extends QtActivity {
 
     public ClockApplication() {
         m_instance = this;
-
     }
-
 
     @Override
     protected void onStart() {
@@ -49,36 +47,24 @@ public class ClockApplication extends QtActivity {
 	super.onCreate(savedInstanceState);
 	registerNotificationChannel();
 	notifier = new Notifier();
-	forService = new Intent(ClockApplication.this,TimerService.class);
-	Log.w(TAG, "onCreate() called!!!!!!!");
-	startService();
     }
 
     @Override
     public void onStop() {
-        Log.w(TAG, "onStop() called!");
 	super.onStop();
-	// NativeHelper.invokeVoidMethod(50);
     }
 
     @Override
     public void onDestroy() {
 	super.onDestroy();
 	unregisterReceiver(broadcastReceiver);
-        Log.w(TAG, "onDestroy() called!");
-        m_instance = null;
-	stopService(forService);
+	stopService();
+	m_instance = null;
     }
 
     public static void invoke(int x) {
         final int z = x;
-	m_instance.runOnUiThread(new Runnable() {
-	    public void run() {
-		Toast.makeText(m_instance, "Invoke from C++ => Java: " + String.valueOf(z) + " (Button)",
-                        Toast.LENGTH_SHORT).show();
-			}
-	});
-        NativeHelper.invokeVoidMethod(x);
+	    //startService();
     }
 
     public static void vibrate(int x) {
@@ -90,25 +76,27 @@ public class ClockApplication extends QtActivity {
         } else {
             m_vibrator.vibrate(x);
         }
-        Log.w(TAG, "Vibro: Java");
     }
 
     public String getPath(Uri uri) {
 	String fullFilePath = UriUtils.getPathFromUri(this, uri);
-	Log.w(TAG, "FILEPATH - " + fullFilePath);
         return "file://" + fullFilePath;
     }
 
 
-    private void startService() {
+    public void startService() {
+	Intent in = new Intent(getApplicationContext(),TimerService.class);
 	if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-	     startForegroundService(forService);
-	} else {
-	     startService(forService);
+	     startForegroundService(in);
 	}
+        else
+	    startService(in);
      }
 
-
+  public void stopService() {
+      Intent in = new Intent(getApplicationContext(),TimerService.class);
+      stopService(in);
+      }
      private void registerNotificationChannel() {
 	 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 	         notificationChannel = new NotificationChannel("Service", "Service Notifier",  NotificationManager.IMPORTANCE_HIGH);
@@ -117,9 +105,12 @@ public class ClockApplication extends QtActivity {
 		 timerChannel = new NotificationChannel("Timer", "Timer Service",  NotificationManager.IMPORTANCE_HIGH);
 		 timerChannel.enableVibration(true);
 
+		 ArrayList<NotificationChannel> notificationChannels = new ArrayList<>();
+		 notificationChannels.add(notificationChannel);
+		 notificationChannels.add(timerChannel);
+
 		 m_notificationManager = getSystemService(NotificationManager.class);
-		 m_notificationManager.createNotificationChannel(notificationChannel);
-		 m_notificationManager.createNotificationChannel(timerChannel);
-		}
+		 m_notificationManager.createNotificationChannels(notificationChannels);
+	}
     }
 }

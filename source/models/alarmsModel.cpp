@@ -26,24 +26,36 @@ const QMap<int,QString> daysToString = {
 };
 
  int currentIndex = 0;
-
+ static bool isServiceStart = false;
 
 bool AlarmsModel::checkForAlarms()
 {
-    if(_elements.size()==0)
+    if(_elements.size() == 0)
+    {
+        if(isServiceStart){
+            isServiceStart = false;
+            emit APPCORE.stopService();
+        }
         return false;
+    }
+
+    if(_elements.size() > 0 && isServiceStart == false)
+    {
+        isServiceStart = true;
+        emit APPCORE.startService();
+    }
 
     QDateTime dateTime = QDateTime::currentDateTime();
     auto time = dateTime.time();
 
-    auto hour = time.hour() <10? "0" + QString::number(time.hour()) : QString::number(time.hour());
-    auto minute = time.minute()<10 ? "0" + QString::number(time.minute()) : QString::number(time.minute());
+    auto hour = time.hour() < 10 ? "0" + QString::number(time.hour()) : QString::number(time.hour());
+    auto minute = time.minute() < 10 ? "0" + QString::number(time.minute()) : QString::number(time.minute());
     auto second = time.second();
 
     auto dayOfWeek =  daysToString[dateTime.date().dayOfWeek()];
     auto timeString = hour + ":" + minute;
 
-    for(const auto i : _elements)
+    for(auto i : _elements)
     {
         if(i->days.contains(dayOfWeek) || i->days.isEmpty())
         {
@@ -85,7 +97,8 @@ AlarmsModel::AlarmsModel()
 
     connect(&APPCORE,&Core::doAlarm,this,[&](){
         if(_elements.size() > 0){
-            emit startAlarm(0);
+            if(_elements.at(0)->isActive == true)
+                    emit startAlarm(0);
         }
     });
 
@@ -106,6 +119,7 @@ AlarmsModel::AlarmsModel()
         _audioHelper->setPauseTime(elem->pauseLongest);
         _audioHelper->setPlayTime(elem->longest);
         _audioHelper->setPauseCount(elem->pauseCount);
+        _audioHelper->setVibrate(elem->vibration);
         _audioHelper->start();
     });
     _updateTimer->setInterval(1000);

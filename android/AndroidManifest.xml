@@ -4,7 +4,7 @@
 
     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="ClockApplication" android:extractNativeLibs="true" android:icon="@drawable/icon">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="org.artcompany.clock.ClockApplication" android:label="ClockApplication" android:screenOrientation="portrait" android:launchMode="singleTop" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="org.artcompany.clock.ClockApplication" android:label="ClockApplication" android:screenOrientation="portrait" android:launchMode="singleTop">
 	    <intent-filter>
 	        <action android:name="android.intent.action.MAIN"/>
 		<category android:name="android.intent.category.LAUNCHER"/>
@@ -64,8 +64,10 @@
 	    <!-- extract android style -->
 	</activity>
 	<service android:name=".TimerService">
-	         </service>
-		<!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
+	    <meta-data android:name="android.app.background_running" android:value="true"/>
+	    <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
+	</service>
+	<!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
     </application>
 
 <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="29"/>
