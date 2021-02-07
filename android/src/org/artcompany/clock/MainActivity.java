@@ -18,12 +18,13 @@ public class MainActivity extends QtActivity {
 	public static MainActivity m_instance;
 	public static Vibrator m_vibrator;
 	private static String TAG = "ClockApplication";
-	private static NotificationChannel notificationChannel;
+	//private static NotificationChannel notificationChannel;
 	private static NotificationChannel timerChannel;
 	public static NotificationManager m_notificationManager;
 
 	public final static String BROADCAST_ACTION = "GET_BROADCAST_VALUE";
 	public final static String PARAM_TIMER_TIME = "PARAM_TIMER_TIME";
+	public static int timerTime = 0;
 
 	AlarmBroadcastReceiver broadcastReceiver = new AlarmBroadcastReceiver();
 
@@ -51,11 +52,11 @@ public class MainActivity extends QtActivity {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		unregisterReceiver(broadcastReceiver);
 		stopAlarmService();
 		stopTimerService();
 		m_instance = null;
+		super.onDestroy();
 	}
 
 	public static void invoke(int x) {
@@ -80,14 +81,14 @@ public class MainActivity extends QtActivity {
 
 	private void registerNotificationChannel() {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-			notificationChannel = new NotificationChannel("Service", "Service Notifier", NotificationManager.IMPORTANCE_HIGH);
-			notificationChannel.enableVibration(true);
+		        //notificationChannel = new NotificationChannel("Service", "Service Notifier", NotificationManager.IMPORTANCE_HIGH);
+			//notificationChannel.enableVibration(true);
 
 			timerChannel = new NotificationChannel("Timer", "Timer Service", NotificationManager.IMPORTANCE_HIGH);
 			timerChannel.enableVibration(true);
 
 			ArrayList<NotificationChannel> notificationChannels = new ArrayList<>();
-			notificationChannels.add(notificationChannel);
+			//notificationChannels.add(notificationChannel);
 			notificationChannels.add(timerChannel);
 
 			m_notificationManager = getSystemService(NotificationManager.class);
@@ -109,8 +110,10 @@ public class MainActivity extends QtActivity {
 	}
 
         public void startTimerService(int time) {
+	        if(time !=0)
+		        timerTime = time;
 		Intent timerIntent = new Intent(getApplicationContext(), TimerService.class);
-		timerIntent.putExtra("timer_time", time);
+		timerIntent.putExtra("timer_time", timerTime);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			startForegroundService(timerIntent);
 		} else

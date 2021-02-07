@@ -13,26 +13,27 @@ import android.os.SystemClock;
 
 public class TimerService extends Service {
 
+        private static int time;
 
 	public void onCreate() {
-		super.onCreate();
+	        super.onCreate();
 	}
 
-	@Override
+        @Override
 	public void onDestroy() {
-		super.onDestroy();
+	        super.onDestroy();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			stopForeground(Service.STOP_FOREGROUND_DETACH);
+		        stopForeground(Service.STOP_FOREGROUND_DETACH);
 		}
-		stopSelf();
+	        stopSelf();
 	}
 
-	@Override
+        @Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		int ret = super.onStartCommand(intent, flags, startId);
+	        int ret = super.onStartCommand(intent, flags, startId);
 
-		int time = intent.getIntExtra("timer_time", 0);
+		time = intent.getIntExtra("timer_time", 0);
 
 		createNotification();
 
@@ -41,15 +42,15 @@ public class TimerService extends Service {
 		return START_STICKY;
 	}
 
-	@Override
+        @Override
 	public IBinder onBind(Intent intent) {
-		return null;
+	        return null;
 	}
 
-	private void createNotification() {
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-			Notification.Builder builder = new Notification.Builder(this, "Timer")
-					.setSmallIcon(R.drawable.icon)
+        private void createNotification() {
+	        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+		        Notification.Builder builder = new Notification.Builder(this, "Timer")
+			                .setSmallIcon(R.drawable.icon)
 					.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
 					.setContentTitle("Таймер")
 					.setContentText("Таймер поставлен")
@@ -62,7 +63,7 @@ public class TimerService extends Service {
 		}
 	}
 
-	public void notificationStop() {
+        public void notificationStop() {
 	        Notification.Builder builder = new Notification.Builder(this, "Timer")
 		                                                .setSmallIcon(R.drawable.icon)
 								.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
@@ -75,17 +76,17 @@ public class TimerService extends Service {
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		builder.setContentIntent(pendingIntent);
 
-		startForeground(202, builder.build());
+		 MainActivity.m_notificationManager.notify(202, builder.build());
 	}
 
-	class ProcessTimer extends Thread {
-		int time;
+        class ProcessTimer extends Thread {
+	        int time;
 
 		ProcessTimer(int time) {
-			this.time = time;
+		        this.time = time;
 		}
 
-		@Override
+	        @Override
 		public void run() {
 		        SystemClock.sleep(time);
 			//Intent resultIntent = new Intent();

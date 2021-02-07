@@ -20,7 +20,6 @@ HEADERS += \
     headers/core.h \
     headers/helpers/audioHelper.h \
     headers/helpers/fileHelper.h \
-    headers/helpers/notifierHelper.h \
     headers/helpers/savingSystemHelper.h \
     headers/helpers/stopwatchHelper.h \
     headers/helpers/timeloaderHelper.h \
@@ -40,7 +39,6 @@ SOURCES += \
         source/core.cpp \
     source/helpers/audioHelper.cpp \
     source/helpers/fileHelper.cpp \
-    source/helpers/notifierHelper.cpp \
     source/helpers/savingSystemHelper.cpp \
     source/helpers/stopwatchHelper.cpp \
         source/helpers/timeloaderHelper.cpp \

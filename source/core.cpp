@@ -35,7 +35,6 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
 {
     QQmlContext *context = engine->rootContext();
     context->setContextProperty("Vibration",&_vibration);
-   // context->setContextProperty("Notifier",&_notifier);
     context->setContextProperty("TimerHelper",&_timerHelper);
     context->setContextProperty("Stopwatch",&_stopwatch);
     context->setContextProperty("FileHelper",&_fileHelper);
@@ -107,9 +106,9 @@ void Core::appDeactivation()
     {
         Q_UNUSED(env);
         Q_UNUSED(jClass);
-        if(isApplicationcreate==false)
+  /*      if(isApplicationcreate==false)
             return;
-
+*/
         int arg = static_cast<int>(val);
         if (arg == 100) {
             qDebug()<<"ACTIVATE!!!!!!!!!";

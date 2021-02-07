@@ -1,7 +1,6 @@
 #pragma once
 #include<QQmlApplicationEngine>
 #include <QObject>
-#include"headers/helpers/notifierHelper.h"
 #include"headers/helpers/vibrationHelper.h"
 #include"headers/helpers/stopwatchHelper.h"
 #include"headers/helpers/timerHelper.h"
@@ -23,7 +22,6 @@ class Core : public QObject
 private:
     StopWatchHelper _stopwatch;
     TimerHelper _timerHelper;
-    NotifierHelper _notifier;
     FileHelper _fileHelper;
     VibrationHelper _vibration;
     SavingSystemHelper *_helper;
