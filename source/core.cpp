@@ -35,7 +35,7 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
 {
     QQmlContext *context = engine->rootContext();
     context->setContextProperty("Vibration",&_vibration);
-    context->setContextProperty("Notifier",&_notifier);
+   // context->setContextProperty("Notifier",&_notifier);
     context->setContextProperty("TimerHelper",&_timerHelper);
     context->setContextProperty("Stopwatch",&_stopwatch);
     context->setContextProperty("FileHelper",&_fileHelper);
@@ -59,7 +59,7 @@ void Core::registerQmlTypes(QQmlApplicationEngine*engine)
 void Core::vibrate(int x)
 {
 #if defined(Q_OS_ANDROID)
-    QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/ClockApplication", "vibrate", "(I)V",x);
+    QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/MainActivity", "vibrate", "(I)V",x);
 #endif
 }
 
@@ -71,7 +71,7 @@ void Core::reciveFromQml()
 
 void Core::update()
 {
-    QtAndroid::androidActivity().callMethod<void>("startService");
+
 }
 
 void Core::onCriticalError(QString message)

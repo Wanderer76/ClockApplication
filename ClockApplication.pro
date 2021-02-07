@@ -72,15 +72,12 @@ DISTFILES += \
     android/gradlew.bat \
     android/res/values/libs.xml \
     android/src/org/artcompany/clock/AlarmBroadcastReceiver.java \
-    android/src/org/artcompany/clock/ClockApplication.java \
+    android/src/org/artcompany/clock/AlarmService.java \
+    android/src/org/artcompany/clock/MainActivity.java \
     android/src/org/artcompany/clock/NativeHelper.java \
-    android/src/org/artcompany/clock/Notifier.java \
     android/src/org/artcompany/clock/TimerService.java \
     android/src/org/artcompany/clock/UriUtils.java \
-    service/common.pri \
-    service/qtandroidservice.rep \
-    service/service.pri \
-    service/Новый текстовый документ.txt
+
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 

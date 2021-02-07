@@ -34,11 +34,11 @@ void NotifierHelper::updateNotification()
 
     auto notification = QAndroidJniObject::fromString(_notification);
 
-    QAndroidJniObject::callStaticMethod<void>(
+   /* QAndroidJniObject::callStaticMethod<void>(
                 "org/artcompany/clock/Notifier",
                 "notify",
                 "(Landroid/content/Context;Ljava/lang/String;)V",
                 QtAndroid::androidContext().object(),
-                notification.object<jstring>());
+                notification.object<jstring>());*/
 #endif
 }

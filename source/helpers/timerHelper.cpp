@@ -1,5 +1,6 @@
 #include"headers/helpers/timerHelper.h"
 #include<QDebug>
+#include"headers/main.h"
 
 #if defined(Q_OS_ANDROID)
 #include<QtAndroid>
@@ -33,16 +34,14 @@ void TimerHelper::setCurrentValue(int value)
 
 void TimerHelper::startTimer()
 {
-#if defined (Q_OS_ANDROID)
-    QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/TimerService","startTimerService","(Landroid/content/Context;)V",QtAndroid::androidActivity().object());
-#endif
+    //QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/TimerService","startTimerService","(Landroid/content/Context;)V",QtAndroid::androidActivity().object());
+    emit APPCORE.startTimerService(_maxValue);
 }
 
 void TimerHelper::stopTimer()
 {
-#if defined (Q_OS_ANDROID)
-     QtAndroid::androidContext().callMethod<void>("stopService","()V");
-#endif
+     //QtAndroid::androidContext().callMethod<void>("stopTimerService","()V");
+    emit APPCORE.stopTimerService();
 }
 
 void TimerHelper::recalculate()

@@ -8,13 +8,23 @@ App::App(int &argc, char **argv)
     connect(this,&QApplication::applicationStateChanged,this,&App::onApplicationStateChange);
     connect(this,&QApplication::aboutToQuit,&core,&Core::appDeactivation);
 
-    connect(&core,&Core::startService,this,[&](){
-        QtAndroid::androidActivity().callMethod<void>("startService","()V");
+#if defined (Q_OS_ANDROID)
+    connect(&core,&Core::startAlarmService,this,[](){
+        QtAndroid::androidActivity().callMethod<void>("startAlarmService");
     });
 
-    connect(&core,&Core::stopService,this,[](){
-        QtAndroid::androidActivity().callMethod<void>("stopService");
+    connect(&core,&Core::stopAlarmService,this,[](){
+        QtAndroid::androidActivity().callMethod<void>("stopAlarmService");
     });
+
+    connect(&core,&Core::startTimerService,this,[](int time){
+        QtAndroid::androidActivity().callMethod<void>("startTimerService","(I)V",time);
+    });
+
+    connect(&core,&Core::stopTimerService,this,[](){
+        QtAndroid::androidActivity().callMethod<void>("stopTimerService");
+    });
+#endif
 
 }
 

@@ -34,7 +34,7 @@ bool AlarmsModel::checkForAlarms()
     {
         if(isServiceStart){
             isServiceStart = false;
-            emit APPCORE.stopService();
+            emit APPCORE.stopAlarmService();
         }
         return false;
     }
@@ -42,7 +42,7 @@ bool AlarmsModel::checkForAlarms()
     if(_elements.size() > 0 && isServiceStart == false)
     {
         isServiceStart = true;
-        emit APPCORE.startService();
+        emit APPCORE.startAlarmService();
     }
 
     QDateTime dateTime = QDateTime::currentDateTime();

@@ -15,7 +15,7 @@ VibrationHelper::~VibrationHelper()
 void VibrationHelper::vibrate(int x)
 {
 #if defined (Q_OS_ANDROID)
-    QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/ClockApplication", "vibrate", "(I)V",x);
+    QAndroidJniObject::callStaticMethod<void>("org/artcompany/clock/MainActivity", "vibrate", "(I)V",x);
 
 #endif
 }

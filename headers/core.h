@@ -44,8 +44,10 @@ signals:
     void deactivation();
     void qmlCriticalError(QString message);
     void doAlarm();
-    void startService();
-    void stopService();
+    void startAlarmService();
+    void stopAlarmService();
+    void startTimerService(int time);
+    void stopTimerService();
 public slots:
     void reciveFromQml();
     void update();

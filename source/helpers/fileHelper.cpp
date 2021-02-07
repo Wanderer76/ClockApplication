@@ -50,8 +50,8 @@ QUrl FileHelper::getUrl()
         QtAndroid::startActivity(intent.object<jobject>(), 101,this);
 
         _fileName = _androidUrl.fileName();
-        return  _androidUrl;
     }
+    return  _androidUrl;
 #else
     QUrl url = QFileDialog::getOpenFileUrl(0,"Select one file",dir);
     _fileName = url.fileName();
