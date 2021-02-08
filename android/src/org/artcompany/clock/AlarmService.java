@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
+import android.net.Uri;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
@@ -17,6 +18,10 @@ public class AlarmService extends Service {
     private static final String TAG = "TimerService";
     private NotificationChannel notificationChannel;
     private NotificationManager m_notificationManager;
+    Uri uri;
+    int longest;
+    int count;
+
     @Override
     public void onCreate() {
 	notificationChannel = new NotificationChannel("Service", "Service Notifier", NotificationManager.IMPORTANCE_HIGH);
@@ -42,20 +47,9 @@ public class AlarmService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         int ret = super.onStartCommand(intent, flags, startId);
 
-        createNotification();
-	for(int i = 0; i < 3; i++) {
-	    Log.w(TAG, "Process Service");
-	    SystemClock.sleep(10000);
-	    Log.w(TAG, "Timer Start");
-	    Intent resultIntent = new Intent();
-	    resultIntent.putExtra("result", 50);
-	    resultIntent.setAction(MainActivity.BROADCAST_ACTION);
-	    createAlarmNotification();
-	    sendBroadcast(resultIntent);
-	    SystemClock.sleep(5000);
-	}
-
-        return START_NOT_STICKY;
+	createNotification();
+	new ProcessData().start();
+	return START_STICKY;
     }
 
     @Override
@@ -88,6 +82,7 @@ public class AlarmService extends Service {
                     .setContentText("10:00")
                     .setAutoCancel(true)
 		    .setPriority(Notification.PRIORITY_LOW)
+		    .setVibrate(new long[]{300,200,300,200,300,1000})
 		    .setCategory(Notification.CATEGORY_SERVICE);
 
             Intent notifcationIntent = new Intent(this, MainActivity.class);

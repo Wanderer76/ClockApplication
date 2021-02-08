@@ -42,7 +42,7 @@ signals:
     void deactivation();
     void qmlCriticalError(QString message);
     void doAlarm();
-    void startAlarmService();
+    void startAlarmService(int hour,int minute);
     void stopAlarmService();
     void startTimerService(int time);
     void stopTimerService();

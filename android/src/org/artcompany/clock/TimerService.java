@@ -75,8 +75,7 @@ public class TimerService extends Service {
 		intent.putExtra("notificationId",202);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		builder.setContentIntent(pendingIntent);
-
-		 MainActivity.m_notificationManager.notify(202, builder.build());
+		MainActivity.m_notificationManager.notify(202, builder.build());
 	}
 
         class ProcessTimer extends Thread {
@@ -89,10 +88,6 @@ public class TimerService extends Service {
 	        @Override
 		public void run() {
 		        SystemClock.sleep(time);
-			//Intent resultIntent = new Intent();
-			//resultIntent.putExtra("result", 50);
-			//resultIntent.setAction(MainActivity.BROADCAST_ACTION);
-			//sendBroadcast(resultIntent);
 			notificationStop();
 		}
 	}

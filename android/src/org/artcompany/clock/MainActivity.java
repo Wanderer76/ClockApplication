@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.app.PendingIntent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
@@ -11,7 +12,8 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import org.qtproject.qt5.android.bindings.QtActivity;
 import java.util.ArrayList;
-
+import android.app.AlarmManager;
+import java.util.Calendar;
 
 public class MainActivity extends QtActivity {
 
@@ -53,8 +55,8 @@ public class MainActivity extends QtActivity {
 	@Override
 	public void onDestroy() {
 		unregisterReceiver(broadcastReceiver);
-		stopAlarmService();
-		stopTimerService();
+		//stopAlarmService();
+		//stopTimerService();
 		m_instance = null;
 		super.onDestroy();
 	}
@@ -96,12 +98,30 @@ public class MainActivity extends QtActivity {
 		}
 	}
 
-	public void startAlarmService() {
-		Intent in = new Intent(getApplicationContext(), AlarmService.class);
+        public void startAlarmService(int hour,int minute) {
+
+
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.set(Calendar.HOUR_OF_DAY, hour);
+	    calendar.set(Calendar.MINUTE,minute);
+	    calendar.set(Calendar.SECOND, 0);
+
+	    AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+	    Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+	    intent.putExtra("alarm_hour",hour);
+	    intent.putExtra("alarm_minute",minute);
+	    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+	    if (calendar.before(Calendar.getInstance())) {
+		calendar.add(Calendar.DATE, 1);
+	    }
+	    manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+	        /*Intent in = new Intent(getApplicationContext(), AlarmService.class);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			startForegroundService(in);
 		} else
-			startService(in);
+	                startService(in);*/
 	}
 
 	public void stopAlarmService() {

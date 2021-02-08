@@ -39,10 +39,11 @@ bool AlarmsModel::checkForAlarms()
         return false;
     }
 
-    if(_elements.size() > 0 && isServiceStart == false)
+    if(_elements.size() > 0 && isServiceStart == false && _elements.at(0)->isActive == true)
     {
         isServiceStart = true;
-        emit APPCORE.startAlarmService();
+        auto time = _elements.at(0)->time.split(":");
+        emit APPCORE.startAlarmService(time[0].toInt(),time[1].toInt());
     }
 
     QDateTime dateTime = QDateTime::currentDateTime();

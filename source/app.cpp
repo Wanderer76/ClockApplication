@@ -9,8 +9,8 @@ App::App(int &argc, char **argv)
     connect(this,&QApplication::aboutToQuit,&core,&Core::appDeactivation);
 
 #if defined (Q_OS_ANDROID)
-    connect(&core,&Core::startAlarmService,this,[](){
-        QtAndroid::androidActivity().callMethod<void>("startAlarmService");
+    connect(&core,&Core::startAlarmService,this,[](int hour,int minute){
+        QtAndroid::androidActivity().callMethod<void>("startAlarmService","(II)V", hour, minute);
     });
 
     connect(&core,&Core::stopAlarmService,this,[](){

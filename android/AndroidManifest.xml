@@ -68,10 +68,10 @@
 	    <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
 	</service>
 	<service android:name=".AlarmService">
-	<meta-data android:name="android.app.background_running" android:value="true"/>
-	<meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
+	    <meta-data android:name="android.app.background_running" android:value="true"/>
+	    <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
 	</service>
-	<receiver android:name=".AlarmBroadcastReceiver"/>
+	<receiver android:name=".AlarmBroadcastReceiver" android:process=":remote"/>
 	<!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
     </application>
 
@@ -85,6 +85,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH"/>
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
