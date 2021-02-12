@@ -34,14 +34,14 @@ AlarmsModel::AlarmsModel()
 {
     _updateTimer = new QTimer(this);
 
-    _savingHelper = SavingSystemHelper::getInstance();
+    _savingSystemHelper = SavingSystemHelper::getInstance();
     _audioHelper = AudioHelper::getInstance();
 
-    connect(_savingHelper,&SavingSystemHelper::write,this,[&](){
+    connect(_savingSystemHelper,&SavingSystemHelper::write,this,[&](){
         writeData();
     });
 
-    connect(_savingHelper,&SavingSystemHelper::read,this,[&](){
+    connect(_savingSystemHelper,&SavingSystemHelper::read,this,[&](){
         readData();
     });
 
@@ -246,7 +246,8 @@ QHash<int, QByteArray> AlarmsModel::roleNames() const
 void AlarmsModel::writeData()
 {
     QJsonObject data;
-    int index = 0;
+    size_t count = 0;
+
     for(const auto element : qAsConst(_elements)) {
         QJsonObject result;
         QJsonArray daysArray;
@@ -264,17 +265,22 @@ void AlarmsModel::writeData()
         result.insert("repeat",element->isRepeat);
         result.insert("active",element->isActive);
         QJsonValue val(result);
-        data.insert(QString::number(index),val);
-        index++;
+        data.insert(QString::number(count),val);
+        count++;
     }
-    _savingHelper->saveFile("alarms",data);
+
+    _savingSystemHelper->saveFileWithRecordCount("alarms",data,count);
 }
 
 void AlarmsModel::readData()
 {
-    auto json = _savingHelper->readFile("alarms.json");
+    auto json = _savingSystemHelper->readFile("alarms.json");
     auto doc = QJsonDocument::fromJson(json);
     auto data = doc["alarms"].toObject();
+    auto size = doc["size"].toInt();
+    if(size==0)
+        return;
+    beginInsertRows(QModelIndex(),0,size - 1);
 
     for(const auto i : data)
     {
@@ -297,10 +303,9 @@ void AlarmsModel::readData()
         alarm->isRepeat = element["repeat"].toBool();
         alarm->isActive = element["active"].toBool();
 
-        beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
         _elements.append(std::move(alarm));
-        endInsertRows();
     }
+    endInsertRows();
 }
 
 

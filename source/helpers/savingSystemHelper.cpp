@@ -18,15 +18,6 @@ SavingSystemHelper *SavingSystemHelper::getInstance()
     return _instance;
 }
 
-void SavingSystemHelper::beginGroup(const QString &name)
-{
-    _groupName = name;
-}
-
-void SavingSystemHelper::endGroup()
-{
-    _groupName = "";
-}
 
 void SavingSystemHelper::saveFile(const QString &key, const QJsonObject &value)
 {
@@ -41,6 +32,21 @@ void SavingSystemHelper::saveFile(const QString &key, const QJsonObject &value)
     }
     file.close();
 
+}
+
+void SavingSystemHelper::saveFileWithRecordCount(const QString &key, const QJsonObject &value, int count)
+{
+    QJsonObject result;
+    result.insert(key,value);
+    result.insert("size",count);
+
+    QJsonDocument doc(result);
+    QFile file(key+".json");
+    if(file.open(QFile::WriteOnly))
+    {
+        file.write(doc.toJson());
+    }
+    file.close();
 
 }
 

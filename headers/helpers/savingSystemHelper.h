@@ -15,9 +15,8 @@ public:
     void operator=(const SavingSystemHelper&) = delete;
 
     static SavingSystemHelper* getInstance();
-    void beginGroup(const QString& name);
-    void endGroup();
     void saveFile(const QString &key,const QJsonObject &value);
+    void saveFileWithRecordCount(const QString &key,const QJsonObject &value,int count);
     QByteArray readFile(const QString &filename);
 signals:
     void read();

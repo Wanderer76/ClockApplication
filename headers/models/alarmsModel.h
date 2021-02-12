@@ -22,7 +22,7 @@ private:
     };
 
     QList<AlarmElement *> _elements;
-    SavingSystemHelper *_savingHelper;
+    SavingSystemHelper *_savingSystemHelper;
     AudioHelper *_audioHelper;
     QTimer *_updateTimer;
 

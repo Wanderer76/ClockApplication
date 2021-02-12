@@ -1,20 +1,16 @@
 #pragma once
 #include<QAbstractListModel>
 #include"headers/main.h"
+#include"headers/helpers/savingSystemHelper.h"
 
 class QTimer;
-class QNetworkAccessManager;
-class QNetworkReply;
-#define WorldTimes "times.txt"
 
 class UserWorldtimeModel : public QAbstractListModel
 {
     Q_OBJECT
 private:
     QList<timeElement*>_elements;
-    QNetworkAccessManager *_manager;
-    QString _city;
-    QString _region;
+    SavingSystemHelper*_savingSystemHelper;
     QTimer *_timer;
 public:
     explicit UserWorldtimeModel();
@@ -25,4 +21,8 @@ public:
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
+private slots:
+    void updateUserTime();
+    void writeData();
+    void readData();
 };

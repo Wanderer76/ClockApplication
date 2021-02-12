@@ -1,11 +1,8 @@
 #include "headers/models/userWorldtimeModel.h"
 #include<QTimer>
 #include<QTime>
-#include<QFile>
-#include<QStandardPaths>
-#include<QNetworkAccessManager>
-#include<QNetworkRequest>
-#include<QNetworkReply>
+#include<QJsonObject>
+#include<QJsonArray>
 #include<QJsonDocument>
 #include<QTimeZone>
 
@@ -13,25 +10,14 @@
 
 UserWorldtimeModel::UserWorldtimeModel()
 {
-
+    _savingSystemHelper = SavingSystemHelper::getInstance();
     _timer = new QTimer(this);
 
+    connect(_savingSystemHelper,&SavingSystemHelper::write,this,&UserWorldtimeModel::writeData);
+    connect(_savingSystemHelper,&SavingSystemHelper::read,this,&UserWorldtimeModel::readData);
+    connect(_timer,&QTimer::timeout,this,&UserWorldtimeModel::updateUserTime);
+
     _timer->setInterval(2000);
-    connect(_timer,&QTimer::timeout,this,[&](){
-        if(_elements.size()==0)
-            return;
-        QDateTime currentTime = QDateTime::currentDateTime();
-        for(auto element : _elements)
-        {
-            QTimeZone newZone((element->region+"/"+element->cityName).toLatin1());
-            auto newTime = currentTime.toTimeZone(newZone);
-            element->time = newTime.toString("hh:mm");
-        }
-        emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),{WorldTimerRoles::Time});
-    });
-
-
-
     _timer->start();
 }
 
@@ -92,4 +78,59 @@ QHash<int, QByteArray> UserWorldtimeModel::roleNames() const
     result[WorldTimerRoles::Time] = "time";
     result[WorldTimerRoles::Region] = "region";
     return result;
+}
+
+void UserWorldtimeModel::updateUserTime()
+{
+    if(_elements.size()==0)
+        return;
+    QDateTime currentTime = QDateTime::currentDateTime();
+    for(auto element : _elements)
+    {
+        QTimeZone newZone((element->region+"/"+element->cityName).toLatin1());
+        auto newTime = currentTime.toTimeZone(newZone);
+        element->time = newTime.toString("hh:mm");
+    }
+    emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),{WorldTimerRoles::Time});
+}
+
+void UserWorldtimeModel::writeData()
+{
+    QJsonObject data;
+    size_t count = 0;
+
+    for(const auto element : qAsConst(_elements)) {
+        QJsonObject result;
+
+        result.insert("region",element->region);
+        result.insert("cityName",element->cityName);
+
+        QJsonValue val(result);
+        data.insert(QString::number(count),val);
+        count++;
+    }
+    _savingSystemHelper->saveFileWithRecordCount("userWorldTime",data,count);
+}
+
+void UserWorldtimeModel::readData()
+{
+    auto json = _savingSystemHelper->readFile("userWorldTime.json");
+    auto doc = QJsonDocument::fromJson(json);
+    auto data = doc["userWorldTime"].toObject();
+    auto size = doc["size"].toInt();
+
+    if(size == 0)
+        return;
+
+    beginInsertRows(QModelIndex(),0,size - 1);
+    for(const auto i : data)
+    {
+        auto element = i.toObject();
+        auto region = element["region"].toString();
+        auto city = element["cityName"].toString();
+        auto time = new timeElement(city,region,"");
+        _elements.append(std::move(time));
+    }
+    endInsertRows();
+    updateUserTime();
 }
