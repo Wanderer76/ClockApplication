@@ -9,8 +9,9 @@ App::App(int &argc, char **argv)
     connect(this,&QApplication::aboutToQuit,&core,&Core::appDeactivation);
 
 #if defined (Q_OS_ANDROID)
-    connect(&core,&Core::startAlarmService,this,[](int hour,int minute){
-        QtAndroid::androidActivity().callMethod<void>("startAlarmService","(II)V", hour, minute);
+    connect(&core,&Core::startAlarmService,this,[](QString song,int hour,int minute){
+        auto songUrl = QAndroidJniObject::fromString(song);
+        QtAndroid::androidActivity().callMethod<void>("startAlarmService","(Ljava/lang/String;II)V",songUrl.object<jstring>() , hour, minute);
     });
 
     connect(&core,&Core::stopAlarmService,this,[](){

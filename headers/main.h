@@ -48,7 +48,7 @@ struct AlarmElement
     {}
 };
 
-enum Roles {
+enum WorldTimerRoles {
     Country= Qt::UserRole+1,
     Region,
     City,

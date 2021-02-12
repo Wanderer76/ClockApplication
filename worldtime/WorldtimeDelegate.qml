@@ -86,7 +86,7 @@ SwipeDelegate {
             id: label1
             x: 400
             y: 24
-            text: time + ":" + minute
+            text: time
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             horizontalAlignment: Text.AlignHCenter

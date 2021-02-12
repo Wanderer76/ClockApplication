@@ -98,7 +98,7 @@ public class MainActivity extends QtActivity {
 		}
 	}
 
-        public void startAlarmService(int hour,int minute) {
+        public void startAlarmService(Uri songUri, int hour,int minute) {
 
 
 	    Calendar calendar = Calendar.getInstance();
@@ -108,6 +108,7 @@ public class MainActivity extends QtActivity {
 
 	    AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 	    Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+	    intent.putExtra("alarm_song",songUri.toString());
 	    intent.putExtra("alarm_hour",hour);
 	    intent.putExtra("alarm_minute",minute);
 	    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);

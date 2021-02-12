@@ -7,7 +7,7 @@
 #include"headers/helpers/fileHelper.h"
 #include"headers/helpers/savingSystemHelper.h"
 #include"headers/helpers/audioHelper.h"
-
+#include"headers/helpers/networkhelper.h"
 #if defined (Q_OS_ANDROID)
 #include <QtAndroid>
 #include"headers/org_artcompany_clock_NativeHelper.h"
@@ -26,6 +26,7 @@ private:
     VibrationHelper _vibration;
     SavingSystemHelper *_helper;
     AudioHelper *_audioHelper;
+    NetworkHelper* _networkHelper;
 public:
     explicit Core(QObject *parent = nullptr);
     ~Core();
@@ -42,7 +43,7 @@ signals:
     void deactivation();
     void qmlCriticalError(QString message);
     void doAlarm();
-    void startAlarmService(int hour,int minute);
+    void startAlarmService(QString song,int hour,int minute);
     void stopAlarmService();
     void startTimerService(int time);
     void stopTimerService();

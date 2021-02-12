@@ -7,107 +7,53 @@
 #include<QNetworkRequest>
 #include<QNetworkReply>
 #include<QJsonDocument>
+#include<QTimeZone>
 
-QString parseJson(const QByteArray&array)
-{
-    auto document = QJsonDocument::fromJson(array);
-    qDebug()<<document;
-    auto utc_time = document["datetime"].toString();
-    auto index = utc_time.indexOf("T");
-    QString result;
-    for(int i = index+1;i<index+6;i++)
-        result += utc_time[i];
-    qDebug()<<result;
-    return result;
-}
-
+//static  QDateTime currentTime = QDateTime::currentDateTime();
 
 UserWorldtimeModel::UserWorldtimeModel()
 {
-    _manager = new QNetworkAccessManager(this);
+
     _timer = new QTimer(this);
 
-    _timer->setInterval(60000);
+    _timer->setInterval(2000);
     connect(_timer,&QTimer::timeout,this,[&](){
         if(_elements.size()==0)
             return;
-
+        QDateTime currentTime = QDateTime::currentDateTime();
         for(auto element : _elements)
         {
-            QTime time = QTime::fromString(element->time);
-            time = time.addSecs(60);
-            element->time = time.toString("hh:mm");
+            QTimeZone newZone((element->region+"/"+element->cityName).toLatin1());
+            auto newTime = currentTime.toTimeZone(newZone);
+            element->time = newTime.toString("hh:mm");
         }
-        emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),{Roles::Time});
-    });
-
-    connect(_manager,&QNetworkAccessManager::finished,this,
-            [&](QNetworkReply*reply){
-        if(reply->error()){
-            qWarning()<<reply->errorString();
-            return;
-        }
-
-        auto time = parseJson(reply->readAll()).split(':')[0];
-        auto element = new timeElement(_city,"",time);
-        beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
-        _elements.append(element);
-        endInsertRows();
-        _elements.last()->region = _region;
-
-        _city = "";
-        _region = "";
+        emit dataChanged(createIndex(0,0),createIndex(_elements.size(),0),{WorldTimerRoles::Time});
     });
 
 
-#if defined (Q_OS_ANDROID)
-    auto path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-    QFile file(path.append("/" WorldTimes));
-        #else
-    QFile file(WorldTimes);
-#endif
-    if(file.size()>0&&file.open(QFile::ReadOnly)){
-        QTextStream in(&file);
-        auto text = in.readAll().split("|");
-        for(auto&i : text)
-        {
-            auto temp = i.split(":");
-            qDebug()<<"TImeZone - "<<temp;
-            if(temp[0]!="")
-                this->append(temp.at(0),temp.at(1));
-        }
-    }
-    file.close();
 
     _timer->start();
 }
 
 UserWorldtimeModel::~UserWorldtimeModel()
 {
-    QFile file(WorldTimes);
-    if(file.open(QFile::WriteOnly)){
-        QTextStream in(&file);
-        for(auto&i : _elements)
-        {
-            in<<i->region+":"+i->cityName<<"|";
-        }
-    }
-    file.close();
 }
 
 void UserWorldtimeModel::append(const QString &region, const QString &city)
 {
-    for(auto&i : _elements)
+    for(const auto i : _elements)
     {
         if(i->cityName == city)
             return;
     }
+    QDateTime currentTime = QDateTime::currentDateTime();
+    QTimeZone newZone((region+"/"+city).toLatin1());
+    auto newTime = currentTime.toTimeZone(newZone);
+    auto element = new timeElement(city,region,newTime.toString("hh:mm"));
+    beginInsertRows(QModelIndex(),_elements.size(),_elements.size());
+    _elements.append(element);
+    endInsertRows();
 
-    this->_region = region;
-    this->_city = city;
-    QNetworkRequest request;
-    request.setUrl(QUrl("http://worldtimeapi.org/api/timezone/"+region+"/"+city));
-    _manager->get(request);
 }
 
 void UserWorldtimeModel::remove(const int index)
@@ -129,11 +75,11 @@ QVariant UserWorldtimeModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid())
         return {};
-    if(role == Roles::City)
+    if(role == WorldTimerRoles::City)
         return QVariant::fromValue(_elements.at(index.row())->cityName);
-    else if(role == Roles::Time)
+    else if(role == WorldTimerRoles::Time)
         return QVariant::fromValue(_elements.at(index.row())->time);
-    else if(role==Roles::Region)
+    else if(role==WorldTimerRoles::Region)
         return QVariant::fromValue(_elements.at(index.row())->region);
     else
         return {};
@@ -142,8 +88,8 @@ QVariant UserWorldtimeModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> UserWorldtimeModel::roleNames() const
 {
     QHash<int,QByteArray> result;
-    result[Roles::City] = "city";
-    result[Roles::Time] = "time";
-    result[Roles::Region] = "region";
+    result[WorldTimerRoles::City] = "city";
+    result[WorldTimerRoles::Time] = "time";
+    result[WorldTimerRoles::Region] = "region";
     return result;
 }

@@ -26,52 +26,9 @@ const QMap<int,QString> daysToString = {
 };
 
  int currentIndex = 0;
+#if defined (Q_OS_ANDROID)
  static bool isServiceStart = false;
-
-bool AlarmsModel::checkForAlarms()
-{
-    if(_elements.size() == 0)
-    {
-        if(isServiceStart){
-            isServiceStart = false;
-            emit APPCORE.stopAlarmService();
-        }
-        return false;
-    }
-
-    if(_elements.size() > 0 && isServiceStart == false && _elements.at(0)->isActive == true)
-    {
-        isServiceStart = true;
-        auto time = _elements.at(0)->time.split(":");
-        emit APPCORE.startAlarmService(time[0].toInt(),time[1].toInt());
-    }
-
-    QDateTime dateTime = QDateTime::currentDateTime();
-    auto time = dateTime.time();
-
-    auto hour = time.hour() < 10 ? "0" + QString::number(time.hour()) : QString::number(time.hour());
-    auto minute = time.minute() < 10 ? "0" + QString::number(time.minute()) : QString::number(time.minute());
-    auto second = time.second();
-
-    auto dayOfWeek =  daysToString[dateTime.date().dayOfWeek()];
-    auto timeString = hour + ":" + minute;
-
-    for(auto i : _elements)
-    {
-        if(i->days.contains(dayOfWeek) || i->days.isEmpty())
-        {
-            if(i->time == timeString && i->isActive && second < 3){
-                auto index = _elements.indexOf(i);
-                currentIndex = index;
-                emit startAlarm(currentIndex);
-                i->isActive = i->isRepeat ? true : false;
-                emit dataChanged(createIndex(index,0),createIndex(index,0),{AlarmRoles::IsActive});
-                return true;
-            }
-        }
-    }
-    return false;
-}
+#endif
 
 AlarmsModel::AlarmsModel()
 {
@@ -188,7 +145,7 @@ void AlarmsModel::remove(const int index)
     endRemoveRows();
 }
 
-void AlarmsModel::append(
+void AlarmsModel::createAlarm(
         const QList<QString>& days,
         const QUrl& sound,
         const QString& time,
@@ -344,4 +301,55 @@ void AlarmsModel::readData()
         _elements.append(std::move(alarm));
         endInsertRows();
     }
+}
+
+
+
+bool AlarmsModel::checkForAlarms()
+{
+#if defined (Q_OS_ANDROID)
+    if(_elements.size() == 0)
+    {
+#if defined (Q_OS_ANDROID)
+        if(isServiceStart){
+            isServiceStart = false;
+            emit APPCORE.stopAlarmService();
+        }
+#endif
+        return false;
+    }
+
+    if(_elements.size() > 0 && isServiceStart == false && _elements.at(0)->isActive == true)
+    {
+        isServiceStart = true;
+        auto time = _elements.at(0)->time.split(":");
+        emit APPCORE.startAlarmService(_elements.at(0)->sound.toString(), time[0].toInt(), time[1].toInt());
+    }
+#endif
+
+    QDateTime dateTime = QDateTime::currentDateTime();
+    auto time = dateTime.time();
+
+    auto hour = time.hour() < 10 ? "0" + QString::number(time.hour()) : QString::number(time.hour());
+    auto minute = time.minute() < 10 ? "0" + QString::number(time.minute()) : QString::number(time.minute());
+    auto second = time.second();
+
+    auto dayOfWeek =  daysToString[dateTime.date().dayOfWeek()];
+    auto timeString = hour + ":" + minute;
+
+    for(auto i : _elements)
+    {
+        if(i->days.contains(dayOfWeek) || i->days.isEmpty())
+        {
+            if(i->time == timeString && i->isActive && second < 3){
+                auto index = _elements.indexOf(i);
+                currentIndex = index;
+                emit startAlarm(currentIndex);
+                i->isActive = i->isRepeat ? true : false;
+                emit dataChanged(createIndex(index,0),createIndex(index,0),{AlarmRoles::IsActive});
+                return true;
+            }
+        }
+    }
+    return false;
 }

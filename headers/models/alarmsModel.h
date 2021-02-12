@@ -41,7 +41,7 @@ public:
     Q_INVOKABLE bool getActive(const int index) const;
 
     Q_INVOKABLE void remove(const int index);
-    Q_INVOKABLE void append
+    Q_INVOKABLE void createAlarm
     (
             const QList<QString>& days,
             const QUrl &sound,

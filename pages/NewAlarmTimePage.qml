@@ -34,7 +34,7 @@ Page {
         acceptButton.onClicked: {
             // core.startService()
             stackView.pop(
-                        alamPage.alarms.alarmModel.append(daysArray,
+                        alamPage.alarms.alarmModel.createAlarm(daysArray,
                                                           sound, (hourView.currentIndex < 10 ? "0" + hourView.currentIndex : hourView.currentIndex) + ":" + (minuteView.currentIndex < 10 ? "0" + minuteView.currentIndex : minuteView.currentIndex), description.additionalText, alarmLongest.time * 1000, 10 * 1000, 3,
                                                           vibro.switchElement.checked == true))
         }

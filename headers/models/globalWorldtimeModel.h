@@ -3,16 +3,12 @@
 #include<QAbstractListModel>
 #include"headers/main.h"
 
-#include"headers/helpers/timeloaderHelper.h"
-
-
 class GlobalWorldtimeModel : public QAbstractListModel
 {
     Q_OBJECT
 private:
     QVector<timeElement*> _elements;
     void createListOfElements();
-    void parseJson(const QByteArray&);
 public:
     explicit GlobalWorldtimeModel();
     ~GlobalWorldtimeModel();
